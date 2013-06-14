@@ -5,6 +5,7 @@ monit cookbook for chef
 
 LWRP
 ----
+
 ```monit_d 'nginx' do
   service_type "process"
   service_id "/var/run/nginx.pid"
