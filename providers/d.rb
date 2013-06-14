@@ -80,7 +80,7 @@ action :install do
     variables({
       :name => new_resource.name,
       :service_type => new_resource.service_type,
-      :id_type => "pidfile",
+      :id_type => "#{VALID_SERVICE_TYPES[new_resource.service_type]['id_type']}",
       :service_id => new_resource.service_id,
       :service_group => new_resource.service_group,
       :start_command => new_resource.start_command,
@@ -90,7 +90,7 @@ action :install do
     action :nothing
   end
 
-#  validate_service!(t)
+  validate_service!(t)
 
   t.run_action(:create)
   new_resource.updated_by_last_action(t.updated_by_last_action?)
