@@ -1,58 +1,14 @@
-VALID_SERVICE_TYPES = 
+
+VALID_SERVICE_IDS = 
   {
-    :process => {:id_type => "pidfile", 
-                 :tests   => ["exists", 
-                              "resource", 
-                              "pid", 
-                              "ppid", 
-                              "uptime", 
-                              "connection"],
-                },
-    :file => {:id_type => "path", 
-              :tests   => ["exists", 
-                           "checksum", 
-                           "timestamp", 
-                           "size", 
-                           "content", 
-                           "permission", 
-                           "uid", 
-                           "gid"],
-             },
-
-    :fifo => {:id_type => "path", 
-              :tests   => ["timestamp", 
-                           "permission", 
-                           "uid", 
-                           "gid"],
-             },
-
-    :filesystem => {:id_type => "path", 
-                    :tests   => ["flags", 
-                                 "space", 
-                                 "inode", 
-                                 "permission", 
-                                 "uid", 
-                                 "gid"],
-                   },
-
-    :directory => {:id_type => "path", 
-                   :tests   => ["timestamp", 
-                                "permission", 
-                                "uid", 
-                                "gid"],
-                  },
-
-    :host => {:id_type => "address", 
-              :tests   => ["connection"],
-             },
-
-    :system => {:id_type => nil, 
-                :tests   => ["resource"],
-               },
-
-    :program => {:id_type => "path", 
-                 :tests   => ["status"],
-                },
+    'process' => "pidfile", 
+    'file' => "path", 
+    'fifo' => "path", 
+    'filesystem' => "path", 
+    'directory' => "path", 
+    'host' => "address", 
+    'system' => nil, 
+    'program' => "path", 
   }
 
 def validate_service!(resource)
@@ -80,7 +36,7 @@ action :install do
     variables({
       :name => new_resource.name,
       :service_type => new_resource.service_type,
-      :id_type => "#{VALID_SERVICE_TYPES[new_resource.service_type]['id_type']}",
+      :id_type => VALID_SERVICE_IDS["#{new_resource.service_type}"],
       :service_id => new_resource.service_id,
       :service_group => new_resource.service_group,
       :start_command => new_resource.start_command,
@@ -88,6 +44,7 @@ action :install do
       :service_tests => new_resource.service_tests
     })
     action :nothing
+    notifies :reload, "service[monit]", :delayed
   end
 
   validate_service!(t)
