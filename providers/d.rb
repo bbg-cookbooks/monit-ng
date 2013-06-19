@@ -1,4 +1,3 @@
-
 VALID_SERVICE_IDS = 
   {
     'process' => "pidfile", 
@@ -11,24 +10,19 @@ VALID_SERVICE_IDS =
     'program' => "path", 
   }
 
-def validate_service!(resource)
-  f = Tempfile.new('monit_service')
-  begin
-    f.write(capture(resource))
-    cmd = Mixlib::Shellout.new("monit -tc #{f.path}").run_command
+def validate_service!(f)
+    cmd = Mixlib::Shellout.new("monit -tc #{f}").run_command
     unless cmd.exitstatus == 0
       Chef::Log.error("service failed validation: \n\n")
-      Chef::Log.error(f.read)
-      Chef::Application.fatal!("Monit service #{f.path} failed validation.")
+      Chef::Log.error("Removing service configuratino file #{f}")
+      ::File.delete(f)
+      Chef::Application.fatal!("Monit service #{f} failed validation.")
     end
-  ensure
-    f.close
-    f.unlink
-  end
 end
 
 action :install do
-  t = template "#{node.monit.conf_dir}/#{new_resource.name}" do
+  f = "#{node.monit.conf_dir}/#{new_resource.name}"
+  t = template "#{f}" do
     cookbook new_resource.cookbook
     source 'monit.d.erb'
     owner 'root'
@@ -48,9 +42,9 @@ action :install do
     notifies :reload, "service[monit]", :delayed
   end
 
-  validate_service!(t)
-
   t.run_action(:create)
+  validate_service!("#{f}")
+
   new_resource.updated_by_last_action(t.updated_by_last_action?)
 end
 
@@ -60,25 +54,4 @@ action :delete do
   end
   f.run_action(:delete)
   new_resource.updated_by_last_action(t.updated_by_last_action?)
-end
-
-# shamelessly lifted from the sudo cookbook
-private
-def capture(template)
-  context = {}
-  context.merge!(template.variables)
-  context[:node] = node
-
-  eruby = Erubis::Eruby.new(::File.read(template_location(template)))
-  return eruby.evaluate(context)
-end
-
-def template_location(template)
-  if template.local
-    template.source
-  else
-    context = template.instance_variable_get('@run_context')
-    cookbook = context.cookbook_collection[template.cookbook || template.cookbook_name]
-    cookbook.preferred_filename_on_disk_location(node, :templates, template.source)
-  end
 end
