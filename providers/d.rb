@@ -43,6 +43,7 @@ action :install do
   end
 
   t.run_action(:create)
+# a wild chef bug appears!
 #  validate_service!("#{f}")
 
   new_resource.updated_by_last_action(t.updated_by_last_action?)
