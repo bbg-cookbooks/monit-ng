@@ -1,3 +1,7 @@
+def whyrun_supported?
+  true
+end
+
 VALID_SERVICE_IDS = 
   {
     'process' => "pidfile", 
@@ -10,49 +14,80 @@ VALID_SERVICE_IDS =
     'program' => "path", 
   }
 
-def validate_service!(f)
-    cmd = Mixlib::Shellout.new("monit -tc #{f}").run_command
+# validate the resource by verifying
+# against `monit -tc`
+def validate_rc!(t)
+  file = Tempfile.new('monitrc')
+
+  begin
+    file.write(capture(t))
+
+    cmd = Mixlib::Shellout.new("monit -tc #{file.path}").run_command
     unless cmd.exitstatus == 0
-      Chef::Log.error("service failed validation: \n\n")
-      Chef::Log.error("Removing service configuratino file #{f}")
-      ::File.delete(f)
-      Chef::Application.fatal!("Monit service #{f} failed validation.")
+      Chef::Log.error("Monit rc file failed validation: \n\n")
+      Chef::Log.error(file.read)
+      Chef::Application.fatal!("Monit rc #{file.path} failed validation!")
     end
+  ensure
+    file.close
+    file.unlink
+  end
 end
 
-action :install do
-  f = "#{node.monit.conf_dir}/#{new_resource.name}"
-  t = template "#{f}" do
-    cookbook new_resource.cookbook
+def render_rc
+  t = template "#{node.monit.conf_dir}/#{new_resource.name}" do
     source 'monit.d.erb'
+    cookbook 'monit'
     owner 'root'
     group 'root'
     mode '0600'
-    variables({
-      :name => new_resource.name,
-      :service_type => new_resource.service_type,
-      :id_type => VALID_SERVICE_IDS["#{new_resource.service_type}"],
-      :service_id => new_resource.service_id,
-      :service_group => new_resource.service_group,
-      :start_command => new_resource.start_command,
-      :stop_command => new_resource.stop_command,
-      :service_tests => new_resource.service_tests
-    })
+    variables :name => new_resource.name,
+              :service_type => new_resource.service_type,
+              :id_type => VALID_SERVICE_IDS["#{new_resource.service_type}"],
+              :service_id => new_resource.service_id,
+              :service_group => new_resource.service_group,
+              :start_command => new_resource.start_command,
+              :stop_command => new_resource.stop_command,
+              :service_tests => new_resource.service_tests
     action :nothing
-    notifies :reload, "service[monit]", :delayed
+    notifies :reload, "service[monit]", :immediately
   end
 
-  t.run_action(:create)
-# a wild chef bug appears!
-#  validate_service!("#{f}")
+  validate_rc!(t)
 
+  t.run_action(:create)
   new_resource.updated_by_last_action(t.updated_by_last_action?)
 end
 
-action :delete do
+action :install do
+  render_rc
+end
+
+action :remove do
   f = file "#{node.monit.conf_dir}/#{new_resource.name}" do
     action :nothing
   end
   f.run_action(:delete)
-  new_resource.updated_by_last_action(t.updated_by_last_action?)
+  new_resource.updated_by_last_action(f.updated_by_last_action?)
+end
+
+private
+
+def capture(template)
+  context = {}
+  context.merge!(template.variables)
+  context[:node] = node
+
+  eruby = Erubis::Eruby.new(::File.read(template_location(template)))
+  return eruby.evaluate(context)
+end
+
+def template_location(template)
+  if template.local
+    template.source
+  else
+    context = template.instance_variable_get('@run_context')
+    cookbook = context.cookbook_collection[template.cookbook || template.cookbook_name]
+    cookbook.preferred_filename_on_disk_location(node, :templates, template.source)
+  end
 end
