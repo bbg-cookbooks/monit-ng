@@ -39,6 +39,42 @@ Usage
 
 Examples of the LWRP resource:
 
+##### SSHD
+
+```ruby
+monit_d 'sshd' do
+  service_type "process"
+  service_id "/var/run/sshd.pid"
+  service_group "sshd"
+  start_command "/etc/init.d/ssh start"
+  stop_command "/etc/init.d/ssh stop"
+  service_tests [
+    {'condition' => "if failed port 22 proto ssh for 3 cycles",
+     'action' => "restart"},
+    {'condition' => "if 3 restarts within 5 cycles",
+     'action' => "alert"},
+  ]
+end
+```
+
+##### Postfix
+
+```ruby
+monit_d 'postfix' do
+  service_type "process"
+  service_id "/var/spool/postfix/pid/master.pid"
+  service_group "mail"
+  start_command "/etc/init.d/postfix start"
+  stop_command "/etc/init.d/postfix stop"
+  service_tests [
+    {'condition' => "if failed host 127.0.0.1 port 25 type tcp protocol smtp with timeout 15 seconds",
+     'action' => "restart"},
+    {'condition' => "if 3 restarts within 5 cycles",
+     'action' => "alert"},
+  ]
+end
+```
+
 ##### Nginx
 
 ```ruby
@@ -79,7 +115,44 @@ monit_d 'unicorn' do
 end
 ```
 
-##### LWRP Attributes
+##### Memcache
+
+```ruby
+monit_d 'memcache' do
+  service_type "process"
+  service_id "/var/run/memcached.pid"
+  service_group "memcache"
+  start_command "/etc/init.d/memcached start"
+  stop_command "/etc/init.d/memcached stop"
+  service_tests [
+    {'condition' => "if failed port 11211 proto memcache 4 times within 5 cycles",
+     'action' => "restart"},
+    {'condition' => "if 3 restarts within 15 cycles",
+     'action' => "alert"},
+  ]
+end
+```
+##### Redis
+
+```ruby
+monit_d 'redis' do
+  service_type "process"
+  service_id "/var/run/redis/redis-server.pid"
+  service_group "database"
+  start_command "/etc/init.d/redis-server start"
+  stop_command "/etc/init.d/redis-server stop"
+  service_tests [
+    {'condition' => 'if failed host 127.0.0.1 port 6379 
+                     send "SET MONIT-TEST value\r\n" expect "OK" 
+                     send "EXISTS MONIT-TEST\r\n" expect ":1"',
+     'action' => 'restart'},
+    {'condition' => 'if 3 restarts within 5 cycles',
+     'action' => 'alert'},
+  ]
+end
+```
+
+#### LWRP Attributes
 <table>
   <thead>
     <tr>
