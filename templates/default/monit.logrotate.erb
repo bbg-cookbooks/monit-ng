@@ -1,0 +1,10 @@
+<%= node.monit.config.log_file %> {
+    missingok
+    notifempty
+    size 100k
+    create 0644 root root
+    postrotate
+        /sbin/service monit condrestart > /dev/null 2>&1 || :
+    endscript
+
+}
