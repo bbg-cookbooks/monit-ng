@@ -19,3 +19,5 @@ service "monit" do
   supports :status => true, :restart => true, :reload => true, :stop => true
   action [ :enable, :start ]
 end
+
+include_recipe "monit::common"
