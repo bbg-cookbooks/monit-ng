@@ -47,3 +47,6 @@ default['monit']['config']['mail_message'] = <<EOT
         monit
 EOT
 default['monit']['config']['mmonit_host'] = nil
+default['monit']['install_method'] = "repo"
+default['monit']['source']['url'] = nil
+default['monit']['source']['version'] = "5.5.1"
