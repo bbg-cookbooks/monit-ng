@@ -13,7 +13,9 @@ Attributes
 - `node['monit']['config']['mail_subject']` - controls alert email subject
 - `node['monit']['config']['mail_message']` - controls alert email message
 - `node['monit']['config']['mmonit_host']` - controls the M/Monit server
-- and more! check attributes/default.rb for the full list
+- and more!
+
+Check attributes/default.rb for the full list.
 
 Usage
 -----
@@ -206,3 +208,12 @@ end
     </tr>
   </tbody>
 </table>
+
+TODO
+----
+- finish source_install method
+-- init script
+-- install path
+-- checksum
+- allow more periodic checks (every)
+- add subscriber opt-in/opt-outs
