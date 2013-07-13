@@ -198,7 +198,7 @@ end
     </tr>
     <tr>
       <td>service_tests</td>
-      <td>free-form hash composed of a condition and an action, allows performing of monitoring tests on a wide variety of attributes</td>
+      <td>allows performing of monitoring tests on a wide variety of attributes</td>
       <td><tt>
              [{'condition' => "if failed port 80 type tcp proto http", 'action' => "restart"},
               {'condition' => "if totalmem > 80% for 2 cycles", 'action' => "alert"}]
