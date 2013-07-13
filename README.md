@@ -212,8 +212,8 @@ end
 TODO
 ----
 - finish source_install method
--- init script
--- install path
--- checksum
+    - init script
+    - install path
+    - checksum
 - allow more periodic checks (every)
 - add subscriber opt-in/opt-outs
