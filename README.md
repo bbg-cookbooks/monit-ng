@@ -109,13 +109,13 @@ end
       <td>start_command</td>
       <td>command to start a process if performing a process check</td>
       <td><tt>"/etc/init.d/nginx start"</tt></td>
-      <td><tt></tt></td>
+      <td></td>
     </tr>
     <tr>
       <td>stop_command</td>
       <td>command to stop a process if performing a process check</td>
       <td><tt>"/etc/init.d/nginx stop"</tt></td>
-      <td><tt></tt></td>
+      <td></td>
     </tr>
     <tr>
       <td>service_tests</td>
@@ -125,7 +125,6 @@ end
               {'condition' => "if totalmem > 80% for 2 cycles", 'action' => "alert"}]
           </tt>
       </td>
-      <td></td>
     </tr>
   </tbody>
 </table>
