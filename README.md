@@ -39,6 +39,8 @@ Usage
 
 Examples of the LWRP resource:
 
+##### Nginx
+
 ```ruby
 monit_d 'nginx' do
   service_type "process"
@@ -52,6 +54,8 @@ monit_d 'nginx' do
   ]
 end
 ```
+
+##### Unicorn 
 
 ```ruby
 monit_d 'unicorn' do
@@ -125,6 +129,7 @@ end
               {'condition' => "if totalmem > 80% for 2 cycles", 'action' => "alert"}]
           </tt>
       </td>
+      <td></td>
     </tr>
   </tbody>
 </table>
