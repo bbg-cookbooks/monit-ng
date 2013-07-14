@@ -50,3 +50,4 @@ default['monit']['config']['mmonit_host'] = nil
 default['monit']['install_method'] = "repo"
 default['monit']['source']['url'] = nil
 default['monit']['source']['version'] = "5.5.1"
+default['monit']['source']['checksum'] = "dbe4b4744a7100e2d5f4eac353dfb2df0549848e2c7661d9c19acc31cdef2c78"

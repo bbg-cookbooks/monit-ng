@@ -30,11 +30,11 @@ end
 bash "compile_monit_source" do
   cwd ::File.dirname(src_filepath)
   code <<-EOH
-    tar xzf #{::File.basename(src_filepath)} -c #{::File.dirname(src_filepath)} &&
+    tar xzf #{::File.basename(src_filepath)} -C #{::File.dirname(src_filepath)} &&
     cd monit-#{node.monit.source.version} &&
     ./configure && make && make install
   EOH
-  notifies :restart, "service[nginx]"
+  notifies :restart, "service[monit]"
 end
 
 include_recipe "monit::common"
