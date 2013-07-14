@@ -21,17 +21,17 @@ Usage
 -----
 #### Attributes
 ```json
-{
-  "monit" => {
-    "config" => {
-      "daemon" => 90,
-      "subscribers" => ["root@localhost", "hostmaster@foo.net"],
-      "mmonit_host" => "http://user:pass@mmonit.foo.net:8080/collector",
-      "listen_allow" => ["localhost","mmonit.foo.net", "@users read-only"],
+default_attributes(
+  'monit' => {
+    'config' => {
+      'daemon' => 30,
+      'subscribers' => ["root@localhost", "hostmaster@foo.net"],
+      'mmonit_host' => "http://user:pass@mmonit.foo.net:8080/collector",
+      'listen_allow' => ["localhost","mmonit.foo.net", "@users read-only"],
       }
     }
   }
-}
+)
 ```
 
 #### Defaults
@@ -134,6 +134,7 @@ monit_d 'memcache' do
   ]
 end
 ```
+
 ##### Redis
 
 ```ruby
@@ -150,6 +151,22 @@ monit_d 'redis' do
      'action' => 'restart'},
     {'condition' => 'if 3 restarts within 5 cycles',
      'action' => 'alert'},
+  ]
+end
+```
+
+##### External Service Check
+
+```ruby
+monit_d 'facebook_api' do
+  service_type "host"
+  service_id "api.facebook.com"
+  service_group "external"
+  service_tests [
+    {'condition' => "if failed port 80 proto http",
+     'action' => "alert"},
+    {'condition' => "if failed port 443 type tcpSSL proto http",
+     'action' => "alert"}
   ]
 end
 ```
@@ -214,6 +231,6 @@ TODO
 - finish source_install method
     - init script
     - install path
-    - checksum
+    - control file patch
 - allow more periodic checks (every)
 - add subscriber opt-in/opt-outs
