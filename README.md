@@ -20,7 +20,7 @@ Check attributes/default.rb for the full list.
 Usage
 -----
 #### Attributes
-```json
+```ruby
 default_attributes(
   'monit' => {
     'config' => {
