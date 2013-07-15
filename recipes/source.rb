@@ -20,6 +20,16 @@ build_deps.each do |build_dep|
   package "#{build_dep}"
 end
 
+control_file = "/etc/monitrc"
+
+directory node.monit.conf_dir do
+  owner "root"
+  group "root"
+  mode 0600
+  action :create
+  recursive true
+end
+
 remote_file monit_url do
   source monit_url
   checksum node.monit.source.checksum

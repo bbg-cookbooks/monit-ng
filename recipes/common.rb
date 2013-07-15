@@ -4,7 +4,7 @@
 # Recipe:: common
 #
 
-template node.monit.conf_file do
+template control_file do
   source 'monit.conf.erb'
   owner 'root'
   mode '0600'

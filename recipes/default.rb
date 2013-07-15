@@ -20,4 +20,6 @@ service "monit" do
   action [ :enable, :start ]
 end
 
+control_file = node.monit.conf_file
+
 include_recipe "monit::common"
