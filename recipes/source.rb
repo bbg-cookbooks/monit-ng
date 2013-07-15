@@ -20,8 +20,6 @@ build_deps.each do |build_dep|
   package "#{build_dep}"
 end
 
-control_file = "/etc/monitrc"
-
 directory node.monit.conf_dir do
   owner "root"
   group "root"
@@ -47,4 +45,7 @@ bash "compile_monit_source" do
   notifies :restart, "service[monit]"
 end
 
+# TODO: sysvinit template
+
+control_file = "/etc/monitrc"
 include_recipe "monit::common"

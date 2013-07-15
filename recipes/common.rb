@@ -4,6 +4,12 @@
 # Recipe:: common
 #
 
+service "monit" do
+  service_name "monit"
+  supports :status => true, :restart => true, :reload => true, :stop => true
+  action [ :enable, :start ]
+end
+
 template control_file do
   source 'monit.conf.erb'
   owner 'root'
