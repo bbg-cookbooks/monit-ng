@@ -13,12 +13,6 @@ else
   raise ArgumentError, "Unknown valid '#{node.monit.install_method}' passed to monit cookbook"
 end
 
-service "monit" do
-  service_name "monit"
-  supports :status => true, :restart => true, :reload => true, :stop => true
-  action [ :enable, :start ]
-end
-
 template control_file do
   source 'monit.conf.erb'
   owner 'root'
@@ -43,4 +37,10 @@ template control_file do
     :conf_dir => node.monit.conf_dir,
   })
   notifies :reload, "service[monit]", :immediately
+end
+
+service "monit" do
+  service_name "monit"
+  supports :status => true, :restart => true, :reload => true, :stop => true
+  action [ :enable, :start ]
 end
