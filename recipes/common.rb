@@ -15,7 +15,7 @@ template control_file do
   owner 'root'
   mode '0600'
   variables({
-    :daemon => node.monit.config.daemon,
+    :daemon => node.monit.config.poll_freq,
     :start_delay => node.monit.config.start_delay,
     :log_file => node.monit.config.log_file,
     :id_file => node.monit.config.id_file,

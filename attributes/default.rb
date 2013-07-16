@@ -27,12 +27,19 @@ case node['platform_family']
     default['monit']['conf_dir'] = "/etc/monit/conf.d"
 end
 
-default['monit']['config']['daemon'] = 90
+default['monit']['config']['poll_freq'] = 90
 default['monit']['config']['start_delay'] = 60
 default['monit']['config']['log_file'] = '/var/log/monit.log'
 default['monit']['config']['id_file'] = '/var/.monit.id'
 default['monit']['config']['state_file'] = '/var/.monit.state'
-default['monit']['config']['mailservers'] = ['localhost']
+default['monit']['config']['mailservers'] = {
+  :hostname => 'localhost'
+  :port => 25,
+  :username => nil,
+  :password => nil,
+  :security => nil,
+  :timeout => 30,
+}
 default['monit']['config']['subscribers'] = ['root@localhost']
 default['monit']['config']['eventqueue_dir'] = "/var/tmp"
 default['monit']['config']['eventqueue_slots'] = 100
