@@ -17,7 +17,7 @@ build_deps = value_for_platform(
 )
 
 build_deps.each do |build_dep|
-  package "#{build_dep}"
+  package build_dep
 end
 
 directory node.monit.conf_dir do
