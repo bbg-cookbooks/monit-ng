@@ -8,7 +8,6 @@ case node.monit.install_method
 when 'repo'
   include_recipe "yum::epel" if platform_family?("rhel")
   package 'monit'
-  control_file = node.monit.conf_file
   include_recipe "monit::common"
 when 'source'
   include_recipe "monit::source"

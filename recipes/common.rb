@@ -4,6 +4,15 @@
 # Recipe:: common
 #
 
+case node.monit.install_method
+when 'repo'
+  control_file = "#{node.monit.conf_file}"
+when 'source'
+ control_file = "/etc/monitrc"
+else
+  raise ArgumentError, "Unknown valid '#{node.monit.install_method}' passed to monit cookbook"
+end
+
 service "monit" do
   service_name "monit"
   supports :status => true, :restart => true, :reload => true, :stop => true
