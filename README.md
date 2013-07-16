@@ -24,7 +24,7 @@ Usage
 default_attributes(
   'monit' => {
     'config' => {
-      'daemon' => 30,
+      'poll_freq' => 30,
       'subscribers' => ["root@localhost", "hostmaster@foo.net"],
       'mmonit_host' => "http://user:pass@mmonit.foo.net:8080/collector",
       'listen_allow' => ["localhost","mmonit.foo.net", "@users read-only"],
@@ -231,6 +231,5 @@ TODO
 - finish source_install method
     - init script
     - install path
-    - control file patch
 - allow more periodic checks (every)
 - add subscriber opt-in/opt-outs

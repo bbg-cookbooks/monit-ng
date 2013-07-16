@@ -16,3 +16,6 @@ check <%= @service_type %> <%= @name %>
   <%= service_test.condition %>
     then <%= service_test.action %>
 <% end -%>
+<% if @every -%>
+  every <%= @every %>
+<% end -%>
