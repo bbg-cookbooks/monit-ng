@@ -147,7 +147,7 @@ monit_d 'redis' do
   service_tests [
     {'condition' => 'if failed host 127.0.0.1 port 6379 
                      send "SET MONIT-TEST value\r\n" expect "OK" 
-                     send "EXISTS MONIT-TEST\r\n" expect ":1"',
+                     send "EXISTS MONIT-TEST\r\n" expect ":1",
      'action' => 'restart'},
     {'condition' => 'if 3 restarts within 5 cycles',
      'action' => 'alert'},
