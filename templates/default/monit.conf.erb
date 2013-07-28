@@ -16,7 +16,6 @@ set mailserver
   <% if mailserver.security %>
   using <%= mailserver.security %>
   <% end %>
-
   with timeout <%= mailserver.timeout %>
 <% end %>
 set mail-format {

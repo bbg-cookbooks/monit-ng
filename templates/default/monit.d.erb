@@ -13,8 +13,8 @@ check <%= @service_type %> <%= @name %>
   stop "<%= @stop_command %>"
 <% end %>
 <% @service_tests.each do |service_test| %>
-  <%= service_test.condition %>
-    then <%= service_test.action %>
+  <%= service_test['condition'] %>
+    then <%= service_test['action'] %>
 <% end %>
 <% if @every %>
   every <%= @every %>
