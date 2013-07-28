@@ -39,7 +39,7 @@ default['monit']['config']['mailservers'] = [
    :username => nil,
    :password => nil,
    :security => nil,
-   :timeout => 30,
+   :timeout => "30 seconds",
   }
 ]
 default['monit']['config']['subscribers'] = ['root@localhost']
