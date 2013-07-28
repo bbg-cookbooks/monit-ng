@@ -1,5 +1,4 @@
 #
-# Author:: Nathan Williams <nath.e.will@gmail.com>
 # Cookbook Name:: monit
 # Recipe:: default
 #

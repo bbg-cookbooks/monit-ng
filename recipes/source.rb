@@ -1,11 +1,10 @@
 #
-# Author:: Nathan Williams <nath.e.will@gmail.com>
 # Cookbook Name:: monit
 # Recipe:: source
 #
 
 monit_url = node.monit.source.url ||
-  "http://mmonit.com/monit/dist/monit-#{node.monit.source.version}.tar.gz"
+  "https://mmonit.com/monit/dist/monit-#{node.monit.source.version}.tar.gz"
 
 src_filepath = "#{Chef::Config['file_cache_path'] || '/tmp'}/monit-#{node.monit.source.version}.tar.gz"
 
@@ -40,7 +39,7 @@ bash "compile_monit_source" do
   code <<-EOH
     tar xzf #{::File.basename(src_filepath)} -C #{::File.dirname(src_filepath)} &&
     cd monit-#{node.monit.source.version} &&
-    ./configure && make && make install
+    ./configure --prefix=#{node.monit.source.prefix} && make && make install
   EOH
   notifies :restart, "service[monit]"
 end

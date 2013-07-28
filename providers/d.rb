@@ -23,9 +23,9 @@ def validate_rc!(t)
     file.write(capture(t))
     cmd = Mixlib::ShellOut.new("monit -tc #{file.path}").run_command
     unless cmd.exitstatus == 0
-      Chef::Log.error("Monit rc file failed validation: \n\n")
+      Chef::Log.error("Monit watch file failed validation: \n\n")
       Chef::Log.error(file.read)
-      Chef::Application.fatal!("Monit rc #{file.path} failed validation!")
+      Chef::Application.fatal!("Monit watch file '#{file.path}' failed validation!")
     end
   ensure
     file.close
@@ -42,7 +42,7 @@ def render_rc
     mode '0600'
     variables :name => new_resource.name,
               :service_type => new_resource.service_type,
-              :id_type => VALID_SERVICE_IDS[new_resource.service_type],
+              :id_type => new_resource.id_type || VALID_SERVICE_IDS[new_resource.service_type],
               :service_id => new_resource.service_id,
               :service_group => new_resource.service_group,
               :start_command => new_resource.start_command,

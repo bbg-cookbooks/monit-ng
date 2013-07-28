@@ -33,7 +33,7 @@ set httpd port <%= @port %> and
   <% @allow.each do |allowed| -%>
   allow <%= allowed %>
   <% end -%>
-<% unless @mmonit.nil? %>
+<% if @mmonit %>
 set mmonit <%= @mmonit %>
 <% end %>
 include <%= @conf_dir %>/*

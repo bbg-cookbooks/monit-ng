@@ -1,5 +1,4 @@
 #
-# Author:: Nathan Williams <nath.e.will@gmail.com>
 # Cookbook Name:: monit
 # Recipe:: common
 #
@@ -10,7 +9,7 @@ when 'repo'
 when 'source'
  control_file = "/etc/monitrc"
 else
-  raise ArgumentError, "Unknown valid '#{node.monit.install_method}' passed to monit cookbook"
+  raise ArgumentError, "Unknown install method '#{node.monit.install_method}' passed to monit cookbook"
 end
 
 service "monit" do

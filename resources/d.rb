@@ -17,8 +17,7 @@ attribute :start_command, :kind_of => String, :default => nil
 attribute :stop_command, :kind_of => String, :default => nil
 attribute :service_group, :kind_of => String, :default => nil
 attribute :service_tests, :kind_of => Array, :default => []
-attribute :variables, :kind_of => Hash, :default => nil
-
+attribute :every, :kind_of => String, :default => nil
 def initialize(*args)
   super
   @action = :install
