@@ -53,8 +53,9 @@ def render_rc
     action :nothing
     notifies :reload, "service[monit]", :immediately
   end
-
-  validate_rc!(t)
+# Disable validation until a solution for 
+# Chef 11.6 Erubis changes is found...
+#  validate_rc!(t)
 
   t.run_action(:create)
   new_resource.updated_by_last_action(t.updated_by_last_action?)
