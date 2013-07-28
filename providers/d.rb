@@ -43,7 +43,7 @@ def render_rc
     mode '0600'
     variables :name => new_resource.name,
               :service_type => new_resource.service_type,
-              :id_type => new_resource.service_type || VALID_SERVICE_IDS[new_resource.service_type],
+              :id_type => new_resource.service_type_id || VALID_SERVICE_IDS[new_resource.service_type],
               :service_id => new_resource.service_id,
               :service_group => new_resource.service_group,
               :start_command => new_resource.start_command,
