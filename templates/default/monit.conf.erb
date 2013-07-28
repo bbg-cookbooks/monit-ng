@@ -5,34 +5,35 @@ set logfile <%= @log_file %>
 set idfile <%= @id_file %>
 set statefile <%= @state_file %>
 set mailserver
-<% @mailservers.each do |mailserver| -%>
+<% @mailservers.each do |mailserver| %>
  <%= mailserver.hostname %> port <%= mailserver.port %>
- <% if mailserver.username -%>
+ <% if mailserver.username %>
  username <%= mailserver.username %>
- <% end -%>
+ <% end %>
  <% if mailserver.password %>
  password <%= mailserver.password %>
-<% end -%>
-<% if mailserver.security -%>
+ <% end %>
+<% end %>
+<% if mailserver.security %>
 using <%= mailserver.security %>
-<% end -%>
+<% end %>
 with timeout <%= mailserver.timeout %>
 set mail-format {
       from: <%= @mail_from %>
    subject: <%= @mail_subject %>
    message: <%= @mail_msg %>
 }
-<% @subscribers.each do |subscriber| -%>
+<% @subscribers.each do |subscriber| %>
 set alert <%= subscriber %>
-<% end -%>
+<% end %>
 set eventqueue
   basedir <%= @eventqueue_dir %>
   slots <%= @eventqueue_slots %>
 set httpd port <%= @port %> and
   use address <%= @address %>
-  <% @allow.each do |allowed| -%>
+  <% @allow.each do |allowed| %>
   allow <%= allowed %>
-  <% end -%>
+  <% end %>
 <% if @mmonit %>
 set mmonit <%= @mmonit %>
 <% end %>
