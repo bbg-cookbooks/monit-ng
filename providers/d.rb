@@ -34,7 +34,7 @@ def validate_rc!(t)
 end
 
 def render_rc
-  t = template "#{node.monit.conf_dir}/#{new_resource.name}" do
+  t = template "#{@node.monit.conf_dir}/#{new_resource.name}" do
     source 'monit.d.erb'
     cookbook 'monit'
     owner 'root'
@@ -64,7 +64,7 @@ action :install do
 end
 
 action :remove do
-  f = file "#{node.monit.conf_dir}/#{new_resource.name}" do
+  f = file "#{@node.monit.conf_dir}/#{new_resource.name}" do
     action :nothing
   end
   f.run_action(:delete)
@@ -76,7 +76,7 @@ private
 def capture(template)
   context = {}
   context.merge!(template.variables)
-  context[:node] = node
+  context[:node] = @node
 
   eruby = Erubis::Eruby.new(::File.read(template_location(template)))
   return eruby.evaluate(context)
@@ -88,6 +88,6 @@ def template_location(template)
   else
     context = template.instance_variable_get('@run_context')
     cookbook = context.cookbook_collection[template.cookbook || template.cookbook_name]
-    cookbook.preferred_filename_on_disk_location(node, :templates, template.source)
+    cookbook.preferred_filename_on_disk_location(@node, :templates, template.source)
   end
 end
