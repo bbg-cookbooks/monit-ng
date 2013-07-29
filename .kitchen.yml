@@ -16,9 +16,11 @@ platforms:
     image_id: b21c33d2-b76a-4ce4-a18b-af5911045f42
 
 suites:
-- name: monit_repo_install
-  run_list: ["recipe[monit]"]
-  attributes:
-- name: monit_source_install
-  run_list: ["recipe[monit]"]
+- name: monit_default
+  run_list: 
+  - recipe[monit]
+  attributes: {}
+- name: monit_source
+  run_list:
+  - recipe[monit]
   attributes: { monit: { install_method: "source" } }
