@@ -12,8 +12,10 @@ else
   raise ArgumentError, "Unknown install method '#{node.monit.install_method}' passed to monit cookbook"
 end
 
-file "#{node.monit.conf_dir}/logging" do
-  action :delete
+if platform_family?("rhel")
+  file "#{node.monit.conf_dir}/logging" do
+    action :delete
+  end
 end
 
 service "monit" do
