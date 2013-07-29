@@ -47,4 +47,4 @@ end
 # TODO: sysvinit template
 
 control_file = "/etc/monitrc"
-include_recipe "monit::common"
+include_recipe "monit::_common"

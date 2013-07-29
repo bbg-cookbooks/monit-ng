@@ -7,9 +7,9 @@ case node.monit.install_method
 when 'repo'
   include_recipe "yum::epel" if platform_family?("rhel")
   package 'monit'
-  include_recipe "monit::common"
+  include_recipe "monit::_common"
 when 'source'
   include_recipe "monit::source"
 else
-  raise ArgumentError, "Unknown valid '#{node.monit.install_method}' passed to monit cookbook"
+  raise ArgumentError, "Unknown install_method '#{node.monit.install_method}' passed to monit cookbook"
 end
