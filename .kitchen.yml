@@ -1,6 +1,10 @@
 ---
-driver_plugin: vagrant
+driver_plugin: bluebox
 driver_config:
+  bluebox_customer_id: <%= ENV['BLUEBOX_CUSTOMER_ID'] %>
+  bluebox_api_key: <%= ENV['BLUEBOX_API_KEY'] %>
+  ssh_public_key: <%= File.expand_path('~/.ssh/id_rsa.pub') %>
+  ssh_key: <%= File.expand_path('~/.ssh/id_rsa')
   require_chef_omnibus: true
 
 platforms:
@@ -8,20 +12,15 @@ platforms:
   driver_config:
     box: opscode-ubuntu-12.04
     box_url: https://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box
-- name: ubuntu-10.04
-  driver_config:
-    box: opscode-ubuntu-10.04
-    box_url: https://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-10.04_provisionerless.box
 - name: centos-6.4
   driver_config:
     box: opscode-centos-6.4
     box_url: https://opscode-vm.s3.amazonaws.com/vagrant/opscode_centos-6.4_provisionerless.box
-- name: centos-5.9
-  driver_config:
-    box: opscode-centos-5.9
-    box_url: https://opscode-vm.s3.amazonaws.com/vagrant/opscode_centos-5.9_provisionerless.box
 
 suites:
-- name: default
+- name: monit_repo_install
+  run_list: ["recipe[monit]"]
+  attributes: {}
+- name: monit_source_install
   run_list: ["recipe[monit]"]
   attributes: {}
