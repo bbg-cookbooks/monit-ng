@@ -14,18 +14,11 @@ platforms:
 - name: scientific-6.4
   driver_config:
     image_id: b21c33d2-b76a-4ce4-a18b-af5911045f42
+
 suites:
 - name: monit_repo_install
   run_list: ["recipe[monit]"]
   attributes:
-    authorization:
-      sudo:
-        users:
-        - kitchen
 - name: monit_source_install
   run_list: ["recipe[monit]"]
-  attributes:
-    authorization:
-      sudo:
-        users: 
-        - kitchen
+  attributes: { monit: { install_method: "source" } }
