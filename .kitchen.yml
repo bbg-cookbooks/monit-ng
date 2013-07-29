@@ -10,17 +10,22 @@ driver_config:
 platforms:
 - name: ubuntu-12.04
   driver_config:
-    box: opscode-ubuntu-12.04
-    box_url: https://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box
-- name: centos-6.4
+    image_id: ca245cf0-9d11-4178-b111-3715f79877ae
+- name: scientific-6.4
   driver_config:
-    box: opscode-centos-6.4
-    box_url: https://opscode-vm.s3.amazonaws.com/vagrant/opscode_centos-6.4_provisionerless.box
-
+    image_id: b21c33d2-b76a-4ce4-a18b-af5911045f42
 suites:
 - name: monit_repo_install
   run_list: ["recipe[monit]"]
-  attributes: {}
+  attributes:
+    authorization:
+      sudo:
+        users:
+        - kitchen
 - name: monit_source_install
   run_list: ["recipe[monit]"]
-  attributes: {}
+  attributes:
+    authorization:
+      sudo:
+        users: 
+        - kitchen
