@@ -21,6 +21,7 @@ end
 template control_file do
   source 'monit.conf.erb'
   owner 'root'
+  group 'root'
   mode '0600'
   variables({
     :daemon => node.monit.config.poll_freq,
