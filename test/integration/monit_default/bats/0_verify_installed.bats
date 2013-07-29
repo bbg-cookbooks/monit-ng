@@ -7,3 +7,7 @@
 @test "monit configuration exists" {
   [ -f /etc/monit.conf ] || [ -f /etc/monit/monitrc ]
 }
+
+@test "init script installed" {
+  [ -f /etc/init.d/monit ]
+}

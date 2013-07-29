@@ -4,10 +4,6 @@
   [ -f /etc/monit.conf ] && monit -tc /etc/monit.conf || monit -tc /etc/monit/monitrc
 }
 
-@test "init script installed" {
-  [ -f /etc/init.d/monit ]
-}
-
 @test "includes pass configuration tests" {
   if [ -d /etc/monit.d ]; then
     for rc in $(ls /etc/monit.d); do monit -tc /etc/monit.d/$rc; done
