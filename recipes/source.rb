@@ -44,7 +44,7 @@ bash "compile_monit_source" do
   notifies :restart, "service[monit]"
 end
 
-ontrol_file = "/etc/monitrc"
+control_file = "/etc/monitrc"
 
 template "/etc/init.d/monit" do
   source "monit.init.erb"
