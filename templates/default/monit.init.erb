@@ -1,0 +1,65 @@
+#!/bin/bash
+#
+# chkconfig:
+#
+# processname: monit
+# pidfile: /var/run/monit.pid
+
+. /etc/init.d/functions
+
+CONF_FILE="<%= @conf_file %>"
+PID="/var/run/monit.pid"
+prog="<%= @prefix %>/bin/monit"
+
+[ -x "${prog}" ] || exit 1
+[ -r "${CONF_FILE}" ] || exit 1
+
+RESULT=0
+
+start ()
+{
+  echo -n "Starting $prog: "
+  daemon $prog -c $CONF_FILE
+  RESULT=$?
+  [ $RESULT -eq 0 ] && touch /var/lock/monit
+  return $RESULT
+}
+
+stop ()
+{
+  echo -n "Shutting down $prog: "
+  killproc -p $PID
+  $RESULT=$?
+  [ $RESULT -eq 0 ] && rm -f /var/lock/monit
+  return $RESULT
+}
+
+reload ()
+{
+  echo -n "Reloading $prog: "
+  $prog -c $CONF_FILE reload
+  $RESULT=$?
+  return $RESULT
+}
+
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  restart)
+    stop
+    start
+    ;;
+  reload)
+    reload
+    ;;
+  status)
+    status $prog
+    RESULT=$?
+  *)
+    echo "Usage: ${0} {start|stop|restart|status}"
+    ;;
+esac

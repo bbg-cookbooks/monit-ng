@@ -44,7 +44,17 @@ bash "compile_monit_source" do
   notifies :restart, "service[monit]"
 end
 
-# TODO: sysvinit template
+ontrol_file = "/etc/monitrc"
 
-control_file = "/etc/monitrc"
+template "/etc/init.d/monit" do
+  source "monit.init.erb"
+  owner "root"
+  group "root"
+  mode "0755"
+  variables({
+    :prefix => node.monit.source.prefix,
+    :conf_file => control_file
+  })
+end
+
 include_recipe "monit::_common"
