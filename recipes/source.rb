@@ -36,7 +36,7 @@ end
 
 opts = "--prefix=#{node.monit.source.prefix}"
 if platform?("ubuntu")
-  opts += " --with-ssl-lib-dir=#{node.kernel.machine}-linux-gnu"
+  opts += " --with-ssl-lib-dir=/usr/lib/#{node.kernel.machine}-linux-gnu"
 end
 
 bash "compile_monit_source" do
