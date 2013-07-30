@@ -34,12 +34,17 @@ remote_file monit_url do
   backup false
 end
 
+opts = "--prefix=#{node.monit.source.prefix}"
+if platform?("ubuntu")
+  opts += " --with-ssl-lib-dir=#{node.kernel.machine}-linux-gnu"
+end
+
 bash "compile_monit_source" do
   cwd ::File.dirname(src_filepath)
   code <<-EOH
     tar xzf #{::File.basename(src_filepath)} -C #{::File.dirname(src_filepath)} &&
     cd monit-#{node.monit.source.version} &&
-    ./configure --prefix=#{node.monit.source.prefix} && make && make install
+    ./configure #{opts} && make && make install
   EOH
   notifies :restart, "service[monit]"
 end
