@@ -5,12 +5,10 @@
 }
 
 @test "includes pass configuration tests" {
-  PATH=$PATH:/usr/local/bin
-  export PATH
   if [ -d /etc/monit.d ]; then
-    for rc in $(ls /etc/monit.d); do monit -tc /etc/monit.d/$rc; done
+    for rc in $(ls /etc/monit.d); do /usr/local/bin/monit -tc /etc/monit.d/$rc; done
   elif [ -d /etc/monit/conf.d ]; then
-    for rc in $(ls /etc/monit/conf.d); do monit -tc /etc/monit/conf.d/$rc; done
+    for rc in $(ls /etc/monit/conf.d); do /usr/local/bin/monit -tc /etc/monit/conf.d/$rc; done
   else
     exit 1
   fi
