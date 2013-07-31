@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: monit
-# Recipe:: common
+# Recipe:: _common
 #
 
 case node.monit.install_method

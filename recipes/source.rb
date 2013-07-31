@@ -51,7 +51,7 @@ end
 
 control_file = "/etc/monitrc"
 
-template "/etc/init.d/monit" do
+template "/etc/init/monit.conf" do
   source "monit.init.erb"
   owner "root"
   group "root"
