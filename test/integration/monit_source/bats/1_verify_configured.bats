@@ -1,7 +1,7 @@
 # test/integration/monit_default/bats/1_verify_configured.bats
 
 @test "global rc passes configuration test" {
-  [ -f /etc/monitrc ] && monit -tc /etc/monitrc
+  [ -f /etc/monitrc ] && /usr/local/bin/monit -tc /etc/monitrc
 }
 
 @test "includes pass configuration tests" {
