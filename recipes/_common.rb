@@ -45,6 +45,9 @@ end
 
 service "monit" do
   service_name "monit"
+  if node.monit.install_method?("source")
+    provider Chef::Provider::Service::Upstart
+  end
   supports :status => true, :restart => true, :reload => true, :stop => true
   action [ :enable, :start ]
 end
