@@ -8,6 +8,7 @@ monit_url = node.monit.source.url ||
 
 src_filepath = "#{Chef::Config['file_cache_path'] || '/tmp'}/monit-#{node.monit.source.version}.tar.gz"
 
+node.default['build-essential']['compiletime'] = true
 include_recipe "build-essential"
 
 build_deps = value_for_platform(
