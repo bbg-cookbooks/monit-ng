@@ -5,6 +5,8 @@
 }
 
 @test "includes pass configuration tests" {
+  PATH=$PATH:/usr/local/bin
+  export PATH
   if [ -d /etc/monit.d ]; then
     for rc in $(ls /etc/monit.d); do monit -tc /etc/monit.d/$rc; done
   elif [ -d /etc/monit/conf.d ]; then
