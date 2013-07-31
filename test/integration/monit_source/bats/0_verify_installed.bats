@@ -11,5 +11,5 @@
 }
 
 @test "init script installed" {
-  [ -f /etc/init/monit ] || [ -f /etc/init.d/monit ]
+  [ -f /etc/init/monit.conf ] || [ -f /etc/init.d/monit ]
 }
