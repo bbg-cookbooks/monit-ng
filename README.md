@@ -155,6 +155,28 @@ monit_d 'redis' do
 end
 ```
 
+##### MongoDB
+
+```ruby
+monit_d 'mongo' do
+  service_type "process"
+  service_id "#{node.mongodb.dbpath}/mongod.lock"
+  service_group "mongo"
+  start_command "/etc/init.d/mongodb start"
+  stop_command "/etc/init.d/mongodb stop"
+  service_tests [
+    {
+     'condition' => "if failed port #{node.mongodb.port} proto http for 2 cycles",
+     'action' => "restart"
+    },
+    {
+     'condition' => "if 3 restarts within 10 cycles",
+     'action' => "timeout"
+    }
+  ]
+end
+```
+
 ##### External Service Check
 
 ```ruby
