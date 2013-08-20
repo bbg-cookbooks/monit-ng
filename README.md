@@ -154,6 +154,27 @@ monit_d 'redis' do
   ]
 end
 ```
+##### Solr
+
+```ruby
+monit_d 'solr' do
+  service_type "process"
+  service_id "/var/run/tomcat6.pid"
+  service_group "app"
+  start_command "/etc/init.d/tomcat6 start"
+  stop_command "/etc/init.d/tomcat6 stop"
+  service_tests [
+    {
+     'condition' => 'if failed port 8080 proto http and request "/solr/admin/ping" for 2 cycles',
+     'action' => "restart"
+    },
+    {
+     'condition' => "if 3 restarts within 5 cycles",
+     'action' => "timeout"
+    }
+  ]
+end
+```
 
 ##### MongoDB
 
