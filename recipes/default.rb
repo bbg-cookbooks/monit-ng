@@ -5,7 +5,15 @@
 
 case node.monit.install_method
 when 'repo'
-  include_recipe "yum::epel" if platform_family?("rhel")
+  if platform_family?("rhel")
+    include_recipe "yum::epel"
+    if node.bluebox.network
+      yum_package "monit" do
+        action :install
+        options "--enablerepo=bbg-koji-edge"
+      end
+    end
+  end
   include_recipe "ubuntu" if platform?("ubuntu")
   package 'monit'
   include_recipe "monit::_common"
