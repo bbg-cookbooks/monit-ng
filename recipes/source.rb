@@ -36,7 +36,9 @@ remote_file monit_url do
 end
 
 opts = "--prefix=#{node.monit.source.prefix}"
-if platform?("ubuntu")
+
+# handles case for a fixed multi-arch bug in monit < 5.6
+if platform_family?("debian")
   opts += " --with-ssl-lib-dir=/usr/lib/#{node.kernel.machine}-linux-gnu"
 end
 

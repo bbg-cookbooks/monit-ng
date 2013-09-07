@@ -4,14 +4,15 @@ end
 
 VALID_SERVICE_IDS = 
   {
-    'process' => "pidfile", 
-    'file' => "path", 
-    'fifo' => "path", 
-    'filesystem' => "path", 
-    'directory' => "path", 
-    'host' => "address", 
-    'system' => nil, 
-    'program' => "path", 
+    'process' => "pidfile",
+    'procmatch' => "matching", 
+    'file' => "path",
+    'fifo' => "path",
+    'filesystem' => "path",
+    'directory' => "path",
+    'host' => "address",
+    'system' => nil,
+    'program' => "path",
   }
 
 # validate the resource by verifying

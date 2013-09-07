@@ -1,17 +1,17 @@
 case node['platform_family']
-  when "rhel"
-    default['monit']['conf_file'] = "/etc/monit.conf"
-    default['monit']['conf_dir'] = "/etc/monit.d"
-  when "debian"
-    default['monit']['conf_file'] = "/etc/monit/monitrc"
-    default['monit']['conf_dir'] = "/etc/monit/conf.d"
+when "rhel"
+  default['monit']['conf_file'] = "/etc/monit.conf"
+  default['monit']['conf_dir'] = "/etc/monit.d"
+when "debian"
+  default['monit']['conf_file'] = "/etc/monit/monitrc"
+  default['monit']['conf_dir'] = "/etc/monit/conf.d"
 end
 
 default['monit']['config']['poll_freq'] = 90
 default['monit']['config']['start_delay'] = 60
 default['monit']['config']['log_file'] = '/var/log/monit.log'
-default['monit']['config']['id_file'] = '/var/.monit.id'
-default['monit']['config']['state_file'] = '/var/.monit.state'
+default['monit']['config']['id_file'] = '/var/lib/monit.id'
+default['monit']['config']['state_file'] = '/var/run/monit.state'
 default['monit']['config']['mailservers'] = [
   {
    :hostname => 'localhost',
@@ -22,7 +22,7 @@ default['monit']['config']['mailservers'] = [
    :timeout => "30 seconds",
   }
 ]
-default['monit']['config']['subscribers'] = ['root@localhost']
+default['monit']['config']['subscribers'] = ["root@localhost"]
 default['monit']['config']['eventqueue_dir'] = "/var/tmp"
 default['monit']['config']['eventqueue_slots'] = 100
 default['monit']['config']['listen_port'] = 2812
@@ -38,6 +38,6 @@ EOT
 default['monit']['config']['mmonit_host'] = nil
 default['monit']['install_method'] = "repo"
 default['monit']['source']['url'] = nil
-default['monit']['source']['version'] = "5.5.1"
-default['monit']['source']['checksum'] = "dbe4b4744a7100e2d5f4eac353dfb2df0549848e2c7661d9c19acc31cdef2c78"
+default['monit']['source']['version'] = "5.6"
+default['monit']['source']['checksum'] = "38e09bd8b39abc59e6b9a9bb7a78f7eac2b02a92f4de1f3a6dc24e84dfedae0d"
 default['monit']['source']['prefix'] = "/usr/local"
