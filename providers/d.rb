@@ -48,6 +48,7 @@ def render_rc
               :service_id => new_resource.service_id,
               :service_group => new_resource.service_group,
               :start_command => new_resource.start_command,
+              :start_as => new_resource.start_as,
               :stop_command => new_resource.stop_command,
               :service_tests => new_resource.service_tests,
               :every => new_resource.every

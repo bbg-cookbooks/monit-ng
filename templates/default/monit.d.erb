@@ -9,6 +9,9 @@ check <%= @service_type %> <%= @name %>
 <% if @start_command %>
   start "<%= @start_command %>"
 <% end %>
+<% if @start_as %>
+    as uid <%= @start_as %>
+<% end %>
 <% if @stop_command %>
   stop "<%= @stop_command %>"
 <% end %>
