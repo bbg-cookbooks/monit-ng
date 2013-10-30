@@ -14,6 +14,7 @@ attribute :service_type, :kind_of => String, :required => true, \
                 "program"]
 attribute :service_id, :kind_of => String, :required => true, :default => nil
 attribute :service_type_id, :kind_of => String, :default => nil
+attribute :start_as, :kind_of => String, :default => nil
 attribute :start_command, :kind_of => String, :default => nil
 attribute :stop_command, :kind_of => String, :default => nil
 attribute :service_group, :kind_of => String, :default => nil
