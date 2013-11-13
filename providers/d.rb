@@ -15,14 +15,6 @@ VALID_SERVICE_IDS =
     'program' => "path",
   }
 
-def validate_rc!(f)
-  cmd = Mixlib::ShellOut.new("monit -tc #{f}").run_command
-  unless cmd.exitstatus == 0
-    Chef::Log.error("rc validation failed!")
-    Chef::Application.fatal!("Template #{f} failed validation!")
-  end
-end
-
 def render_rc
   rc_path = "#{node.monit.conf_dir}/#{new_resource.name}"
 
@@ -45,8 +37,6 @@ def render_rc
     action :create
     notifies :reload, "service[monit]", :delayed
   end
-
-  validate_rc!(rc_path)
 end
 
 action :install do
