@@ -18,13 +18,21 @@ VALID_SERVICE_IDS =
 # validate the resource by verifying
 # against `monit -tc`
 def validate_rc!(f)
-  execute "validate_monit_rc" do
-    command "monit -tc #{f}"
+  begin
+    cmd = Mixlib::ShellOut.new("monit -tc #{f}").run_command
+  unless cmd.exitstatus == 0
+    Chef::Log.error("rc validation failed!")
+    Chef::Log.error(f.read)
+    Chef::Application.fatal!("Template #{f} failed validation!")
+    file f do
+      action :delete
+    end
   end
 end
 
 def render_rc
   rc_path = "#{node.monit.conf_dir}/#{new_resource.name}"
+
   t = template rc_path do
     source 'monit.d.erb'
     cookbook 'monit'
@@ -42,7 +50,7 @@ def render_rc
               :service_tests => new_resource.service_tests,
               :every => new_resource.every
     action :create
-    notifies :reload, "service[monit]", :immediately
+    notifies :reload, "service[monit]", :delayed
   end
 
   validate_rc!(rc_path)
