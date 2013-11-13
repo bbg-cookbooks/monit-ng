@@ -15,11 +15,8 @@ VALID_SERVICE_IDS =
     'program' => "path",
   }
 
-# validate the resource by verifying
-# against `monit -tc`
 def validate_rc!(f)
-  begin
-    cmd = Mixlib::ShellOut.new("monit -tc #{f}").run_command
+  cmd = Mixlib::ShellOut.new("monit -tc #{f}").run_command
   unless cmd.exitstatus == 0
     Chef::Log.error("rc validation failed!")
     Chef::Log.error(f.read)
@@ -49,10 +46,11 @@ def render_rc
               :stop_command => new_resource.stop_command,
               :service_tests => new_resource.service_tests,
               :every => new_resource.every
-    action :create
+    action :nothing
     notifies :reload, "service[monit]", :delayed
   end
 
+  t.run_action(:create)
   validate_rc!(rc_path)
   new_resource.updated_by_last_action(t.updated_by_last_action?)
 end
@@ -63,7 +61,8 @@ end
 
 action :remove do
   f = file "#{node.monit.conf_dir}/#{new_resource.name}" do
-    action :delete
+    action :nothing
   end
+  f.run_action(:delete)
   new_resource.updated_by_last_action(f.updated_by_last_action?)
 end
