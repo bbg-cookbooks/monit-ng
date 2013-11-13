@@ -19,11 +19,7 @@ def validate_rc!(f)
   cmd = Mixlib::ShellOut.new("monit -tc #{f}").run_command
   unless cmd.exitstatus == 0
     Chef::Log.error("rc validation failed!")
-    Chef::Log.error(f.read)
     Chef::Application.fatal!("Template #{f} failed validation!")
-    file f do
-      action :delete
-    end
   end
 end
 
