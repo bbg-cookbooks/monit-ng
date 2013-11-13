@@ -17,20 +17,9 @@ VALID_SERVICE_IDS =
 
 # validate the resource by verifying
 # against `monit -tc`
-def validate_rc!(t)
-  file = Tempfile.new('monitrc')
-
-  begin
-    file.write(capture(t))
-    cmd = Mixlib::ShellOut.new("monit -tc #{file.path}").run_command
-    unless cmd.exitstatus == 0
-      Chef::Log.error("Monit watch file failed validation: \n\n")
-      Chef::Log.error(file.read)
-      Chef::Application.fatal!("Monit watch file '#{file.path}' failed validation!")
-    end
-  ensure
-    file.close
-    file.unlink
+def validate_rc!(f)
+  execute "validate_monit_rc" do
+    command "monit -tc #{f}"
   end
 end
 
@@ -52,13 +41,11 @@ def render_rc
               :stop_command => new_resource.stop_command,
               :service_tests => new_resource.service_tests,
               :every => new_resource.every
-    action :nothing
+    action :create
     notifies :reload, "service[monit]", :immediately
   end
 
-  validate_rc!(t)
-
-  t.run_action(:create)
+  validate_rc!(rc_path)
   new_resource.updated_by_last_action(t.updated_by_last_action?)
 end
 
@@ -68,29 +55,7 @@ end
 
 action :remove do
   f = file "#{node.monit.conf_dir}/#{new_resource.name}" do
-    action :nothing
+    action :delete
   end
-  f.run_action(:delete)
   new_resource.updated_by_last_action(f.updated_by_last_action?)
-end
-
-private
-
-def capture(template)
-  context = {}
-  context.merge!(template.variables)
-  context[:node] = node
-
-  eruby = Erubis::Eruby.new(::File.read(template_location(template)))
-  return eruby.evaluate(context)
-end
-
-def template_location(template)
-  if template.local
-    template.source
-  else
-    context = template.instance_variable_get('@run_context')
-    cookbook = context.cookbook_collection[template.cookbook || template.cookbook_name]
-    cookbook.preferred_filename_on_disk_location(node, :templates, template.source)
-  end
 end
