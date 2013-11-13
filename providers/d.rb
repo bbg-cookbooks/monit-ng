@@ -30,7 +30,7 @@ end
 def render_rc
   rc_path = "#{node.monit.conf_dir}/#{new_resource.name}"
 
-  t = template rc_path do
+  template rc_path do
     source 'monit.d.erb'
     cookbook 'monit'
     owner 'root'
@@ -46,13 +46,11 @@ def render_rc
               :stop_command => new_resource.stop_command,
               :service_tests => new_resource.service_tests,
               :every => new_resource.every
-    action :nothing
+    action :create
     notifies :reload, "service[monit]", :delayed
   end
 
-  t.run_action(:create)
   validate_rc!(rc_path)
-  new_resource.updated_by_last_action(t.updated_by_last_action?)
 end
 
 action :install do
@@ -60,9 +58,7 @@ action :install do
 end
 
 action :remove do
-  f = file "#{node.monit.conf_dir}/#{new_resource.name}" do
-    action :nothing
+  file "#{node.monit.conf_dir}/#{new_resource.name}" do
+    action :delete
   end
-  f.run_action(:delete)
-  new_resource.updated_by_last_action(f.updated_by_last_action?)
 end
