@@ -38,7 +38,7 @@ end
 opts = "--prefix=#{node.monit.source.prefix}"
 
 # handles case for a fixed multi-arch bug in monit < 5.6
-if platform_family?("debian")
+if platform_family?("debian") && node.monit.source.version.to_f < 5.6
   opts += " --with-ssl-lib-dir=/usr/lib/#{node.kernel.machine}-linux-gnu"
 end
 
