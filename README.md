@@ -271,8 +271,5 @@ end
 
 TODO
 ----
-- finish source_install method
-    - init script
-    - install path
 - allow more periodic checks (every)
 - add subscriber opt-in/opt-outs
