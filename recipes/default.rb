@@ -3,7 +3,7 @@
 # Recipe:: default
 #
 
-case node.monit.install_method
+case node['monit']['install_method']
 when 'repo'
   if platform_family?("rhel")
     include_recipe "yum::epel"
@@ -14,5 +14,5 @@ when 'repo'
 when 'source'
   include_recipe "monit::source"
 else
-  raise ArgumentError, "Unknown install_method '#{node.monit.install_method}' passed to monit cookbook"
+  raise ArgumentError, "Unknown install_method '#{node['monit']['install_method']}' passed to monit cookbook"
 end
