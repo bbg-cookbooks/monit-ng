@@ -16,7 +16,7 @@ VALID_SERVICE_IDS =
   }
 
 def render_rc
-  rc_path = "#{node.monit.conf_dir}/#{new_resource.name}"
+  rc_path = "#{node['monit']['conf_dir']}/#{new_resource.name}"
 
   template rc_path do
     source 'monit.d.erb'
@@ -41,10 +41,12 @@ end
 
 action :install do
   render_rc
+  new_resource.updated_by_last_action(true)
 end
 
 action :remove do
-  file "#{node.monit.conf_dir}/#{new_resource.name}" do
+  file "#{node['monit']['conf_dir']}/#{new_resource.name}" do
     action :delete
   end
+  new_resource.updated_by_last_action(true)
 end
