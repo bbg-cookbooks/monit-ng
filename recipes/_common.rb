@@ -30,7 +30,7 @@ template control_file do
     :state_file => node['monit']['config']['state_file'],
     :mailservers => node['monit']['config']['mailservers'],
     :subscribers => node['monit']['config']['subscribers'],
-    :eventqueue_dir => node['monit']['config.']['eventqueue_dir'],
+    :eventqueue_dir => node['monit']['config']['eventqueue_dir'],
     :eventqueue_slots => node['monit']['config']['eventqueue_slots'],
     :address => node['monit']['config']['listen_addr'],
     :port => node['monit']['config']['listen_port'],
