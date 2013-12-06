@@ -19,6 +19,7 @@ def render_rc
   rc_path = "#{node['monit']['conf_dir']}/#{new_resource.name}"
 
   template rc_path do
+    cookbook 'monit'
     source 'monit.d.erb'
     cookbook 'monit'
     owner 'root'
