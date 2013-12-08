@@ -1,5 +1,5 @@
 site :opscode
 
-cookbook 'monit', :git => 'git@github.blueboxgrid.com:nwilliams/monit.git'
+cookbook 'monit', :path => './'
 cookbook 'yum'
 cookbook 'build-essential'

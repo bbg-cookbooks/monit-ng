@@ -3,6 +3,8 @@
 # Recipe:: source
 #
 
+node.default['monit']['conf_file'] = "/etc/monitrc"
+
 monit_url = node['monit']['source']['url'] ||
   "https://mmonit.com/monit/dist/monit-#{node['monit']['source']['version']}.tar.gz"
 
@@ -52,8 +54,6 @@ bash "compile_monit_source" do
   notifies :restart, "service[monit]"
 end
 
-control_file = "/etc/monitrc"
-
 template "/etc/init/monit.conf" do
   source "monit.init.erb"
   owner "root"
@@ -61,7 +61,7 @@ template "/etc/init/monit.conf" do
   mode "0755"
   variables({
     :prefix => node['monit']['source']['prefix'],
-    :conf_file => control_file
+    :conf_file => node['monit']['conf_file']
   })
 end
 

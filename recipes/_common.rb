@@ -3,21 +3,12 @@
 # Recipe:: _common
 #
 
-case node['monit']['install_method']
-when 'repo'
-  control_file = node['monit']['conf_file']
-when 'source'
- control_file = "/etc/monitrc"
-else
-  raise ArgumentError, "Unknown install method '#{node['monit']['install_method']}' passed to monit cookbook"
-end
-
 file "#{node['monit']['conf_dir']}/logging" do
   action :delete
   only_if { platform_family?("rhel") }
 end
 
-template control_file do
+template node['monit']['conf_file'] do
   source 'monit.conf.erb'
   owner 'root'
   group 'root'

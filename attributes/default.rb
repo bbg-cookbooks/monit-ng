@@ -1,8 +1,8 @@
-case node['platform_family']
-when "rhel"
-  default['monit']['conf_file'] = "/etc/monit.conf"
-  default['monit']['conf_dir'] = "/etc/monit.d"
-when "debian"
+
+default['monit']['conf_file'] = "/etc/monit.conf"
+default['monit']['conf_dir'] = "/etc/monit.d"
+
+if platform_family?("debian")
   default['monit']['conf_file'] = "/etc/monit/monitrc"
   default['monit']['conf_dir'] = "/etc/monit/conf.d"
 end
