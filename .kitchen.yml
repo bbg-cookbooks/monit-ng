@@ -3,24 +3,23 @@ driver_plugin: bluebox
 driver_config:
   bluebox_customer_id: <%= ENV['BLUEBOX_CUSTOMER_ID'] %>
   bluebox_api_key: <%= ENV['BLUEBOX_API_KEY'] %>
-  ssh_public_key: <%= File.expand_path('~/.ssh/id_rsa.pub') %>
-  ssh_key: <%= File.expand_path('~/.ssh/id_rsa')
-  require_chef_omnibus: true
+  ssh_public_key: <%= "#{ENV['HOME']}/.ssh/id_rsa.pub" %>
+  require_chef_omnibus: latest
 
 platforms:
 - name: ubuntu-12.04
   driver_config:
-    image_id: ca245cf0-9d11-4178-b111-3715f79877ae
-- name: scientific-6.4
+    image_id: 90cb3e60-73ba-4bbd-a3aa-19e8bd1e1db0
+- name: centos-6.5
   driver_config:
-    image_id: b21c33d2-b76a-4ce4-a18b-af5911045f42
+    image_id: 6856aaa1-4dc0-4d01-a2d4-aa9e42aba5bb
 
 suites:
-- name: monit_default
+- name: monit-default
   run_list: 
   - recipe[monit]
   attributes: {}
-- name: monit_source
+- name: monit-source
   run_list:
   - recipe[monit]
   attributes: { monit: { install_method: "source" } }
