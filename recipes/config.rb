@@ -1,12 +1,8 @@
 #
 # Cookbook Name:: monit
-# Recipe:: config_
+# Recipe:: config
 #
 
-file "#{node['monit']['conf_dir']}/logging" do
-  action :delete
-  only_if { platform_family?("rhel") }
-end
 
 template node['monit']['conf_file'] do
   source 'monit.conf.erb'
