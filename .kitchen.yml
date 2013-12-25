@@ -1,5 +1,6 @@
 ---
 driver_plugin: bluebox
+
 driver_config:
   bluebox_customer_id: <%= ENV['BLUEBOX_CUSTOMER_ID'] %>
   bluebox_api_key: <%= ENV['BLUEBOX_API_KEY'] %>
@@ -13,6 +14,10 @@ platforms:
 - name: centos-6.5
   driver_config:
     image_id: 6856aaa1-4dc0-4d01-a2d4-aa9e42aba5bb
+
+settings:
+  parallel: true
+  destroy: passing
 
 suites:
 - name: monit-default
