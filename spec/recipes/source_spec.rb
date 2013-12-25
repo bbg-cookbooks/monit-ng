@@ -3,10 +3,10 @@ require_relative '../spec_helper'
 describe 'monit::source' do
   let(:chef_run) { ChefSpec::Runner.new }
 
-  it 'includes monit::_common' do
+  it 'includes monit::config' do
     chef_run.node.set['platform_family'] = 'rhel'
     chef_run.converge(described_recipe)
-    expect(chef_run).to include_recipe('monit::_common')
+    expect(chef_run).to include_recipe('monit::config')
   end
 
   context 'rhel' do

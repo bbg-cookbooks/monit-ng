@@ -15,7 +15,7 @@ describe 'monit::repo' do
     let(:chef_run) { ChefSpec::Runner.new(:platform => 'centos', :version => '6.4').converge(described_recipe) }
 
     it 'includes yum::epel' do
-      chef_run.should include_recipe 'yum-epel'
+      chef_run.should include_recipe 'yum-epel::default'
     end
   end
 
@@ -23,7 +23,7 @@ describe 'monit::repo' do
     expect(chef_run).to install_package('monit')
   end
 
-  it 'includes monit::_common' do
-    expect(chef_run).to include_recipe 'monit::_common'
+  it 'includes monit::config' do
+    expect(chef_run).to include_recipe 'monit::config'
   end
 end

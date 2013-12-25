@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: monit
-# Recipe:: _common
+# Recipe:: config_
 #
 
 file "#{node['monit']['conf_dir']}/logging" do

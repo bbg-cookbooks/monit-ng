@@ -65,4 +65,4 @@ template "/etc/init/monit.conf" do
   })
 end
 
-include_recipe "monit::_common"
+include_recipe "monit::config"
