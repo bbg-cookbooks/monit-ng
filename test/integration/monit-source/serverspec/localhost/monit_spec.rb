@@ -1,4 +1,4 @@
-require 'server_spec'
+require 'spec_helper'
 
 describe service('monit') do
   it { should be_enabled }
