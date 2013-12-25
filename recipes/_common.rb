@@ -32,6 +32,7 @@ template node['monit']['conf_file'] do
     :mmonit => node['monit']['config']['mmonit_host'],
     :conf_dir => node['monit']['conf_dir'],
   })
+  notifies :reload, "service[monit]", :delayed
 end
 
 service "monit" do

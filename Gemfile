@@ -1,5 +1,9 @@
 source 'https://rubygems.org'
 
-gem 'berkshelf'
-gem 'test-kitchen', :group => :integration
-gem 'kitchen-bluebox', :group => :integration
+group :integration do
+  gem 'berkshelf'
+  gem 'test-kitchen'
+  gem 'kitchen-bluebox'
+  gem 'chefspec'
+  gem 'serverspec'
+end

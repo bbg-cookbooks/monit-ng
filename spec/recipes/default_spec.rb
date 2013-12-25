@@ -9,10 +9,9 @@ describe 'monit::default' do
     expect(chef_run).to include_recipe 'monit::repo'
   end
 
-
   # Switching context indirectly tests the build-essential cookbook
   context 'rhel' do
-    let (:chef_run) { ChefSpec::Runner.new(:platform => 'centos', :version => '6.4').converge(described_recipe) }
+    let (:chef_run) { ChefSpec::Runner.new(:platform => 'centos', :version => '6.4') }
 
     it 'includes the source recipe' do
       chef_run.node.set['monit']['install_method'] = 'source'
@@ -22,7 +21,7 @@ describe 'monit::default' do
   end
 
   context 'ubuntu' do
-    let (:chef_run) { ChefSpec::Runner.new(:platform => 'ubuntu', :version => '12.04').converge(described_recipe) }
+    let (:chef_run) { ChefSpec::Runner.new(:platform => 'ubuntu', :version => '12.04') }
 
     it 'includes the source recipe' do
       chef_run.node.set['monit']['install_method'] = 'source'

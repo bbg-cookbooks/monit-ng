@@ -35,6 +35,7 @@ end
 action :remove do
   file "#{node['monit']['conf_dir']}/#{new_resource.name}" do
     action :delete
+    notifies :reload, "service[monit]", :delayed
   end
   new_resource.updated_by_last_action(true)
 end
