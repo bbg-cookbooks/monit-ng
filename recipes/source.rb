@@ -11,6 +11,7 @@ monit_url = node['monit']['source']['url'] ||
 src_filepath = "#{Chef::Config['file_cache_path'] || '/tmp'}/monit-#{node['monit']['source']['version']}.tar.gz"
 
 include_recipe "apt" if platform_family?("debian")
+include_recipe "build-essential"
 
 build_deps = value_for_platform(
   ["centos","redhat","fedora","scientific"] => {'default' => ['pam-devel', 'openssl-devel']},
