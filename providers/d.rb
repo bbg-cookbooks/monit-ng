@@ -2,21 +2,8 @@ def whyrun_supported?
   true
 end
 
-VALID_SERVICE_IDS = 
-  {
-    'process' => "pidfile",
-    'procmatch' => "matching", 
-    'file' => "path",
-    'fifo' => "path",
-    'filesystem' => "path",
-    'directory' => "path",
-    'host' => "address",
-    'system' => nil,
-    'program' => "path",
-  }
-
 def render_rc
-  rc_path = "#{node['monit']['conf_dir']}/#{new_resource.name}"
+  rc_path = "#{node['monit']['conf_dir']}/#{new_resource.name}.conf"
 
   template rc_path do
     cookbook 'monit'
