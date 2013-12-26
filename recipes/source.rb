@@ -49,6 +49,10 @@ bash "compile_monit_source" do
     cd monit-#{node['monit']['source']['version']} &&
     ./configure #{opts} && make && make install
   EOH
+
+  not_if do
+    # TODO: Stop recompiling on every converge
+  end
   notifies :restart, "service[monit]"
 end
 
