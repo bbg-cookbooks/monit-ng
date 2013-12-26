@@ -14,8 +14,8 @@ include_recipe "apt" if platform_family?("debian")
 include_recipe "build-essential"
 
 build_deps = value_for_platform(
-  ["centos","redhat","fedora","scientific"] => {'default' => ['pam-devel','openssl-devel','flex','bison']},
-   "default" => ['libpam0g-dev','libssl-dev','flex','bison']
+  ["centos","redhat","fedora","scientific"] => {'default' => ['pam-devel','openssl-devel']},
+   "default" => ['libpam0g-dev','libssl-dev']
 )
 
 build_deps.each do |build_dep|
