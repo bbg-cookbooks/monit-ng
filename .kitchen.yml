@@ -14,12 +14,12 @@ platforms:
 - name: ubuntu-12.04
   driver_config:
     image_id: 90cb3e60-73ba-4bbd-a3aa-19e8bd1e1db0
+- name: centos-5.8
+  driver_config:
+    image_id: c66b8145-f768-45ef-9878-395bf8b1b7ff
 - name: centos-6.5
   driver_config:
     image_id: 6856aaa1-4dc0-4d01-a2d4-aa9e42aba5bb
-- name: scientific-6.4
-  driver_config:
-    image_id: de009b03-b281-4155-a17d-0c0b9c8414b4
 
 settings:
   parallel: true
