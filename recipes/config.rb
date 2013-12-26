@@ -31,6 +31,15 @@ template node['monit']['conf_file'] do
   notifies :reload, "service[monit]", :delayed
 end
 
+if platform?("ubuntu") && node['platform_version'] =~ /^10/
+  template '/etc/default/monit' do
+    source 'default-monit.erb'
+    owner 'root'
+    group 'root'
+    mode '0600'
+  end
+end
+
 service "monit" do
   service_name "monit"
   if node['monit']['install_method'] == "source"
