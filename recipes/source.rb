@@ -3,8 +3,6 @@
 # Recipe:: source
 #
 
-node.default['monit']['conf_file'] = "/etc/monitrc"
-
 monit_url = node['monit']['source']['url'] ||
   "https://mmonit.com/monit/dist/monit-#{node['monit']['source']['version']}.tar.gz"
 
@@ -60,7 +58,9 @@ template '/etc/init.d/monit' do
   group  'root'
   mode   '0755'
   variables({
+    :platform_family => node['platform_family'],
     :prefix => node['monit']['source']['prefix'],
+    :config => node['monit']['conf_file']
   })
 end
 
