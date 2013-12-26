@@ -33,7 +33,7 @@ end
 
 if platform?("ubuntu") && node['platform_version'] =~ /^10/
   template '/etc/default/monit' do
-    source 'default-monit.erb'
+    source 'monit.default.erb'
     owner 'root'
     group 'root'
     mode '0600'
@@ -42,9 +42,6 @@ end
 
 service "monit" do
   service_name "monit"
-  if node['monit']['install_method'] == "source"
-    provider Chef::Provider::Service::Upstart
-  end
   supports :status => true, :restart => true, :reload => true, :stop => true
   action [ :enable, :start ]
 end

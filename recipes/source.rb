@@ -14,8 +14,8 @@ include_recipe "apt" if platform_family?("debian")
 include_recipe "build-essential"
 
 build_deps = value_for_platform(
-  ["centos","redhat","fedora","scientific"] => {'default' => ['pam-devel', 'openssl-devel']},
-   "default" => ['libpam0g-dev', 'libssl-dev']
+  ["centos","redhat","fedora","scientific"] => {'default' => ['pam-devel','openssl-devel','flex','bison']},
+   "default" => ['libpam0g-dev','libssl-dev','flex','bison']
 )
 
 build_deps.each do |build_dep|
@@ -54,14 +54,13 @@ bash "compile_monit_source" do
   notifies :restart, "service[monit]"
 end
 
-template "/etc/init/monit.conf" do
-  source "monit.init.erb"
-  owner "root"
-  group "root"
-  mode "0755"
+template '/etc/init.d/monit' do
+  source 'monit.init.erb'
+  owner  'root'
+  group  'root'
+  mode   '0755'
   variables({
     :prefix => node['monit']['source']['prefix'],
-    :conf_file => node['monit']['conf_file']
   })
 end
 
