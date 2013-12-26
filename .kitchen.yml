@@ -8,9 +8,6 @@ driver_config:
   require_chef_omnibus: latest
 
 platforms:
-- name: debian-7.2
-  driver_config:
-    image_id: f0764e56-30d0-46d9-8032-1a7f4c00a27d
 - name: ubuntu-10.04
   driver_config:
     image_id: 1122f957-9d75-436c-af02-a430b0ee980b
