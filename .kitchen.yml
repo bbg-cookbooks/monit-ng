@@ -5,7 +5,7 @@ driver_config:
   bluebox_customer_id: <%= ENV['BLUEBOX_CUSTOMER_ID'] %>
   bluebox_api_key: <%= ENV['BLUEBOX_API_KEY'] %>
   ssh_public_key: <%= "#{ENV['HOME']}/.ssh/id_rsa.pub" %>
-  require_chef_omnibus: latest
+  require_chef_omnibus: true
 
 platforms:
 - name: ubuntu-10.04
@@ -14,9 +14,10 @@ platforms:
 - name: ubuntu-12.04
   driver_config:
     image_id: 90cb3e60-73ba-4bbd-a3aa-19e8bd1e1db0
-- name: centos-5.8
-  driver_config:
-    image_id: c66b8145-f768-45ef-9878-395bf8b1b7ff
+# Ref: https://github.com/test-kitchen/test-kitchen/issues/307
+#- name: centos-5.8
+#  driver_config:
+#    image_id: c66b8145-f768-45ef-9878-395bf8b1b7ff
 - name: centos-6.5
   driver_config:
     image_id: 6856aaa1-4dc0-4d01-a2d4-aa9e42aba5bb
@@ -24,6 +25,9 @@ platforms:
 settings:
   parallel: true
   destroy: passing
+
+provisioner:
+  sudo: sudo
 
 suites:
 - name: default
