@@ -14,7 +14,7 @@ describe 'monit::repo' do
   context 'rhel' do
     let(:chef_run) { ChefSpec::Runner.new(:platform => 'centos', :version => '6.4').converge(described_recipe) }
 
-    it 'includes yum::epel' do
+    it 'includes yum-epel' do
       chef_run.should include_recipe 'yum-epel::default'
     end
   end
