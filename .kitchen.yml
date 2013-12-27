@@ -26,9 +26,6 @@ settings:
   parallel: true
   destroy: passing
 
-provisioner:
-  sudo: sudo
-
 suites:
 - name: default
   run_list: 
