@@ -31,13 +31,12 @@ template node['monit']['conf_file'] do
   notifies :reload, "service[monit]", :delayed
 end
 
-if platform?("ubuntu") && node['platform_version'] =~ /^10/
-  template '/etc/default/monit' do
-    source 'monit.default.erb'
-    owner 'root'
-    group 'root'
-    mode '0600'
-  end
+template '/etc/default/monit' do
+  source 'monit.default.erb'
+  owner 'root'
+  group 'root'
+  mode '0600'
+  only_if { platform?("ubuntu") && node['platform_version'] =~ /^10/ }
 end
 
 service "monit" do
