@@ -3,10 +3,13 @@
 # Recipe:: source
 #
 
-monit_url = node['monit']['source']['url'] ||
-  "https://mmonit.com/monit/dist/monit-#{node['monit']['source']['version']}.tar.gz"
+config = node['monit']['source']
+monit_bin = "#{config['prefix']}/bin/monit"
 
-src_filepath = "#{Chef::Config['file_cache_path'] || '/tmp'}/monit-#{node['monit']['source']['version']}.tar.gz"
+monit_url = config['url'] ||
+  "https://mmonit.com/monit/dist/monit-#{config['version']}.tar.gz"
+
+src_filepath = "#{Chef::Config['file_cache_path'] || '/tmp'}/monit-#{config['version']}.tar.gz"
 
 include_recipe "apt" if platform_family?("debian")
 include_recipe "build-essential"
@@ -30,28 +33,36 @@ end
 
 remote_file monit_url do
   source monit_url
-  checksum node['monit']['source']['checksum']
+  checksum config['checksum']
   path src_filepath
   backup false
 end
 
-opts = "--prefix=#{node['monit']['source']['prefix']}"
+opts = "--prefix=#{config['prefix']}"
 
 # handles case for a now-fixed multi-arch bug in monit < 5.6
-if platform_family?("debian") && node['monit']['source']['version'].to_f < 5.6
+if platform_family?("debian") && config['version'].to_f < 5.6
   opts += " --with-ssl-lib-dir=/usr/lib/#{node['kernel']['machine']}-linux-gnu"
+end
+
+bash "extract_source" do
+  cwd ::File.dirname(src_filepath)
+  code <<-EOH
+    tar xzf #{::File.basename(src_filepath)} -C #{::File.dirname(src_filepath)}
+  EOH
+  not_if { ::File.directory?("#{File.dirname(src_filepath)}/monit-#{config['version']}") }
 end
 
 bash "compile_monit_source" do
   cwd ::File.dirname(src_filepath)
   code <<-EOH
-    tar xzf #{::File.basename(src_filepath)} -C #{::File.dirname(src_filepath)} &&
-    cd monit-#{node['monit']['source']['version']} &&
+    cd monit-#{config['version']} &&
     ./configure #{opts} && make && make install
   EOH
 
   not_if do
-    # TODO: Stop recompiling on every converge
+    ::File.executable?(monit_bin) &&
+    Mixlib::ShellOut.new(monit_bin, "-V").run_command.stdout.match(Regexp.new("#{config['version']}$"))
   end
   notifies :restart, "service[monit]"
 end
