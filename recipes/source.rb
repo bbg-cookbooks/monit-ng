@@ -3,14 +3,9 @@
 # Recipe:: source
 #
 
-config = node['monit']['source']
-monit_bin = "#{config['prefix']}/bin/monit"
+source = node['monit']['source']
 
-monit_url = config['url'] ||
-  "https://mmonit.com/monit/dist/monit-#{config['version']}.tar.gz"
-
-src_filepath = "#{Chef::Config['file_cache_path'] || '/tmp'}/monit-#{config['version']}.tar.gz"
-
+# Setup/install build dependencies
 include_recipe "apt" if platform_family?("debian")
 include_recipe "build-essential"
 
@@ -31,42 +26,52 @@ directory node['monit']['conf_dir'] do
   recursive true
 end
 
-remote_file monit_url do
-  source monit_url
-  checksum config['checksum']
-  path src_filepath
+# Download source package
+source_url = "#{source['url']}/monit-#{source['version']}.tar.gz"
+download_path = "#{Chef::Config['file_cache_path'] || '/tmp'}"
+source_file_path = "#{download_path}/monit-#{source['version']}.tar.gz"
+build_root = "#{download_path}/monit-#{source['version']}"
+
+remote_file "source_archive" do
+  source source_url
+  checksum source['checksum']
+  path source_file_path
   backup false
 end
 
-opts = "--prefix=#{config['prefix']}"
+# Build source package
+bash "extract_source_archive" do
+  cwd download_path
+  code <<-EOC
+    tar xzf #{::File.basename(source_file_path)} -C #{download_path}
+  EOC
+  not_if { ::File.directory?("#{build_root}") }
+end
+
+monit_bin = "#{source['prefix']}/bin/monit"
+
+ver_reg = Regexp.new("#{source['version']}$")
+
+opts = "--prefix=#{source['prefix']}"
 
 # handles case for a now-fixed multi-arch bug in monit < 5.6
-if platform_family?("debian") && config['version'].to_f < 5.6
+if platform_family?("debian") && source['version'].to_f < 5.6
   opts += " --with-ssl-lib-dir=/usr/lib/#{node['kernel']['machine']}-linux-gnu"
 end
 
-bash "extract_source" do
-  cwd ::File.dirname(src_filepath)
-  code <<-EOH
-    tar xzf #{::File.basename(src_filepath)} -C #{::File.dirname(src_filepath)}
-  EOH
-  not_if { ::File.directory?("#{File.dirname(src_filepath)}/monit-#{config['version']}") }
-end
-
-bash "compile_monit_source" do
-  cwd ::File.dirname(src_filepath)
-  code <<-EOH
-    cd monit-#{config['version']} &&
+bash "compile_source" do
+  cwd build_root
+  code <<-EOC
     ./configure #{opts} && make && make install
-  EOH
-
+  EOC
+  notifies :restart, "service[monit]", :delayed
   not_if do
     ::File.executable?(monit_bin) &&
-    Mixlib::ShellOut.new(monit_bin, "-V").run_command.stdout.match(Regexp.new("#{config['version']}$"))
+    Mixlib::ShellOut.new(monit_bin, "-V").run_command.stdout.match(ver_reg)
   end
-  notifies :restart, "service[monit]"
 end
 
+# Configure service
 template '/etc/init.d/monit' do
   source 'monit.init.erb'
   owner  'root'
@@ -74,8 +79,8 @@ template '/etc/init.d/monit' do
   mode   '0755'
   variables({
     :platform_family => node['platform_family'],
-    :prefix => node['monit']['source']['prefix'],
-    :config => node['monit']['conf_file']
+    :binary => monit_bin,
+    :conf_file => node['monit']['conf_file']
   })
 end
 

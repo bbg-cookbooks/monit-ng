@@ -19,8 +19,8 @@
 #### END INIT INFO
 <% end %>
 
-MONIT=<%= "#{@prefix}/bin/monit" %>
-CONFIG=<%= @config %>
+MONIT=<%= @binary %>
+CONFIG=<%= @conf_file %>
 PID=/var/run/monit.pid
 
 [ -f $MONIT ] || exit 0
