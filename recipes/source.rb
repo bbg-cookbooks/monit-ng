@@ -83,5 +83,3 @@ template '/etc/init.d/monit' do
     :conf_file => node['monit']['conf_file']
   })
 end
-
-include_recipe "monit::config"

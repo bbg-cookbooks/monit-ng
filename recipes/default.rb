@@ -11,3 +11,5 @@ when 'source'
 else
   raise ArgumentError, "Unknown install_method passed to cookbook: #{node['monit']['install_method']}"
 end
+
+include_recipe "monit::config"
