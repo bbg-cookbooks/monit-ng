@@ -3,25 +3,26 @@ def whyrun_supported?
 end
 
 def render_rc
-  rc_path = "#{node['monit']['conf_dir']}/#{new_resource.name}.conf"
+  monit_d = "#{node['monit']['conf_dir']}/#{new_resource.name}.conf"
 
-  template rc_path do
-    cookbook 'monit'
+  template monit_d do
+    cookbook new_resource.cookbook
     source 'monit.d.erb'
-    cookbook 'monit'
     owner 'root'
     group 'root'
     mode '0600'
-    variables :name => new_resource.name,
-              :service_type => new_resource.service_type,
-              :id_type => new_resource.service_type_id,
-              :service_id => new_resource.service_id,
-              :service_group => new_resource.service_group,
-              :start_command => new_resource.start_command,
-              :start_as => new_resource.start_as,
-              :stop_command => new_resource.stop_command,
-              :service_tests => new_resource.service_tests,
-              :every => new_resource.every
+    variables({ 
+      :name => new_resource.name,
+      :check_type => new_resource.check_type,
+      :id_type => new_resource.id_type,
+      :check_id => new_resource.service_id,
+      :group => new_resource.group,
+      :start => new_resource.start,
+      :start_as => new_resource.start_as,
+      :stop => new_resource.stop,
+      :tests => new_resource.tests,
+      :every => new_resource.every,
+    })
     action :create
     notifies :reload, "service[monit]", :delayed
   end
@@ -33,7 +34,7 @@ action :install do
 end
 
 action :remove do
-  file "#{node['monit']['conf_dir']}/#{new_resource.name}" do
+  file "#{node['monit']['conf_dir']}/#{new_resource.name}.conf" do
     action :delete
     notifies :reload, "service[monit]", :delayed
   end

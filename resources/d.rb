@@ -1,7 +1,7 @@
 actions :install, :remove
 default_action :install
 
-VALID_SERVICE_IDS =
+VALID_CHECK_IDS =
   {
     'process' => "pidfile",
     'procmatch' => "matching",
@@ -16,23 +16,17 @@ VALID_SERVICE_IDS =
 
 attribute :name, :kind_of => String, :name_attribute => true
 attribute :cookbook, :kind_of => String, :default => "monit"
-attribute :service_type, :kind_of => String, :default => "process", \
-  :equal_to => ["process",
-                "file",
-                "fifo",
-                "filesystem",
-                "directory",
-                "host",
-                "system",
-                "program"]
-attribute :service_id, :kind_of => String, :required => true, :default => nil
-attribute :service_type_id, :kind_of => String, :default => VALID_SERVICE_IDS[:service_id]
+attribute :check_type, :kind_of => String, :default => "process",
+  :equal_to => %w{ process file fifo filesystem directory host system program }
+attribute :check_id, :kind_of => String, :required => true, :default => nil
+attribute :id_type, :kind_of => String, :default => VALID_CHECK_IDS[:check_id]
 attribute :start_as, :kind_of => String, :default => nil
-attribute :start_command, :kind_of => String, :default => nil
-attribute :stop_command, :kind_of => String, :default => nil
-attribute :service_group, :kind_of => String, :default => "system"
-attribute :service_tests, :kind_of => Array, :default => []
+attribute :start, :kind_of => String, :default => nil
+attribute :stop, :kind_of => String, :default => nil
+attribute :group, :kind_of => String, :default => "system"
+attribute :tests, :kind_of => Array, :default => []
 attribute :every, :kind_of => String, :default => nil
+
 def initialize(*args)
   super
   @action = :install

@@ -3,6 +3,9 @@ check <%= @service_type %> <%= @name %>
 <% if @id_type %>
   with <%= @id_type %> <%= @service_id %>
 <% end %>
+<% if @every %>
+  every <%= @every %>
+<% end %>
 <% if @service_group %>
   group <%= @service_group %>
 <% end %>
@@ -16,9 +19,6 @@ check <%= @service_type %> <%= @name %>
   stop "<%= @stop_command %>"
 <% end %>
 <% @service_tests.each do |service_test| %>
-  <%= service_test['condition'] %>
+  if <%= service_test['condition'] %>
     then <%= service_test['action'] %>
-<% end %>
-<% if @every %>
-  every <%= @every %>
 <% end %>
