@@ -8,6 +8,9 @@ driver_config:
   require_chef_omnibus: true
 
 platforms:
+- name: ubuntu-10.04
+  driver_config:
+    image_id: 1122f957-9d75-436c-af02-a430b0ee980b
 - name: ubuntu-12.04
   driver_config:
     image_id: 90cb3e60-73ba-4bbd-a3aa-19e8bd1e1db0
