@@ -7,7 +7,7 @@ def render_rc
 
   template monit_check do
     cookbook new_resource.cookbook
-    source 'monit.d.erb'
+    source 'monit.check.erb'
     owner 'root'
     group 'root'
     mode '0600'
