@@ -24,7 +24,7 @@ platforms:
 
 settings:
   parallel: true
-  destroy: passing
+  destroy: always
 
 suites:
 - name: default
