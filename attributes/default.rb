@@ -1,5 +1,6 @@
 
 default['monit']['install_method'] = "repo"
+default['monit']['configure'] = true
 
 case node['platform_family']
 when "debian"

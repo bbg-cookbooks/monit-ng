@@ -3,19 +3,29 @@ require_relative '../spec_helper'
 describe 'monit::repo' do
   let(:chef_run) { ChefSpec::Runner.new.converge(described_recipe) }
 
-  context 'ubuntu' do
-    let(:chef_run) { ChefSpec::Runner.new(:platform => 'ubuntu', :version => '12.04').converge(described_recipe) }
+  context 'rhel' do
+    let(:chef_run) do
+      ChefSpec::Runner.new(:platform => 'centos', :version => '6.4')
+      .converge(described_recipe)
+    end
 
-    it 'includes the ubuntu recipe' do
-      chef_run.should include_recipe 'ubuntu::default'
+    it 'includes yum-epel' do
+      expect(chef_run).to include_recipe 'yum-epel::default'
     end
   end
 
-  context 'rhel' do
-    let(:chef_run) { ChefSpec::Runner.new(:platform => 'centos', :version => '6.4').converge(described_recipe) }
+  context 'ubuntu' do
+    let(:chef_run) do
+      ChefSpec::Runner.new(:platform => 'ubuntu', :version => '12.04')
+      .converge(described_recipe)
+    end
 
-    it 'includes yum-epel' do
-      chef_run.should include_recipe 'yum-epel::default'
+    it 'includes the apt recipe' do
+      expect(chef_run).to include_recipe 'apt::default'
+    end
+
+    it 'includes the ubuntu recipe' do
+      expect(chef_run).to include_recipe 'ubuntu::default'
     end
   end
 
