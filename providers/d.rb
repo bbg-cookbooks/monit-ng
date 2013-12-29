@@ -15,7 +15,7 @@ def render_rc
       :name => new_resource.name,
       :check_type => new_resource.check_type,
       :id_type => new_resource.id_type,
-      :check_id => new_resource.service_id,
+      :check_id => new_resource.check_id,
       :group => new_resource.group,
       :start => new_resource.start,
       :start_as => new_resource.start_as,

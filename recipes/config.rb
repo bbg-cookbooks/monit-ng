@@ -38,9 +38,3 @@ template '/etc/default/monit' do
   mode '0600'
   only_if { platform?("ubuntu") && node['platform_version'] =~ /^10/ }
 end
-
-service "monit" do
-  service_name "monit"
-  supports :status => true, :restart => true, :reload => true, :stop => true
-  action [ :enable, :start ]
-end

@@ -64,7 +64,6 @@ bash "compile_source" do
   code <<-EOC
     ./configure #{opts} && make && make install
   EOC
-  notifies :restart, "service[monit]", :delayed
   not_if do
     ::File.executable?(monit_bin) &&
     Mixlib::ShellOut.new(monit_bin, "-V").run_command.stdout.match(ver_reg)

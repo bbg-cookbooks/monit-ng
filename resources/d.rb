@@ -1,6 +1,7 @@
 actions :install, :remove
 default_action :install
 
+# Reference for validation
 VALID_CHECK_IDS =
   {
     'process' => "pidfile",
@@ -19,7 +20,7 @@ attribute :cookbook, :kind_of => String, :default => "monit"
 attribute :check_type, :kind_of => String, :default => "process",
   :equal_to => %w{ process file fifo filesystem directory host system program }
 attribute :check_id, :kind_of => String, :required => true, :default => nil
-attribute :id_type, :kind_of => String, :default => VALID_CHECK_IDS[:check_id]
+attribute :id_type, :kind_of => String, :default => 'pidfile'
 attribute :start_as, :kind_of => String, :default => nil
 attribute :start, :kind_of => String, :default => nil
 attribute :stop, :kind_of => String, :default => nil
