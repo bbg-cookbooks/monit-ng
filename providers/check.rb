@@ -3,9 +3,9 @@ def whyrun_supported?
 end
 
 def render_rc
-  monit_d = "#{node['monit']['conf_dir']}/#{new_resource.name}.conf"
+  monit_check = "#{node['monit']['conf_dir']}/#{new_resource.name}.conf"
 
-  template monit_d do
+  template monit_check do
     cookbook new_resource.cookbook
     source 'monit.d.erb'
     owner 'root'
