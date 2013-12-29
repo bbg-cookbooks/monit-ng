@@ -1,3 +1,7 @@
+#
+# Cookbook Name: monit
+# Attributes: default
+#
 
 default['monit']['install_method'] = "repo"
 default['monit']['configure'] = true

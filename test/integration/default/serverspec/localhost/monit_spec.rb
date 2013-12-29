@@ -1,13 +1,16 @@
 require 'spec_helper'
 
+# Enabled
 describe service('monit') do
   it { should be_enabled }
 end
 
-describe command('monit status') do
-  its(:stdout) { should match /uptime/ }
+# Running
+describe command('pgrep -f monit') do
+  it { should return_exit_status 0 }
 end
 
+# Listening
 describe port('2812') do
   it { should be_listening }
 end

@@ -1,3 +1,7 @@
+#
+# Cookbook Name: monit
+# Attributes: source
+#
 
 include_attribute "monit::default"
 
