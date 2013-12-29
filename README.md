@@ -36,7 +36,32 @@ default_attributes(
 
 #### LWRP
 
-Examples of the LWRP resource:
+Attributes
+----------
+  TODO
+
+Examples
+--------
+
+##### External Service Check
+
+```ruby
+monit_check 'facebook_api' do
+  check_type  "host"
+  check_id    "api.facebook.com"
+  group       "external"
+  tests [
+    {
+      'condition' => "failed port 80 proto http",
+      'action' => "alert"
+    },
+    {
+      'condition' => "failed port 443 type tcpSSL proto http",
+      'action' => "alert"
+    },
+  ]
+end
+```
 
 ##### SSHD
 
@@ -185,26 +210,3 @@ monit_check 'mongo' do
   ]
 end
 ```
-
-##### External Service Check
-
-```ruby
-monit_check 'facebook_api' do
-  check_type  "host"
-  check_id    "api.facebook.com"
-  group       "external"
-  tests [
-    {
-      'condition' => "failed port 80 proto http",
-      'action' => "alert"
-    },
-    {
-      'condition' => "failed port 443 type tcpSSL proto http",
-      'action' => "alert"
-    },
-  ]
-end
-```
-
-#### LWRP Attributes
-  TODO
