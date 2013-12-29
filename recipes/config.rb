@@ -21,7 +21,6 @@ template '/etc/default/monit' do
   group 'root'
   mode '0600'
   only_if { platform?("ubuntu") && node['platform_version'] =~ /^10/ }
-  notifies :restart, "service[monit]", :delayed
 end
 
 template monit['conf_file'] do
@@ -53,6 +52,7 @@ end
 
 service 'monit' do
   service_name "monit"
-  supports :status => true, :restart => true, :reload => true
+  status_command "/etc/init.d/monit status | grep -q uptime"
+  supports :restart => true, :reload => true, :status => true
   action [ :enable, :start ]
 end
