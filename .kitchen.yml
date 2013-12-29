@@ -24,10 +24,12 @@ settings:
 
 suites:
 - name: default
-  run_list: 
-  - recipe[monit]
+  run_list:
+  - recipe[monit::default]
+  - recipe[monit::sshd]
   attributes: {}
 - name: source
   run_list:
-  - recipe[monit]
+  - recipe[monit::default]
+  - recipe[monit::sshd]
   attributes: { monit: { install_method: "source" } }
