@@ -12,4 +12,10 @@ else
   raise ArgumentError, "Unknown install_method passed to cookbook: #{node['monit']['install_method']}"
 end
 
+service "monit" do
+  service_name "monit"
+  supports :status => true, :restart => true, :reload => true, :stop => true
+  action [ :enable, :start ]
+end
+
 include_recipe "monit::config"

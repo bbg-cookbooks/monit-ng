@@ -64,7 +64,6 @@ bash "compile_source" do
   code <<-EOC
     ./configure #{opts} && make && make install
   EOC
-  notifies :restart, "service[monit]", :delayed
   not_if do
     ::File.executable?(monit_bin) &&
     Mixlib::ShellOut.new(monit_bin, "-V").run_command.stdout.match(ver_reg)
@@ -80,6 +79,6 @@ template '/etc/init.d/monit' do
   variables({
     :platform_family => node['platform_family'],
     :binary => monit_bin,
-    :conf_file => node['monit']['conf_file']
+    :conf_file => node['monit']['conf_file'],
   })
 end

@@ -22,8 +22,4 @@ describe 'monit::repo' do
   it 'installs monit' do
     expect(chef_run).to install_package('monit')
   end
-
-  it 'includes monit::config' do
-    expect(chef_run).to include_recipe 'monit::config'
-  end
 end
