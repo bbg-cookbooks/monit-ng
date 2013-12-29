@@ -21,6 +21,7 @@ template '/etc/default/monit' do
   group 'root'
   mode '0600'
   only_if { platform?("ubuntu") && node['platform_version'] =~ /^10/ }
+  notifies :restart, "service[monit]", :delayed
 end
 
 template monit['conf_file'] do
