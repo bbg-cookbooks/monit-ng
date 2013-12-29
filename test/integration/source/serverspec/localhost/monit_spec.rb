@@ -2,7 +2,10 @@ require 'spec_helper'
 
 describe service('monit') do
   it { should be_enabled }
-  it { should be_running }
+end
+
+describe command('monit status') do
+  its(:stdout) { should match /uptime/ }
 end
 
 describe port('2812') do
