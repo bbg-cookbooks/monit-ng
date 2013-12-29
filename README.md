@@ -15,7 +15,7 @@ Attributes
 - `node['monit']['config']['mmonit_host']` - controls the M/Monit server
 - and more!
 
-Check attributes/default.rb for the full list.
+Check attributes for the full list.
 
 Usage
 -----
@@ -34,9 +34,6 @@ default_attributes(
 )
 ```
 
-#### Defaults
-
-
 #### LWRP
 
 Examples of the LWRP resource:
@@ -45,16 +42,19 @@ Examples of the LWRP resource:
 
 ```ruby
 monit_d 'sshd' do
-  service_type "process"
-  service_id "/var/run/sshd.pid"
-  service_group "sshd"
-  start_command "/etc/init.d/ssh start"
-  stop_command "/etc/init.d/ssh stop"
-  service_tests [
-    {'condition' => "if failed port 22 proto ssh for 3 cycles",
-     'action' => "restart"},
-    {'condition' => "if 3 restarts within 5 cycles",
-     'action' => "alert"},
+  check_id  "/var/run/sshd.pid"
+  group     "system"
+  start     "service ssh start"
+  stop      "service ssh stop"
+  tests [
+    {
+      'condition' => "failed port 22 proto ssh for 3 cycles",
+      'action'    => "restart"
+    },
+    {
+      'condition' => "3 restarts within 5 cycles",
+      'action'    => "alert"
+    },
   ]
 end
 ```
@@ -63,16 +63,19 @@ end
 
 ```ruby
 monit_d 'postfix' do
-  service_type "process"
-  service_id "/var/spool/postfix/pid/master.pid"
-  service_group "mail"
-  start_command "/etc/init.d/postfix start"
-  stop_command "/etc/init.d/postfix stop"
-  service_tests [
-    {'condition' => "if failed host 127.0.0.1 port 25 type tcp protocol smtp with timeout 15 seconds",
-     'action' => "restart"},
-    {'condition' => "if 3 restarts within 5 cycles",
-     'action' => "alert"},
+  check_id  "/var/spool/postfix/pid/master.pid"
+  group     "system"
+  start     "service postfix start"
+  stop      "service postfix stop"
+  tests [
+    {
+      'condition' => "failed port 25 proto smtp",
+      'action'    => "restart"
+    },
+    {
+      'condition' => "3 restarts within 5 cycles",
+      'action'    => "alert"
+    },
   ]
 end
 ```
@@ -81,38 +84,19 @@ end
 
 ```ruby
 monit_d 'nginx' do
-  service_type "process"
-  service_id "/var/run/nginx.pid"
-  service_group "app"
-  start_command "/etc/init.d/nginx start"
-  stop_command "/etc/init.d/nginx stop"
-  service_tests [
-    {'condition' => "if failed port 80 proto http", 'action' => "restart"},
-    {'condition' => "if 3 restarts within 5 cycles", 'action' => "alert"}
-  ]
-end
-```
-
-##### Unicorn 
-
-```ruby
-monit_d 'unicorn' do
-  service_type "process"
-  service_id "#{node.site.docroot}/shared/pids/unicorn.pid"
-  service_group "app"
-  start_command "/usr/bin/sudo -u #{node.site.app_user} /bin/bash -l -c '#{node.site.docroot}/current/bin/unicorn -c #{node.site.docroot}/current/config/unicorn.rb -E #{node.site.environment} -D'"
-  stop_command "/usr/bin/pkill -f unicorn"
-  service_tests [
-    {'condition' => "if failed port 80 type tcp proto http",
-     'action' => "restart"},
-    {'condition' => "if totalmem > 1200 MB for 2 cycles",
-     'action' => "alert"},
-    {'condition' => "if totalmem > 1500 MB for 2 cycles",
-     'action' => "restart"},
-    {'condition' => "if failed unixsocket #{node.unicorn.socket} for 2 cycles",
-     'action' => "restart"},
-    {'condition' => "if 5 restarts within 5 cycles",
-     'action' => "timeout"},
+  check_id  "/var/run/nginx.pid"
+  group     "app"
+  start     "service nginx start"
+  stop      "service nginx stop"
+  tests [
+    {
+      'condition' => "failed port 80 proto http",
+      'action' => "restart"
+    },
+    {
+      'condition' => "3 restarts within 5 cycles",
+      'action' => "alert"
+    }
   ]
 end
 ```
@@ -121,16 +105,19 @@ end
 
 ```ruby
 monit_d 'memcache' do
-  service_type "process"
-  service_id "/var/run/memcached.pid"
-  service_group "memcache"
-  start_command "/etc/init.d/memcached start"
-  stop_command "/etc/init.d/memcached stop"
-  service_tests [
-    {'condition' => "if failed port 11211 proto memcache 4 times within 5 cycles",
-     'action' => "restart"},
-    {'condition' => "if 3 restarts within 15 cycles",
-     'action' => "alert"},
+  check_id  "/var/run/memcached.pid"
+  group     "app"
+  start     "service memcached start"
+  stop      "service memcached stop"
+  tests [
+    {
+      'condition' => "failed port 11211 proto memcache",
+      'action' => "restart"
+    },
+    {
+      'condition' => "3 restarts within 15 cycles",
+      'action' => "alert"
+    },
   ]
 end
 ```
@@ -139,18 +126,21 @@ end
 
 ```ruby
 monit_d 'redis' do
-  service_type "process"
-  service_id "/var/run/redis/redis-server.pid"
-  service_group "database"
-  start_command "/etc/init.d/redis-server start"
-  stop_command "/etc/init.d/redis-server stop"
-  service_tests [
-    {'condition' => 'if failed host 127.0.0.1 port 6379 
+  check_id  "/var/run/redis/redis-server.pid"
+  group     "database"
+  start     "service redis-server start"
+  stop      "service redis-server stop"
+  tests [
+    {
+      'condition' => 'failed host 127.0.0.1 port 6379 
                      send "SET MONIT-TEST value\r\n" expect "OK" 
                      send "EXISTS MONIT-TEST\r\n" expect ":1"',
-     'action' => 'restart'},
-    {'condition' => 'if 3 restarts within 5 cycles',
-     'action' => 'alert'},
+      'action' => 'restart'
+    },
+    {
+      'condition' => '3 restarts within 5 cycles',
+      'action' => 'alert'
+    },
   ]
 end
 ```
@@ -158,20 +148,19 @@ end
 
 ```ruby
 monit_d 'solr' do
-  service_type "process"
-  service_id "/var/run/tomcat6.pid"
-  service_group "app"
-  start_command "/etc/init.d/tomcat6 start"
-  stop_command "/etc/init.d/tomcat6 stop"
-  service_tests [
+  check_id  "/var/run/tomcat6.pid"
+  group     "app"
+  start     "service tomcat6 start"
+  stop      "service tomcat6 stop"
+  tests [
     {
-     'condition' => 'if failed port 8080 proto http and request "/solr/admin/ping" for 2 cycles',
-     'action' => "restart"
+      'condition' => 'failed port 8080 proto http and request "/solr/admin/ping" for 2 cycles',
+      'action' => "restart"
     },
     {
-     'condition' => "if 3 restarts within 5 cycles",
-     'action' => "timeout"
-    }
+      'condition' => "3 restarts within 5 cycles",
+      'action' => "timeout"
+    },
   ]
 end
 ```
@@ -180,20 +169,19 @@ end
 
 ```ruby
 monit_d 'mongo' do
-  service_type "process"
-  service_id "#{node.mongodb.dbpath}/mongod.lock"
-  service_group "mongo"
-  start_command "/etc/init.d/mongodb start"
-  stop_command "/etc/init.d/mongodb stop"
-  service_tests [
+  check_id  "#{node.mongodb.dbpath}/mongod.lock"
+  group     "database"
+  start     "service mongodb start"
+  stop      "service mongodb stop"
+  tests [
     {
-     'condition' => "if failed port #{node.mongodb.port} proto http for 2 cycles",
-     'action' => "restart"
+      'condition' => "failed port #{node.mongodb.port} proto http for 2 cycles",
+      'action' => "restart"
     },
     {
-     'condition' => "if 3 restarts within 10 cycles",
-     'action' => "timeout"
-    }
+      'condition' => "if 3 restarts within 10 cycles",
+      'action' => "timeout"
+    },
   ]
 end
 ```
@@ -202,74 +190,21 @@ end
 
 ```ruby
 monit_d 'facebook_api' do
-  service_type "host"
-  service_id "api.facebook.com"
-  service_group "external"
-  service_tests [
-    {'condition' => "if failed port 80 proto http",
-     'action' => "alert"},
-    {'condition' => "if failed port 443 type tcpSSL proto http",
-     'action' => "alert"}
+  check_type  "host"
+  check_id    "api.facebook.com"
+  group       "external"
+  tests [
+    {
+      'condition' => "failed port 80 proto http",
+      'action' => "alert"
+    },
+    {
+      'condition' => "failed port 443 type tcpSSL proto http",
+      'action' => "alert"
+    },
   ]
 end
 ```
 
 #### LWRP Attributes
-<table>
-  <thead>
-    <tr>
-      <th>Attribute</th>
-      <th>Description</th>
-      <th>Example</th>
-      <th>Default</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <tr>
-      <td>name</td>
-      <td>name of the `/etc/monit.d` file</td>
-      <td><tt>nginx</tt></td>
-      <td>current resource name</td>
-    </tr>
-    <tr>
-      <td>service_type</td>
-      <td>type of monitoring</td>
-      <td><tt>process, host, file</tt></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>service_group</td>
-      <td>group related checks (e.g. nginx, unicorn are in the "app" group below)</td>
-      <td><tt>app, db</tt></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>start_command</td>
-      <td>command to start a process if performing a process check</td>
-      <td><tt>"/etc/init.d/nginx start"</tt></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>stop_command</td>
-      <td>command to stop a process if performing a process check</td>
-      <td><tt>"/etc/init.d/nginx stop"</tt></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td>service_tests</td>
-      <td>allows performing of monitoring tests on a wide variety of attributes</td>
-      <td><tt>
-             [{'condition' => "if failed port 80 type tcp proto http", 'action' => "restart"},
-              {'condition' => "if totalmem > 80% for 2 cycles", 'action' => "alert"}]
-          </tt>
-      </td>
-      <td></td>
-    </tr>
-  </tbody>
-</table>
-
-TODO
-----
-- allow more periodic checks (every)
-- add subscriber opt-in/opt-outs
+  TODO
