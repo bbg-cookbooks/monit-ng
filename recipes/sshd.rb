@@ -6,12 +6,12 @@
 case node['platform_family']
 when "rhel"
   sshd_pid = "/var/run/sshd.pid"
-  sshd_start = "service sshd start"
-  sshd_stop = "service sshd stop"
+  sshd_start = "/etc/init.d/sshd start"
+  sshd_stop = "/etc/init.d/sshd stop"
 when "debian"
   sshd_pid = "/var/run/sshd.pid"
-  sshd_start = "service ssh start"
-  sshd_stop = "service ssh stop"
+  sshd_start = "/etc/init.d/ssh start"
+  sshd_stop = "/etc/init.d/ssh stop"
 else
   sshd_pid = "/var/run/sshd.pid"
   sshd_start = "/etc/init.d/sshd start"

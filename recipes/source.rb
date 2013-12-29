@@ -18,21 +18,13 @@ build_deps.each do |build_dep|
   package build_dep
 end
 
-directory node['monit']['conf_dir'] do
-  owner "root"
-  group "root"
-  mode 0600
-  action :create
-  recursive true
-end
-
 # Download source package
 source_url = "#{source['url']}/monit-#{source['version']}.tar.gz"
 download_path = "#{Chef::Config['file_cache_path'] || '/tmp'}"
 source_file_path = "#{download_path}/monit-#{source['version']}.tar.gz"
 build_root = "#{download_path}/monit-#{source['version']}"
 
-remote_file "source_archive" do
+remote_file source_file_path do
   source source_url
   checksum source['checksum']
   path source_file_path
