@@ -3,8 +3,8 @@
 include_attribute "monit::default"
 
 default['monit']['config']['mmonit_url'] = nil
-default['monit']['config']['poll_freq'] = 90
-default['monit']['config']['start_delay'] = 10
+default['monit']['config']['poll_freq'] = 60
+default['monit']['config']['start_delay'] = 1
 default['monit']['config']['log_file'] = '/var/log/monit.log'
 default['monit']['config']['id_file'] = '/var/lib/monit.id'
 default['monit']['config']['state_file'] = '/var/run/monit.state'
