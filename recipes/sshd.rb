@@ -18,7 +18,7 @@ else
   sshd_stop = "/etc/init.d/sshd stop"
 end
 
-monit_d "sshd" do
+monit_check "sshd" do
   check_id sshd_pid
   start sshd_start
   stop sshd_stop

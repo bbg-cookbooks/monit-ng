@@ -41,7 +41,7 @@ Examples of the LWRP resource:
 ##### SSHD
 
 ```ruby
-monit_d 'sshd' do
+monit_check 'sshd' do
   check_id  "/var/run/sshd.pid"
   group     "system"
   start     "service ssh start"
@@ -62,7 +62,7 @@ end
 ##### Postfix
 
 ```ruby
-monit_d 'postfix' do
+monit_check 'postfix' do
   check_id  "/var/spool/postfix/pid/master.pid"
   group     "system"
   start     "service postfix start"
@@ -83,7 +83,7 @@ end
 ##### Nginx
 
 ```ruby
-monit_d 'nginx' do
+monit_check 'nginx' do
   check_id  "/var/run/nginx.pid"
   group     "app"
   start     "service nginx start"
@@ -104,7 +104,7 @@ end
 ##### Memcache
 
 ```ruby
-monit_d 'memcache' do
+monit_check 'memcache' do
   check_id  "/var/run/memcached.pid"
   group     "app"
   start     "service memcached start"
@@ -125,7 +125,7 @@ end
 ##### Redis
 
 ```ruby
-monit_d 'redis' do
+monit_check 'redis' do
   check_id  "/var/run/redis/redis-server.pid"
   group     "database"
   start     "service redis-server start"
@@ -147,7 +147,7 @@ end
 ##### Solr
 
 ```ruby
-monit_d 'solr' do
+monit_check 'solr' do
   check_id  "/var/run/tomcat6.pid"
   group     "app"
   start     "service tomcat6 start"
@@ -168,7 +168,7 @@ end
 ##### MongoDB
 
 ```ruby
-monit_d 'mongo' do
+monit_check 'mongo' do
   check_id  "#{node.mongodb.dbpath}/mongod.lock"
   group     "database"
   start     "service mongodb start"
@@ -189,7 +189,7 @@ end
 ##### External Service Check
 
 ```ruby
-monit_d 'facebook_api' do
+monit_check 'facebook_api' do
   check_type  "host"
   check_id    "api.facebook.com"
   group       "external"
