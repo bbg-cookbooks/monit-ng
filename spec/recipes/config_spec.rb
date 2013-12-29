@@ -17,7 +17,7 @@ describe 'monit::config' do
       expect(chef_run).to create_template('/etc/default/monit').with(
         owner: 'root',
         group: 'root',
-        mode: '0600'
+        mode: '0644'
       )
     end
   end
