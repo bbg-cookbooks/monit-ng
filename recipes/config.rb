@@ -19,7 +19,7 @@ template '/etc/default/monit' do
   source 'monit.default.erb'
   owner 'root'
   group 'root'
-  mode '0600'
+  mode '0644'
   only_if { platform?("ubuntu") && node['platform_version'] =~ /^10/ }
 end
 
