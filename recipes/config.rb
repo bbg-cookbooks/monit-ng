@@ -51,8 +51,9 @@ template monit['conf_file'] do
 end
 
 service 'monit' do
-  service_name "monit"
-  status_command "/etc/init.d/monit status | grep -q uptime"
+  if node['monit']['install_method'] == 'source'
+    status_command "/etc/init.d/monit status | grep -q uptime"
+  end
   supports :restart => true, :reload => true, :status => true
   action [ :enable, :start ]
 end
