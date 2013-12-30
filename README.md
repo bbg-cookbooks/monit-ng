@@ -6,13 +6,13 @@ Also exposes an LWRP for adding and managing additional monit control files.
 
 Attributes
 ----------
-- `node['monit']['config']['daemon']` - controls polling frequency
-- `node['monit']['config']['mailservers']` - specify mail servers to use
+- `node['monit']['config']['poll_freq']` - controls polling frequency
+- `node['monit']['config']['mail_servers']` - specify mail servers to use
 - `node['monit']['config']['subscribers']` - controls alert recipients
 - `node['monit']['config']['mail_from']` - controls alert email from address
 - `node['monit']['config']['mail_subject']` - controls alert email subject
 - `node['monit']['config']['mail_message']` - controls alert email message
-- `node['monit']['config']['mmonit_host']` - controls the M/Monit server
+- `node['monit']['config']['mmonit_url']` - controls the M/Monit server
 - and more!
 
 Check attributes for the full list.
@@ -25,9 +25,9 @@ default_attributes(
   'monit' => {
     'config' => {
       'poll_freq' => 30,
-      'subscribers' => ["root@localhost", "hostmaster@foo.net"],
-      'mmonit_host' => "http://user:pass@mmonit.foo.net:8080/collector",
-      'listen_allow' => ["localhost","mmonit.foo.net", "@users read-only"],
+      'subscribers' => %w{root@localhost hostmaster@foo.net},
+      'mmonit_url' => 'http://user:pass@mmonit.foo.net:8080/collector',
+      'allow' => %w{localhost mmonit.foo.net}
       }
     }
   }
@@ -53,11 +53,11 @@ monit_check 'facebook_api' do
   tests [
     {
       'condition' => "failed port 80 proto http",
-      'action' => "alert"
+      'action'    => "alert"
     },
     {
       'condition' => "failed port 443 type tcpSSL proto http",
-      'action' => "alert"
+      'action'    => "alert"
     },
   ]
 end
@@ -67,18 +67,18 @@ end
 
 ```ruby
 monit_check 'sshd' do
-  check_id  "/var/run/sshd.pid"
-  group     "system"
-  start     "service ssh start"
-  stop      "service ssh stop"
+  check_id  '/var/run/sshd.pid'
+  group     'system'
+  start     '/etc/init.d/ssh start'
+  stop      '/etc/init.d/ssh stop'
   tests [
     {
-      'condition' => "failed port 22 proto ssh for 3 cycles",
-      'action'    => "restart"
+      'condition' => "failed port #{node.openssh.server.port} proto ssh for 3 cycles",
+      'action'    => 'restart'
     },
     {
-      'condition' => "3 restarts within 5 cycles",
-      'action'    => "alert"
+      'condition' => '3 restarts within 5 cycles',
+      'action'    => 'alert'
     },
   ]
 end
@@ -88,18 +88,18 @@ end
 
 ```ruby
 monit_check 'postfix' do
-  check_id  "/var/spool/postfix/pid/master.pid"
-  group     "system"
-  start     "service postfix start"
-  stop      "service postfix stop"
+  check_id  '/var/spool/postfix/pid/master.pid'
+  group     'system'
+  start     '/etc/init.d/postfix start'
+  stop      '/etc/init.d/postfix stop'
   tests [
     {
-      'condition' => "failed port 25 proto smtp",
-      'action'    => "restart"
+      'condition' => 'failed port 25 proto smtp',
+      'action'    => 'restart'
     },
     {
-      'condition' => "3 restarts within 5 cycles",
-      'action'    => "alert"
+      'condition' => '3 restarts within 5 cycles',
+      'action'    => 'alert'
     },
   ]
 end
@@ -109,18 +109,18 @@ end
 
 ```ruby
 monit_check 'nginx' do
-  check_id  "/var/run/nginx.pid"
-  group     "app"
-  start     "service nginx start"
-  stop      "service nginx stop"
+  check_id  '/var/run/nginx.pid'
+  group     'app'
+  start     '/etc/init.d/nginx start'
+  stop      '/etc/init.d/nginx stop'
   tests [
     {
-      'condition' => "failed port 80 proto http",
-      'action' => "restart"
+      'condition' => 'failed port 80',
+      'action'    => 'restart'
     },
     {
-      'condition' => "3 restarts within 5 cycles",
-      'action' => "alert"
+      'condition' => '3 restarts within 5 cycles',
+      'action'    => 'alert'
     }
   ]
 end
@@ -130,18 +130,18 @@ end
 
 ```ruby
 monit_check 'memcache' do
-  check_id  "/var/run/memcached.pid"
-  group     "app"
-  start     "service memcached start"
-  stop      "service memcached stop"
+  check_id  '/var/run/memcached.pid'
+  group     'app'
+  start     '/etc/init.d/memcached start'
+  stop      '/etc/init.d/memcached stop'
   tests [
     {
-      'condition' => "failed port 11211 proto memcache",
-      'action' => "restart"
+      'condition' => 'failed port 11211 proto memcache',
+      'action'    => 'restart'
     },
     {
-      'condition' => "3 restarts within 15 cycles",
-      'action' => "alert"
+      'condition' => '3 restarts within 15 cycles',
+      'action'    => 'alert'
     },
   ]
 end
@@ -160,11 +160,11 @@ monit_check 'redis' do
       'condition' => 'failed host 127.0.0.1 port 6379 
                      send "SET MONIT-TEST value\r\n" expect "OK" 
                      send "EXISTS MONIT-TEST\r\n" expect ":1"',
-      'action' => 'restart'
+      'action'    => 'restart'
     },
     {
       'condition' => '3 restarts within 5 cycles',
-      'action' => 'alert'
+      'action'    => 'alert'
     },
   ]
 end
@@ -173,18 +173,18 @@ end
 
 ```ruby
 monit_check 'solr' do
-  check_id  "/var/run/tomcat6.pid"
-  group     "app"
-  start     "service tomcat6 start"
-  stop      "service tomcat6 stop"
+  check_id  '/var/run/tomcat6.pid'
+  group     'app'
+  start     '/etc/init.d/tomcat6 start'
+  stop      '/etc/init.d/tomcat6 stop'
   tests [
     {
       'condition' => 'failed port 8080 proto http and request "/solr/admin/ping" for 2 cycles',
-      'action' => "restart"
+      'action'    => 'restart'
     },
     {
-      'condition' => "3 restarts within 5 cycles",
-      'action' => "timeout"
+      'condition' => '3 restarts within 5 cycles',
+      'action'    => 'timeout'
     },
   ]
 end
@@ -195,17 +195,17 @@ end
 ```ruby
 monit_check 'mongo' do
   check_id  "#{node.mongodb.dbpath}/mongod.lock"
-  group     "database"
-  start     "service mongodb start"
-  stop      "service mongodb stop"
+  group     'database'
+  start     '/etc/init.d/mongodb start'
+  stop      '/etc/init.d/mongodb stop'
   tests [
     {
       'condition' => "failed port #{node.mongodb.port} proto http for 2 cycles",
-      'action' => "restart"
+      'action'    => 'restart with timeout 60 seconds'
     },
     {
-      'condition' => "if 3 restarts within 10 cycles",
-      'action' => "timeout"
+      'condition' => 'if 3 restarts within 10 cycles',
+      'action'    => 'timeout'
     },
   ]
 end
