@@ -6,12 +6,17 @@ describe 'monit::source' do
     .converge(described_recipe)
   end
 
+  let(:service) { chef_run.service('monit') }
+  let(:remote_file) { chef_run.remote_file('/var/chef/cache/monit-5.6.tar.gz') }
+  let(:extraction) { chef_run.execute('extract-source-archive') }
+  let(:compilation) { chef_run.execute('compile-source') }
+
   it 'includes the build-essential recipe' do
     expect(chef_run).to include_recipe('build-essential::default')
   end
 
-  it "installs build dependencies" do
-    %w{pam-devel openssl-devel flex bison gcc gcc-c++ make kernel-devel}.each do |dep|
+  %w{pam-devel openssl-devel flex bison gcc gcc-c++ make kernel-devel}.each do |dep|
+    it "installs build dependency: #{dep}" do
       expect(chef_run).to install_package(dep)
     end
   end
@@ -34,19 +39,27 @@ describe 'monit::source' do
       expect(chef_run).to include_recipe('build-essential::default')
     end
 
-    it "installs build dependencies" do
-      %w{libpam0g-dev libssl-dev autoconf flex bison build-essential}.each do |dep|
+    %w{libpam0g-dev libssl-dev autoconf flex bison build-essential}.each do |dep|
+      it "installs build dependency: #{dep}" do
         expect(chef_run).to install_package(dep)
       end
     end
   end
 
+  it 'skips extraction by default' do
+    expect(chef_run).to_not run_execute('extract-source-archive')
+  end
+
   it 'extracts the source archive' do
-    expect(chef_run).to run_execute('extract-source-archive')
+    expect(remote_file).to notify('execute[extract-source-archive]').to(:run)
+  end
+
+  it 'skips compilation by default' do
+    expect(chef_run).to_not run_execute('compile-source')
   end
 
   it 'compiles the sources' do
-    expect(chef_run).to run_execute('compile-source')
+    expect(extraction).to notify('execute[compile-source]').to(:run)
   end
 
   it 'creates the init script' do

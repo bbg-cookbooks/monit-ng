@@ -34,7 +34,7 @@ remote_file source_file_path do
   checksum source['checksum']
   path source_file_path
   backup false
-  notifies :run, "execute[extract-source-archive]"
+  notifies :run, "execute[extract-source-archive]", :immediately
 end
 
 # Build source package
@@ -50,8 +50,8 @@ execute "extract-source-archive" do
   command <<-EOC
     tar xzf #{::File.basename(source_file_path)} -C #{download_path}
   EOC
-  notifies :run, "execute[compile-source]"
-  not_if { ::File.directory?(build_root) }
+  action :nothing
+  notifies :run, "execute[compile-source]", :immediately
 end
 
 execute "compile-source" do
@@ -59,10 +59,7 @@ execute "compile-source" do
   command <<-EOC
     ./configure #{opts} && make && make install
   EOC
-  not_if do
-    ::File.executable?(monit_bin) &&
-    Mixlib::ShellOut.new(monit_bin, "-V").run_command.stdout.match(ver_reg)
-  end
+  action :nothing
 end
 
 template '/etc/init.d/monit' do
