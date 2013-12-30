@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'monit::config' do
-  let (:chef_run) { ChefSpec::Runner.new.converge(described_recipe) }
-  let (:global_conf) { chef_run.template('/etc/monitrc') }
+  let(:chef_run) { ChefSpec::Runner.new.converge(described_recipe) }
+  let(:global_conf) { chef_run.template('/etc/monitrc') }
 
   context 'rhel' do
     let(:chef_run) do

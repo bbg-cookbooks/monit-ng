@@ -6,12 +6,14 @@
 source = node['monit']['source']
 
 # Setup/install build dependencies
-include_recipe "apt" if platform_family?("debian")
-include_recipe "build-essential"
+include_recipe 'apt' if platform_family?('debian')
+include_recipe 'build-essential'
 
 build_deps = value_for_platform(
-  ["centos","redhat","fedora","scientific"] => {'default' => ['pam-devel','openssl-devel']},
-   "default" => ['libpam0g-dev','libssl-dev']
+  %w{centos redhat fedora scientific} => {
+    'default' => %w{pam-devel openssl-devel}
+  },
+  'default' => %w{libpam0g-dev libssl-dev}
 )
 
 build_deps.each do |build_dep|
@@ -25,7 +27,7 @@ download_path = Chef::Config['file_cache_path'] || '/tmp'
 source_file_path = "#{download_path}/monit-#{source['version']}.tar.gz"
 build_root = "#{download_path}/monit-#{source['version']}"
 opts = "--prefix=#{source['prefix']}"
-if platform_family?("debian") && source['version'].to_f < 5.6
+if platform_family?('debian') && source['version'].to_f < 5.6
   opts += " --with-ssl-lib-dir=/usr/lib/#{node['kernel']['machine']}-linux-gnu"
 end
 
@@ -34,27 +36,26 @@ remote_file source_file_path do
   checksum source['checksum']
   path source_file_path
   backup false
-  notifies :run, "execute[extract-source-archive]", :immediately
+  notifies :run, 'execute[extract-source-archive]', :immediately
 end
 
 # Build source package
-ver_reg = Regexp.new("#{source['version']}$")
 monit_bin = "#{source['prefix']}/bin/monit"
 opts = "--prefix=#{source['prefix']}"
-if platform_family?("debian") && source['version'].to_f < 5.6
+if platform_family?('debian') && source['version'].to_f < 5.6
   opts += " --with-ssl-lib-dir=/usr/lib/#{node['kernel']['machine']}-linux-gnu"
 end
 
-execute "extract-source-archive" do
+execute 'extract-source-archive' do
   cwd download_path
   command <<-EOC
     tar xzf #{::File.basename(source_file_path)} -C #{download_path}
   EOC
   action :nothing
-  notifies :run, "execute[compile-source]", :immediately
+  notifies :run, 'execute[compile-source]', :immediately
 end
 
-execute "compile-source" do
+execute 'compile-source' do
   cwd build_root
   command <<-EOC
     ./configure #{opts} && make && make install
@@ -67,9 +68,9 @@ template '/etc/init.d/monit' do
   owner  'root'
   group  'root'
   mode   '0755'
-  variables({
+  variables(
     :platform_family => node['platform_family'],
-    :binary => monit_bin,
-    :conf_file => node['monit']['conf_file'],
-  })
+    :binary          => monit_bin,
+    :conf_file       => node['monit']['conf_file'],
+  )
 end

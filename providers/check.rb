@@ -11,7 +11,7 @@ action :install do
     owner 'root'
     group 'root'
     mode '0600'
-    variables({ 
+    variables(
       :name => new_resource.name,
       :check_type => new_resource.check_type,
       :id_type => new_resource.id_type,
@@ -22,10 +22,10 @@ action :install do
       :stop => new_resource.stop,
       :tests => new_resource.tests,
       :every => new_resource.every,
-    })  
+    )
     action :create
-    notifies :restart, "service[monit]", :delayed
-  end 
+    notifies :restart, 'service[monit]', :delayed
+  end
 
   new_resource.updated_by_last_action(true) if resource.updated_by_last_action?
 end
@@ -33,7 +33,7 @@ end
 action :remove do
   resource = file "#{node['monit']['conf_dir']}/#{new_resource.name}.conf" do
     action :delete
-    notifies :reload, "service[monit]", :immediately
+    notifies :reload, 'service[monit]', :immediately
   end
 
   new_resource.updated_by_last_action(true) if resource.updated_by_last_action?

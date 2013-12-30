@@ -15,13 +15,13 @@ directory monit['conf_dir'] do
 end
 
 # Exists in older Debian/Ubuntu platforms
-# and disables monit starting by default 
+# and disables monit starting by default
 template '/etc/default/monit' do
   source 'monit.default.erb'
   owner 'root'
   group 'root'
   mode '0644'
-  only_if { platform_family?("debian") && ::File.exist?("/etc/default/monit") }
+  only_if { platform_family?('debian') && ::File.exist?('/etc/default/monit') }
 end
 
 template monit['conf_file'] do
@@ -29,7 +29,7 @@ template monit['conf_file'] do
   owner 'root'
   group 'root'
   mode '0600'
-  variables({
+  variables(
     :poll_freq => config['poll_freq'],
     :start_delay => config['start_delay'],
     :log_file => config['log_file'],
@@ -47,21 +47,21 @@ template monit['conf_file'] do
     :mail_msg => config['mail_message'],
     :mmonit_url => config['mmonit_url'],
     :conf_dir => monit['conf_dir'],
-  })
-  notifies :restart, "service[monit]", :delayed
+  )
+  notifies :restart, 'service[monit]', :delayed
 end
 
 service 'monit' do
   case monit['install_method']
   when 'source'
-    status_command "/etc/init.d/monit status | grep -q uptime"
+    status_command '/etc/init.d/monit status | grep -q uptime'
     supports :reload => true, :status => true, :restart => true
   when 'repo'
-    if platform_family?("debian") && ::File.exist?("/etc/default/monit")
-      subscribes :restart, "template[/etc/default/monit]", :immediately
+    if platform_family?('debian') && ::File.exist?('/etc/default/monit')
+      subscribes :restart, 'template[/etc/default/monit]', :immediately
     else
       supports :reload => true, :status => true, :restart => true
     end
   end
-  action [:enable, :start] 
+  action [:enable, :start]
 end

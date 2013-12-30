@@ -7,7 +7,9 @@ describe 'monit::source' do
   end
 
   let(:service) { chef_run.service('monit') }
-  let(:remote_file) { chef_run.remote_file('/var/chef/cache/monit-5.6.tar.gz') }
+  let(:remote_file) do
+    chef_run.remote_file('/var/chef/cache/monit-5.6.tar.gz')
+  end
   let(:extraction) { chef_run.execute('extract-source-archive') }
   let(:compilation) { chef_run.execute('compile-source') }
 
@@ -15,18 +17,18 @@ describe 'monit::source' do
     expect(chef_run).to include_recipe('build-essential::default')
   end
 
-  %w{pam-devel openssl-devel flex bison gcc gcc-c++ make kernel-devel}.each do |dep|
+  %w{pam-devel openssl-devel flex bison gcc gcc-c++ make}.each do |dep|
     it "installs build dependency: #{dep}" do
       expect(chef_run).to install_package(dep)
     end
   end
 
-  it "downloads the source archive" do
+  it 'downloads the source archive' do
     expect(chef_run).to create_remote_file('/var/chef/cache/monit-5.6.tar.gz')
   end
 
   context 'ubuntu' do
-    let (:chef_run) do
+    let(:chef_run) do
       ChefSpec::Runner.new(:platform => 'ubuntu', :version => '12.04')
       .converge(described_recipe)
     end
@@ -39,7 +41,7 @@ describe 'monit::source' do
       expect(chef_run).to include_recipe('build-essential::default')
     end
 
-    %w{libpam0g-dev libssl-dev autoconf flex bison build-essential}.each do |dep|
+    %w{libpam0g-dev libssl-dev autoconf flex bison}.each do |dep|
       it "installs build dependency: #{dep}" do
         expect(chef_run).to install_package(dep)
       end

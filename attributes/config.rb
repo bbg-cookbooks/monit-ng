@@ -3,7 +3,7 @@
 # Attributes: config
 #
 
-include_attribute "monit::default"
+include_attribute 'monit::default'
 
 default['monit']['config']['mmonit_url'] = nil
 default['monit']['config']['poll_freq'] = 60
