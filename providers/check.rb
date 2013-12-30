@@ -2,7 +2,7 @@ def whyrun_supported?
   true
 end
 
-def render_rc
+action :install do
   monit_check = "#{node['monit']['conf_dir']}/#{new_resource.name}.conf"
 
   resource = template monit_check do
@@ -22,22 +22,18 @@ def render_rc
       :stop => new_resource.stop,
       :tests => new_resource.tests,
       :every => new_resource.every,
-    })
+    })  
     action :create
-    notifies :restart, resources(:service => "monit")
-  end
+    notifies :restart, "service[monit]", :delayed
+  end 
 
   new_resource.updated_by_last_action(true) if resource.updated_by_last_action?
-end
-
-action :install do
-  render_rc
 end
 
 action :remove do
   resource = file "#{node['monit']['conf_dir']}/#{new_resource.name}.conf" do
     action :nothing
-    notifies :reload, resources(:service => "monit")
+    notifies :reload, "service[monit]", :immediately
   end
 
   resource.run_action(:delete)

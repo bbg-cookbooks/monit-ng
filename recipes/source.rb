@@ -20,7 +20,7 @@ end
 
 # Download source package
 source_url = "#{source['url']}/monit-#{source['version']}.tar.gz"
-download_path = "#{Chef::Config['file_cache_path'] || '/tmp'}"
+download_path = Chef::Config['file_cache_path'] || '/tmp'
 source_file_path = "#{download_path}/monit-#{source['version']}.tar.gz"
 build_root = "#{download_path}/monit-#{source['version']}"
 
@@ -37,7 +37,7 @@ bash "extract_source_archive" do
   code <<-EOC
     tar xzf #{::File.basename(source_file_path)} -C #{download_path}
   EOC
-  not_if { ::File.directory?("#{build_root}") }
+  not_if { ::File.directory?(build_root) }
 end
 
 monit_bin = "#{source['prefix']}/bin/monit"
