@@ -1,16 +1,19 @@
 require 'spec_helper'
 
-# Enabled
-describe service('monit') do
-  it { should be_enabled }
-end
+describe 'Monit Daemon' do
+  it 'is enabled' do
+    expect(service('monit')).to be_enabled
+  end
 
-# Running
-describe command('/etc/init.d/monit status') do
-  its(:stdout) { should match /uptime/ }
-end
+  it 'is running' do
+    expect(process('monit')).to be_running
+  end
 
-# Listening
-describe port('2812') do
-  it { should be_listening }
+  it 'is listening on port 2812' do
+    expect(port(2812)).to be_listening
+  end
+
+  it 'is monitoring sshd' do
+    expect(command('/etc/init.d/monit status').stdout).to match /sshd/
+  end
 end

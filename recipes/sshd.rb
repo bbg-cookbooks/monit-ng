@@ -18,14 +18,16 @@ else
   sshd_stop = "/etc/init.d/sshd stop"
 end
 
+ssh_port = ((node['openssh'] || {})['server'] || {})['port'] || 22
+
 monit_check "sshd" do
   check_id sshd_pid
   start sshd_start
   stop sshd_stop
   tests [
     {
-      'condition' => "3 restarts within 5 cycles",
-      'action'    => "alert"
+      'condition' => "failed port #{ssh_port} proto ssh",
+      'action' => "restart"
     },
   ]
 end

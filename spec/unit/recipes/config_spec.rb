@@ -8,20 +8,6 @@ describe 'monit::config' do
     expect(chef_run).to create_directory('/etc/monit.d')
   end
 
-  context 'ubuntu_10' do
-    let(:chef_run) do
-      ChefSpec::Runner.new(:platform => 'ubuntu', :version => '10.04').converge(described_recipe)
-    end
-
-    it 'enables monit on Ubuntu 10' do
-      expect(chef_run).to create_template('/etc/default/monit').with(
-        owner: 'root',
-        group: 'root',
-        mode: '0644'
-      )
-    end
-  end
-
   it 'enables the service' do
     expect(chef_run).to enable_service('monit')
   end
@@ -39,6 +25,6 @@ describe 'monit::config' do
   end
 
   it 'reloads the service' do
-    expect(global_conf).to notify('service[monit]').to(:reload).delayed
+    expect(global_conf).to notify('service[monit]').to(:reload).immediately
   end
 end

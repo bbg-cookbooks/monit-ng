@@ -1,16 +1,23 @@
 require 'spec_helper'
 
-# Enabled
-describe service('monit') do
-  it { should be_enabled }
-end
+describe 'Monit Daemon' do
+  it 'is installed' do
+    expect(package('monit')).to be_installed
+  end
 
-# Running
-describe command('pgrep -f monit') do
-  it { should return_exit_status 0 }
-end
+  it 'is enabled' do
+    expect(service('monit')).to be_enabled
+  end
 
-# Listening
-describe port('2812') do
-  it { should be_listening }
+  it 'is running' do
+    expect(process('monit')).to be_running
+  end
+
+  it 'is listening on port 2812' do
+    expect(port(2812)).to be_listening
+  end
+
+  it 'is monitoring sshd' do
+    expect(command('sudo monit status').stdout).to match /sshd/
+  end
 end

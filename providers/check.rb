@@ -5,7 +5,7 @@ end
 def render_rc
   monit_check = "#{node['monit']['conf_dir']}/#{new_resource.name}.conf"
 
-  template monit_check do
+  resource = template monit_check do
     cookbook new_resource.cookbook
     source 'monit.check.erb'
     owner 'root'
@@ -24,19 +24,22 @@ def render_rc
       :every => new_resource.every,
     })
     action :create
-    notifies :reload, "service[monit]", :delayed
+    notifies :restart, resources(:service => "monit")
   end
+
+  new_resource.updated_by_last_action(true) if resource.updated_by_last_action?
 end
 
 action :install do
   render_rc
-  new_resource.updated_by_last_action(true)
 end
 
 action :remove do
-  file "#{node['monit']['conf_dir']}/#{new_resource.name}.conf" do
-    action :delete
-    notifies :reload, "service[monit]", :delayed
+  resource = file "#{node['monit']['conf_dir']}/#{new_resource.name}.conf" do
+    action :nothing
+    notifies :reload, resources(:service => "monit")
   end
-  new_resource.updated_by_last_action(true)
+
+  resource.run_action(:delete)
+  new_resource.updated_by_last_action(true) if resource.updated_by_last_action?
 end

@@ -15,12 +15,14 @@ directory 'include_dir' do
   action :create
 end
 
+# Exists in older Debian/Ubuntu platforms
+# and disables monit starting by default 
 template '/etc/default/monit' do
   source 'monit.default.erb'
   owner 'root'
   group 'root'
   mode '0644'
-  only_if { platform?("ubuntu") && node['platform_version'] =~ /^10/ }
+  only_if { platform_family?("debian") && ::File.exist?("/etc/default/monit") }
 end
 
 template monit['conf_file'] do
@@ -47,13 +49,21 @@ template monit['conf_file'] do
     :mmonit_url => config['mmonit_url'],
     :conf_dir => monit['conf_dir'],
   })
-  notifies :reload, "service[monit]", :delayed
 end
 
 service 'monit' do
-  if node['monit']['install_method'] == 'source'
+  case monit['install_method']
+  when 'source'
     status_command "/etc/init.d/monit status | grep -q uptime"
+    supports :reload => true, :status => true, :restart => true
+    subscribes :reload, "template[#{monit['conf_file']}]", :immediately
+  when 'repo'
+    if platform_family?("debian") && ::File.exist?("/etc/default/monit")
+      subscribes :restart, "template[#{monit['conf_file']}]", :immediately
+    else
+      supports :reload => true, :status => true, :restart => true
+      subscribes :reload, "template[#{monit['conf_file']}]", :immediately
+    end
   end
-  supports :restart => true, :reload => true, :status => true
-  action [ :enable, :start ]
+  action [:enable, :start] 
 end
