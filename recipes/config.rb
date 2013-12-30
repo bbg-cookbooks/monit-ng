@@ -6,8 +6,7 @@
 monit = node['monit']
 config = monit['config']
 
-directory 'include_dir' do
-  path monit['conf_dir']
+directory monit['conf_dir'] do
   owner 'root'
   group 'root'
   mode '0600'
