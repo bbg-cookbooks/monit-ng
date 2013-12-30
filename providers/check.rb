@@ -32,10 +32,9 @@ end
 
 action :remove do
   resource = file "#{node['monit']['conf_dir']}/#{new_resource.name}.conf" do
-    action :nothing
+    action :delete
     notifies :reload, "service[monit]", :immediately
   end
 
-  resource.run_action(:delete)
   new_resource.updated_by_last_action(true) if resource.updated_by_last_action?
 end
