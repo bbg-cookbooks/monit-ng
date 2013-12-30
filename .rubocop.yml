@@ -1,2 +1,5 @@
+AllCops:
+  Excludes:
+    - vendor/**
 HashSyntax:
   EnforcedStyle: hash_rockets
