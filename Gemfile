@@ -5,6 +5,7 @@ gem 'berkshelf'
 group :test do
   gem 'chefspec', '~> 3.1'
   gem 'foodcritic'
+  gem 'rubocop'
 end
 
 group :integration do
