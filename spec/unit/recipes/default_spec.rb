@@ -37,4 +37,8 @@ describe 'monit::default' do
     chef_run.converge(described_recipe)
     expect(chef_run).to_not include_recipe 'monit::config'
   end
+
+  it 'does not raise an exception' do
+    expect { chef_run }.to_not raise_error
+  end
 end

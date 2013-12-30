@@ -24,12 +24,12 @@ describe 'monit::repo' do
       expect(chef_run).to include_recipe 'apt::default'
     end
 
-    it 'fixes the sources' do
-      expect(chef_run).to create_template('/etc/apt/sources.list')
-    end
-
     it 'includes the ubuntu recipe' do
       expect(chef_run).to include_recipe 'ubuntu::default'
+    end
+
+    it 'fixes the sources' do
+      expect(chef_run).to create_template('/etc/apt/sources.list')
     end
   end
 
