@@ -48,6 +48,7 @@ template monit['conf_file'] do
     :mmonit_url => config['mmonit_url'],
     :conf_dir => monit['conf_dir'],
   })
+  notifies :restart, "service[monit]", :delayed
 end
 
 service 'monit' do
@@ -55,13 +56,11 @@ service 'monit' do
   when 'source'
     status_command "/etc/init.d/monit status | grep -q uptime"
     supports :reload => true, :status => true, :restart => true
-    subscribes :reload, "template[#{monit['conf_file']}]", :immediately
   when 'repo'
     if platform_family?("debian") && ::File.exist?("/etc/default/monit")
-      subscribes :restart, "template[#{monit['conf_file']}]", :immediately
+      subscribes :restart, "template[/etc/default/monit]", :immediately
     else
       supports :reload => true, :status => true, :restart => true
-      subscribes :reload, "template[#{monit['conf_file']}]", :immediately
     end
   end
   action [:enable, :start] 
