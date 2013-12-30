@@ -41,6 +41,14 @@ describe 'monit::source' do
     end
   end
 
+  it 'extracts the source archive' do
+    expect(chef_run).to run_execute('extract-source-archive')
+  end
+
+  it 'compiles the sources' do
+    expect(chef_run).to run_execute('compile-source')
+  end
+
   it 'creates the init script' do
     chef_run.node.set['monit']['install_method'] = 'source'
     expect(chef_run).to create_template('/etc/init.d/monit').with(

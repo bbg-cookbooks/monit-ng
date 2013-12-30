@@ -61,6 +61,6 @@ describe 'monit::config' do
   end
 
   it 'reloads the service' do
-    expect(global_conf).to notify('service[monit]').to(:reload).immediately
+    expect(global_conf).to notify('service[monit]').to(:restart).delayed
   end
 end
