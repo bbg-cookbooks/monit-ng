@@ -47,17 +47,17 @@ Examples
 
 ```ruby
 monit_check 'facebook_api' do
-  check_type  "host"
-  check_id    "api.facebook.com"
-  group       "external"
+  check_type  'host'
+  check_id    'api.facebook.com'
+  group       'external'
   tests [
     {
-      'condition' => "failed port 80 proto http",
-      'action'    => "alert"
+      'condition' => 'failed port 80 proto http',
+      'action'    => 'alert'
     },
     {
-      'condition' => "failed port 443 type tcpSSL proto http",
-      'action'    => "alert"
+      'condition' => 'failed port 443 type tcpSSL proto http',
+      'action'    => 'alert'
     },
   ]
 end
@@ -151,10 +151,10 @@ end
 
 ```ruby
 monit_check 'redis' do
-  check_id  "/var/run/redis/redis-server.pid"
-  group     "database"
-  start     "service redis-server start"
-  stop      "service redis-server stop"
+  check_id  '/var/run/redis/redis-server.pid'
+  group     'database'
+  start     '/etc/init.d/redis-server start'
+  stop      '/etc/init.d/redis-server stop'
   tests [
     {
       'condition' => 'failed host 127.0.0.1 port 6379 
