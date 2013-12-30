@@ -44,9 +44,9 @@ describe 'monit::config' do
 
   it 'creates the global config' do
     expect(chef_run).to create_template('/etc/monitrc').with(
-      owner: 'root',
-      group: 'root',
-      mode: '0600'
+      :owner => 'root',
+      :group => 'root',
+      :mode  => '0600',
     )
   end
 

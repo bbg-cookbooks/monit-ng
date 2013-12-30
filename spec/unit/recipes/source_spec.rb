@@ -67,9 +67,9 @@ describe 'monit::source' do
   it 'creates the init script' do
     chef_run.node.set['monit']['install_method'] = 'source'
     expect(chef_run).to create_template('/etc/init.d/monit').with(
-      owner: 'root',
-      group: 'root',
-      mode: '0755'
+      :owner => 'root',
+      :group => 'root',
+      :mode  => '0755',
     )
   end
 end
