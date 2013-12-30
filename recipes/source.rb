@@ -19,41 +19,44 @@ build_deps.each do |build_dep|
 end
 
 # Download source package
+monit_bin = "#{source['prefix']}/bin/monit"
 source_url = "#{source['url']}/monit-#{source['version']}.tar.gz"
 download_path = Chef::Config['file_cache_path'] || '/tmp'
 source_file_path = "#{download_path}/monit-#{source['version']}.tar.gz"
 build_root = "#{download_path}/monit-#{source['version']}"
+opts = "--prefix=#{source['prefix']}"
+if platform_family?("debian") && source['version'].to_f < 5.6
+  opts += " --with-ssl-lib-dir=/usr/lib/#{node['kernel']['machine']}-linux-gnu"
+end
 
 remote_file source_file_path do
   source source_url
   checksum source['checksum']
   path source_file_path
   backup false
+  notifies :run, "execute[extract-source-archive]"
 end
 
 # Build source package
-bash "extract_source_archive" do
-  cwd download_path
-  code <<-EOC
-    tar xzf #{::File.basename(source_file_path)} -C #{download_path}
-  EOC
-  not_if { ::File.directory?(build_root) }
-end
-
-monit_bin = "#{source['prefix']}/bin/monit"
-
 ver_reg = Regexp.new("#{source['version']}$")
-
+monit_bin = "#{source['prefix']}/bin/monit"
 opts = "--prefix=#{source['prefix']}"
-
-# handles case for a now-fixed multi-arch bug in monit < 5.6
 if platform_family?("debian") && source['version'].to_f < 5.6
   opts += " --with-ssl-lib-dir=/usr/lib/#{node['kernel']['machine']}-linux-gnu"
 end
 
-bash "compile_source" do
+execute "extract-source-archive" do
+  cwd download_path
+  command <<-EOC
+    tar xzf #{::File.basename(source_file_path)} -C #{download_path}
+  EOC
+  notifies :run, "execute[compile-source]"
+  not_if { ::File.directory?(build_root) }
+end
+
+execute "compile-source" do
   cwd build_root
-  code <<-EOC
+  command <<-EOC
     ./configure #{opts} && make && make install
   EOC
   not_if do
@@ -62,7 +65,6 @@ bash "compile_source" do
   end
 end
 
-# Configure service
 template '/etc/init.d/monit' do
   source 'monit.init.erb'
   owner  'root'
