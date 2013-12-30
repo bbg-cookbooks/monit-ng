@@ -50,6 +50,12 @@ describe 'monit::config' do
     )
   end
 
+  # TODO: sort out stubbing the file existence to test that
+  # monit::config creates /etc/default/monit when it should
+  it 'does not un-disable the serviceby default' do
+    expect(chef_run).to_not create_template('/etc/default/monit')
+  end
+
   it 'creates the includes path' do
     expect(chef_run).to create_directory('/etc/monit.d')
   end

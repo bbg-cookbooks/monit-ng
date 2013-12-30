@@ -16,6 +16,10 @@ describe 'monit::source' do
     end
   end
 
+  it "downloads the source archive" do
+    expect(chef_run).to create_remote_file('/var/chef/cache/monit-5.6.tar.gz')
+  end
+
   context 'ubuntu' do
     let (:chef_run) do
       ChefSpec::Runner.new(:platform => 'ubuntu', :version => '12.04')
