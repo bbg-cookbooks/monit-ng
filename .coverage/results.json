@@ -1,0 +1,120 @@
+{
+  "total": 16,
+  "touched": 16,
+  "untouched": 0,
+  "coverage": 100.0,
+  "detailed": {
+    "directory[/etc/monit.d]": {
+      "source": {
+        "file": "/tmp/d20131231-22028-57fikk/monit/recipes/config.rb",
+        "line": 9
+      },
+      "touched": true
+    },
+    "template[/etc/default/monit]": {
+      "source": {
+        "file": "/tmp/d20131231-22028-57fikk/monit/recipes/config.rb",
+        "line": 19
+      },
+      "touched": true
+    },
+    "template[/etc/monitrc]": {
+      "source": {
+        "file": "/tmp/d20131231-22028-57fikk/monit/recipes/config.rb",
+        "line": 27
+      },
+      "touched": true
+    },
+    "service[monit]": {
+      "source": {
+        "file": "/tmp/d20131231-22028-57fikk/monit/recipes/config.rb",
+        "line": 54
+      },
+      "touched": true
+    },
+    "template[/etc/monit.conf]": {
+      "source": {
+        "file": "/tmp/d20131231-22028-57fikk/monit/recipes/config.rb",
+        "line": 27
+      },
+      "touched": true
+    },
+    "directory[/etc/monit/conf.d]": {
+      "source": {
+        "file": "/tmp/d20131231-22028-57fikk/monit/recipes/config.rb",
+        "line": 9
+      },
+      "touched": true
+    },
+    "template[/etc/monit/monitrc]": {
+      "source": {
+        "file": "/tmp/d20131231-22028-57fikk/monit/recipes/config.rb",
+        "line": 27
+      },
+      "touched": true
+    },
+    "package[monit]": {
+      "source": {
+        "file": "/tmp/d20131231-22028-57fikk/monit/recipes/repo.rb",
+        "line": 11
+      },
+      "touched": true
+    },
+    "package[pam-devel]": {
+      "source": {
+        "file": "/tmp/d20131231-22028-57fikk/monit/recipes/source.rb",
+        "line": 19
+      },
+      "touched": true
+    },
+    "package[openssl-devel]": {
+      "source": {
+        "file": "/tmp/d20131231-22028-57fikk/monit/recipes/source.rb",
+        "line": 19
+      },
+      "touched": true
+    },
+    "remote_file[/var/chef/cache/monit-5.6.tar.gz]": {
+      "source": {
+        "file": "/tmp/d20131231-22028-57fikk/monit/recipes/source.rb",
+        "line": 38
+      },
+      "touched": true
+    },
+    "execute[extract-source-archive]": {
+      "source": {
+        "file": "/tmp/d20131231-22028-57fikk/monit/recipes/source.rb",
+        "line": 46
+      },
+      "touched": true
+    },
+    "execute[compile-source]": {
+      "source": {
+        "file": "/tmp/d20131231-22028-57fikk/monit/recipes/source.rb",
+        "line": 55
+      },
+      "touched": true
+    },
+    "template[/etc/init.d/monit]": {
+      "source": {
+        "file": "/tmp/d20131231-22028-57fikk/monit/recipes/source.rb",
+        "line": 63
+      },
+      "touched": true
+    },
+    "package[libpam0g-dev]": {
+      "source": {
+        "file": "/tmp/d20131231-22028-57fikk/monit/recipes/source.rb",
+        "line": 19
+      },
+      "touched": true
+    },
+    "package[libssl-dev]": {
+      "source": {
+        "file": "/tmp/d20131231-22028-57fikk/monit/recipes/source.rb",
+        "line": 19
+      },
+      "touched": true
+    }
+  }
+}

@@ -1,5 +1,4 @@
 vendor
 .bundle
-.coverage
 .kitchen
 .kitchen.local.yml
