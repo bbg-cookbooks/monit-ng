@@ -1,7 +1,6 @@
 ---
-driver_plugin: bluebox
-
-driver_config:
+driver: 
+  name: bluebox
   bluebox_customer_id: <%= ENV['BLUEBOX_CUSTOMER_ID'] %>
   bluebox_api_key: <%= ENV['BLUEBOX_API_KEY'] %>
   ssh_public_key: <%= "#{ENV['HOME']}/.ssh/id_rsa.pub" %>
