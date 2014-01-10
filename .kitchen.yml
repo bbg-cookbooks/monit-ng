@@ -1,7 +1,9 @@
 ---
 driver: 
   name: bluebox
-  require_chef_omnibus: true
+
+provisioner:
+  name: chef_solo
 
 platforms:
 - name: ubuntu-10.04
@@ -19,13 +21,13 @@ settings:
   destroy: always
 
 suites:
-- name: default
+- name: monit-default
   run_list:
   - recipe[monit::default]
   - recipe[monit::sshd]
   attributes: {}
-- name: source
+- name: monit-source
   run_list:
   - recipe[monit::default]
   - recipe[monit::sshd]
-  attributes: { monit: { install_method: "source" } }
+  attributes: { monit: { install_method: 'source' } }
