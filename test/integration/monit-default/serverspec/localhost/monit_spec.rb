@@ -18,6 +18,6 @@ describe 'Monit Daemon' do
   end
 
   it 'is monitoring sshd' do
-    expect(command('sudo monit status').stdout).to match /sshd/
+    expect(command('sudo monit status').stdout).to match(/sshd/)
   end
 end

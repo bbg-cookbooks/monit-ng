@@ -14,6 +14,6 @@ describe 'Monit Daemon' do
   end
 
   it 'is monitoring sshd' do
-    expect(command('sudo /etc/init.d/monit status').stdout).to match /sshd/
+    expect(command('sudo /etc/init.d/monit status').stdout).to match(/sshd/)
   end
 end
