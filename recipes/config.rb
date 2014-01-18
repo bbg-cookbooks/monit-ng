@@ -21,6 +21,10 @@ template '/etc/default/monit' do
   owner 'root'
   group 'root'
   mode '0644'
+  variables(
+    :platform         => node['platform'],
+    :platform_version => node['platform_version']
+  )
   only_if { platform_family?('debian') && ::File.exist?('/etc/default/monit') }
 end
 
