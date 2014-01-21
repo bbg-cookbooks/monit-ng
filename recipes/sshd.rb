@@ -11,7 +11,7 @@ sshd_init = value_for_platform_family(
 ssh_port = ((node['openssh'] || {})['server'] || {})['port'] || 22
 
 monit_check 'sshd' do
-  check_id sshd_pid
+  check_id '/var/run/sshd.pid'
   start "#{sshd_init} start"
   stop "#{sshd_init} stop"
   tests [
