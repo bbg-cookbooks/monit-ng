@@ -25,7 +25,7 @@ default['monit']['config']['mail_servers'] = [
     :password => nil,
     :security => nil,
     :timeout => '30 seconds',
-  }
+  },
 ]
 default['monit']['config']['mail_from'] = "monit@#{node['fqdn']}"
 default['monit']['config']['mail_subject'] = '$SERVICE $EVENT at $DATE'

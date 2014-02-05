@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gem 'berkshelf'
 
 group :test do
-  gem 'chefspec', '~> 3.1'
+  gem 'chefspec', '~> 3.2'
   gem 'foodcritic'
   gem 'rubocop'
 end

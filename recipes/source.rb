@@ -10,9 +10,9 @@ include_recipe 'build-essential'
 
 build_deps = value_for_platform(
   %w{centos redhat fedora scientific} => {
-    'default' => %w{pam-devel openssl-devel}
+    'default' => %w{pam-devel openssl-devel},
   },
-  'default' => %w{libpam0g-dev libssl-dev}
+  'default' => %w{libpam0g-dev libssl-dev},
 )
 
 build_deps.each do |build_dep|

@@ -3,3 +3,5 @@ AllCops:
     - vendor/**
 HashSyntax:
   EnforcedStyle: hash_rockets
+TrailingComma:
+  EnforcedStyleForMultiline: comma
