@@ -19,6 +19,6 @@ check <%= @check_type %> <%= @name %>
   stop "<%= @stop %>"
 <% end %>
 <% @tests.each do |test| %>
-  if <%= test['condition'] %>
-    then <%= test['action'] %>
+  if <%= test.condition %>
+    then <%= test.action %>
 <% end %>

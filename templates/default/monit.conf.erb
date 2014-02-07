@@ -6,17 +6,17 @@ set idfile <%= @id_file %>
 set statefile <%= @state_file %>
 set mailserver
 <% @mail_servers.each do |mailserver| %>
-  <%= mailserver['hostname'] %> port <%= mailserver['port'] %>
-  <% if mailserver['username'] %>
-  username <%= mailserver['username'] %>
+  <%= mailserver.hostname %> port <%= mailserver.port %>
+  <% if mailserver.username %>
+  username <%= mailserver.username %>
   <% end %>
-  <% if mailserver['password'] %>
-  password <%= mailserver['password'] %>
+  <% if mailserver.password %>
+  password <%= mailserver.password %>
   <% end %>
-  <% if mailserver['security'] %>
-  using <%= mailserver['security'] %>
+  <% if mailserver.security %>
+  using <%= mailserver.security %>
   <% end %>
-  with timeout <%= mailserver['timeout'] %>
+  with timeout <%= mailserver.timeout %>
 <% end %>
 set mail-format {
       from: <%= @mail_from %>
@@ -24,8 +24,8 @@ set mail-format {
    message: <%= @mail_msg %>
 }
 <% @subscribers.each do |subscriber| %>
-set alert <% subscriber.name %> 
-  only on { <% subscriber.subscriptions.join(', ') %>}
+set alert <%= subscriber.name %> 
+  only on { <%= subscriber.subscriptions.join(', ') %>}
 <% end %>
 set eventqueue
   basedir <%= @eventqueue_dir %>
