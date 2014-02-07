@@ -24,7 +24,8 @@ set mail-format {
    message: <%= @mail_msg %>
 }
 <% @subscribers.each do |subscriber| %>
-set alert <%= subscriber %> only on { nonexist, timeout, resource, icmp, connection }
+set alert <% subscriber.name %> 
+  only on { <% subscriber.subscriptions.join(', ') %>}
 <% end %>
 set eventqueue
   basedir <%= @eventqueue_dir %>

@@ -11,7 +11,12 @@ default['monit']['config']['start_delay'] = 5
 default['monit']['config']['log_file'] = '/var/log/monit.log'
 default['monit']['config']['id_file'] = '/var/lib/monit.id'
 default['monit']['config']['state_file'] = '/var/run/monit.state'
-default['monit']['config']['subscribers'] = ['root@localhost']
+default['monit']['config']['subscribers'] = [
+  {
+    'name'          => 'root@localhost',
+    'subscriptions' => %w{ nonexist timeout resource icmp connection },
+  },
+]
 default['monit']['config']['eventqueue_dir'] = '/var/tmp'
 default['monit']['config']['eventqueue_slots'] = 100
 default['monit']['config']['port'] = 2812
