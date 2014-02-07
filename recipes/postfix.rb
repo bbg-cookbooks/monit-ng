@@ -3,11 +3,14 @@
 # Recipe:: postfix
 #
 
+postfix_pid = node['monit']['checks']['postfix_pid']
+postfix_init = node['monit']['checks']['postfix_init']
+
 monit_check 'postfix' do
-  check_id '/var/spool/postfix/pid/master.pid'
+  check_id postfix_pid
   group 'system'
-  start '/etc/init.d/postfix start'
-  stop  '/etc/init.d/postfix stop'
+  start "#{postfix_init} start"
+  stop  "#{postfix_init} stop"
   tests [
     {
       'condition' => 'failed port 25 proto smtp 2 times within 3 cycles',

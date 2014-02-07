@@ -3,13 +3,11 @@
 # Recipe:: crond
 #
 
-crond_init = value_for_platform_family(
-               'rhel'   => '/etc/init.d/crond',
-               'debian' => '/etc/init.d/cron',
-             )
+crond_pid = node['monit']['checks']['crond_pid']
+crond_init = node['monit']['checks']['crond_init']
 
 monit_check 'crond' do
-  check_id '/var/run/crond.pid'
+  check_id crond_pid
   group 'system'
   start "#{crond_init} start"
   stop "#{crond_init} stop"

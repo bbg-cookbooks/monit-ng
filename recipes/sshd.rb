@@ -3,15 +3,13 @@
 # Recipe:: sshd
 #
 
-sshd_init = value_for_platform_family(
-              'rhel'   => '/etc/init.d/sshd',
-              'debian' => '/etc/init.d/ssh',
-            )
+sshd_pid = node['monit']['checks']['sshd_pid']
+sshd_init = node['monit']['checks']['sshd_init']
 
-ssh_port = ((node['openssh'] || {})['server'] || {})['port'] || 22
+ssh_port = node['monit']['checks']['sshd_port']
 
 monit_check 'sshd' do
-  check_id '/var/run/sshd.pid'
+  check_id sshd_pid
   start "#{sshd_init} start"
   stop "#{sshd_init} stop"
   tests [

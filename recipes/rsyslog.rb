@@ -3,16 +3,14 @@
 # Recipe:: rsyslog
 #
 
-rsyslog_pid = value_for_platform_family(
-                'rhel'   => '/var/run/syslogd.pid',
-                'debian' => '/var/run/rsyslogd.pid',
-              )
+rsyslog_pid = node['monit']['checks']['rsyslog_pid']
+rsyslog_init = node['monit']['checks']['rsyslog_init']
 
 monit_check 'rsyslog' do
   check_id rsyslog_pid
   group 'system'
-  start '/etc/init.d/rsyslog start'
-  stop '/etc/init.d/rsyslog stop'
+  start "#{rsyslog_init} start"
+  stop "#{rsyslog_init} stop"
   tests [
     {
       'condition' => '3 restarts within 5 cycles',

@@ -3,10 +3,13 @@
 # Recipe:: snmpd
 #
 
+snmpd_pid = node['monit']['checks']['snmpd_pid']
+snmpd_init = node['monit']['checks']['snmpd_init']
+
 monit_check 'snmpd' do
-  check_id '/var/run/snmpd.pid'
-  start '/etc/init.d/snmpd start'
-  stop '/etc/init.d/snmpd stop'
+  check_id snmpd_pid
+  start "#{snmpd_init} start"
+  stop "#{snmpd_init} stop"
   tests [
     {
       'condition' => 'failed port 161 type udp',

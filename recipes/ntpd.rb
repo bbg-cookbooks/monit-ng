@@ -3,14 +3,11 @@
 # Recipe:: ntpd
 #
 
-ntpd_init = value_for_platform_family(
-              'rhel'   => '/etc/init.d/ntpd',
-              'debian' => '/etc/init.d/ntp',
-            )
-
+ntpd_pid = node['monit']['checks']['ntpd_pid']
+ntpd_init = node['monit']['checks']['ntpd_init']
 
 monit_check 'ntpd' do
-  check_id '/var/run/ntpd.pid'
+  check_id ntpd_pid
   start "#{ntpd_init} start"
   stop "#{ntpd_init} stop"
   tests [
