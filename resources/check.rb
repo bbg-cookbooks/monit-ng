@@ -1,4 +1,9 @@
-actions :install, :remove
+#
+# Cookbook Name:: monit
+# Resource:: check
+#
+
+actions :install, :uninstall
 default_action :install
 
 # Reference for validation

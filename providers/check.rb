@@ -1,12 +1,16 @@
+#
+# Cookbook Name: monit
+# Provider:: check
+#
+
 def whyrun_supported?
   true
 end
 
 action :install do
-  monit_check = "#{node['monit']['conf_dir']}/#{new_resource.name}.conf"
-
-  resource = template monit_check do
+  r = template 'monit-check' do
     cookbook new_resource.cookbook
+    path "#{node['monit']['conf_dir']}/#{new_resource.name}.conf"
     source 'monit.check.erb'
     owner 'root'
     group 'root'
@@ -24,17 +28,16 @@ action :install do
       :every => new_resource.every,
     )
     action :create
-    notifies :restart, 'service[monit]', :delayed
   end
 
-  new_resource.updated_by_last_action(true) if resource.updated_by_last_action?
+  new_resource.updated_by_last_action(true) if r.updated_by_last_action?
 end
 
-action :remove do
-  resource = file "#{node['monit']['conf_dir']}/#{new_resource.name}.conf" do
+action :uninstall do
+  r = file "#{node['monit']['conf_dir']}/#{new_resource.name}.conf" do
     action :delete
     notifies :reload, 'service[monit]', :immediately
   end
 
-  new_resource.updated_by_last_action(true) if resource.updated_by_last_action?
+  new_resource.updated_by_last_action(true) if r.updated_by_last_action?
 end
