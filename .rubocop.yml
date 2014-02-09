@@ -1,6 +1,8 @@
 AllCops:
   Excludes:
     - vendor/**
+    - spec/**
+    - test/**
 HashSyntax:
   EnforcedStyle: hash_rockets
 TrailingComma:

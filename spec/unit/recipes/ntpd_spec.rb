@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'monit::ntpd' do
-  let(:chef_run) do 
+  let(:chef_run) do
     ChefSpec::Runner.new(step_into: ['monit_check'])
     .converge(described_recipe)
   end
