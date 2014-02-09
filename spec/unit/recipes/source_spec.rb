@@ -46,6 +46,11 @@ describe 'monit::source' do
         expect(chef_run).to install_package(dep)
       end
     end
+
+    it 'links source config to platform config' do
+      expect(chef_run).to create_link('/etc/monitrc')
+      .with(to: '/etc/monit/monitrc')
+    end
   end
 
   it 'skips extraction by default' do
@@ -62,6 +67,22 @@ describe 'monit::source' do
 
   it 'compiles the sources' do
     expect(extraction).to notify('execute[compile-source]').to(:run)
+  end
+
+  it 'creates the config symlink' do
+    expect(chef_run).to create_link('/etc/monitrc')
+    .with(to: '/etc/monit.conf')
+  end
+
+  context 'mystery-os' do
+    let(:chef_run) do
+      ChefSpec::Runner.new(:platform => 'omnios', :version => '151002')
+      .converge(described_recipe)
+    end
+
+    it 'does not create the config symlink' do
+      expect(chef_run).to_not create_link('/etc/monitrc')
+    end
   end
 
   it 'creates the init script' do
