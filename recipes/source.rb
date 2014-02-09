@@ -60,6 +60,18 @@ execute 'compile-source' do
   action :nothing
 end
 
+# this is the upstream default config
+# path. we link it to the platform
+# default rather than patching the source,
+# which would require carrying multiple
+# patches for different versions; this
+# also allows calling monit without passing
+# the path to the global config file as an argument
+link '/etc/monitrc' do
+  to "#{node['monit']['conf_file']}"
+  not_if { "#{node['monit']['conf_file']}" == '/etc/monitrc' }
+end
+
 template '/etc/init.d/monit' do
   source 'monit.init.erb'
   owner  'root'
