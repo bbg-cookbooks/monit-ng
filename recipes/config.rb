@@ -26,7 +26,6 @@ template '/etc/default/monit' do
     :platform         => node['platform'],
     :platform_version => node['platform_version'],
   )
-  notifies :restart, 'service[monit]', :delayed
   only_if { platform_family?('debian') && ::File.exist?('/etc/default/monit') }
 end
 
@@ -54,7 +53,7 @@ template monit['conf_file'] do
     :mmonit_url => config['mmonit_url'],
     :conf_dir => monit['conf_dir'],
   )
-  notifies :reload, 'service[monit]', :delayed
+  notifies :restart, 'service[monit]', :immediately
 end
 
 service 'monit' do
@@ -69,6 +68,6 @@ service 'monit' do
       supports :reload => true, :status => true, :restart => true
     end
   end
-  subscribes :reload, 'template[monit-check]', :delayed
+  subscribes :restart, 'template[monit-check]', :immediately
   action [:enable, :start]
 end

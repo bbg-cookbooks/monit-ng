@@ -18,6 +18,6 @@ describe 'Monit Daemon' do
   end
 
   it 'is monitoring sshd' do
-    expect(command('sudo monit status').stdout).to match(/sshd/)
+    expect(service('sshd')).to be_monitored_by('monit')
   end
 end
