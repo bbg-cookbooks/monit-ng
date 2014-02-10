@@ -20,4 +20,8 @@ describe 'Monit Daemon' do
   it 'is monitoring sshd' do
     expect(service('sshd')).to be_monitored_by('monit')
   end
+
+  it 'is monitoring crond' do
+    expect(service('crond')).to be_monitored_by('monit')
+  end
 end

@@ -20,11 +20,15 @@ settings:
 suites:
 - name: monit-default
   run_list:
+  - recipe[setup]
   - recipe[monit::default]
   - recipe[monit::sshd]
+  - recipe[monit::crond]
   attributes: {}
 - name: monit-source
   run_list:
+  - recipe[setup]
   - recipe[monit::default]
   - recipe[monit::sshd]
+  - recipe[monit::crond]
   attributes: { monit: { install_method: 'source' } }
