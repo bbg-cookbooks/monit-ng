@@ -6,7 +6,7 @@ description      'Installs and configures monit'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '0.4.0'
 
-depends 'yum'
+depends 'yum-epel'
 depends 'ubuntu'
 depends 'apt'
 depends 'build-essential'

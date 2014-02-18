@@ -9,8 +9,8 @@ describe 'monit::repo' do
       .converge(described_recipe)
     end
 
-    it 'includes yum::epel' do
-      expect(chef_run).to include_recipe 'yum::epel'
+    it 'includes yum-epel' do
+      expect(chef_run).to include_recipe 'yum-epel'
     end
   end
 
