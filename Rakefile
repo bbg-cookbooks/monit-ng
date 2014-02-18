@@ -3,12 +3,12 @@
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:chefspec)
 
-desc 'run ruby style guide linting'
+desc 'run ruby linting'
 task :rubocop do
   sh 'rubocop'
 end
 
-desc 'foodcritic cookbook style linter'
+desc 'foodcritic cookbook linting'
 task :foodcritic do
   sh 'foodcritic --epic-fail any .'
 end
