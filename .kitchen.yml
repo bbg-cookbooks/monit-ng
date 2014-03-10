@@ -8,10 +8,10 @@ provisioner:
 platforms:
 - name: ubuntu-12.04
   driver_config:
-    image_id: 90cb3e60-73ba-4bbd-a3aa-19e8bd1e1db0
+    image_id: 73a7ceb3-d9a8-419e-9529-7c11c0392ab5
 - name: centos-6.5
   driver_config:
-    image_id: 6856aaa1-4dc0-4d01-a2d4-aa9e42aba5bb
+    image_id: 69ddc02e-7e29-48a5-9284-3d4f4b7f3e98
 
 settings:
   parallel: true
