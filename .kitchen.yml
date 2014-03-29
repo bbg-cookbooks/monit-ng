@@ -1,17 +1,13 @@
 ---
 driver: 
-  name: bluebox
+  name: docker
 
 provisioner:
-  name: chef_solo
+  name: chef_zero
 
 platforms:
 - name: ubuntu-12.04
-  driver_config:
-    image_id: 73a7ceb3-d9a8-419e-9529-7c11c0392ab5
 - name: centos-6.5
-  driver_config:
-    image_id: 69ddc02e-7e29-48a5-9284-3d4f4b7f3e98
 
 settings:
   parallel: true

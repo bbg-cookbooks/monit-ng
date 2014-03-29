@@ -11,6 +11,6 @@ depends 'ubuntu'
 depends 'apt'
 depends 'build-essential'
 
-%w{redhat scientific centos fedora debian ubuntu}.each do |platform|
+%w( redhat scientific centos fedora debian ubuntu ).each do |platform|
   supports platform
 end

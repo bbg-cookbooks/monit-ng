@@ -14,7 +14,7 @@ default['monit']['config']['state_file'] = '/var/run/monit.state'
 default['monit']['config']['subscribers'] = [
   {
     'name'          => 'root@localhost',
-    'subscriptions' => %w{ nonexist timeout resource icmp connection },
+    'subscriptions' => %w( nonexist timeout resource icmp connection ),
   },
 ]
 default['monit']['config']['eventqueue_dir'] = '/var/tmp'
