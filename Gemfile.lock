@@ -209,7 +209,7 @@ GEM
       specinfra (>= 1.0.0)
     slop (3.5.0)
     solve (0.8.2)
-    specinfra (1.0.0)
+    specinfra (1.0.1)
     systemu (2.5.2)
     test-kitchen (1.2.1)
       mixlib-shellout (~> 1.2)
@@ -244,6 +244,7 @@ PLATFORMS
 
 DEPENDENCIES
   berkshelf (~> 2.0)
+  chef-zero (~> 1.7)
   chefspec (~> 3.4)
   foodcritic (~> 3.0)
   kitchen-vagrant (~> 0.14)
