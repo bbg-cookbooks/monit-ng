@@ -6,10 +6,10 @@
 include_attribute 'monit::default'
 
 default['monit']['source']['url'] = 'https://mmonit.com/monit/dist'
-default['monit']['source']['version'] = '5.6'
+default['monit']['source']['version'] = '5.8'
 default['monit']['source']['prefix'] = '/usr/local'
 default['monit']['source']['checksum'] =
-  '38e09bd8b39abc59e6b9a9bb7a78f7eac2b02a92f4de1f3a6dc24e84dfedae0d'
+  'b2eb92d3c76a3161ffdd3b3ec0e5960fd900fac2'
 default['monit']['source']['build_deps'] =
   value_for_platform_family(
     'rhel'    => %w( pam-devel openssl-devel ),

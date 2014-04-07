@@ -8,7 +8,7 @@ describe 'monit::source' do
 
   let(:service) { chef_run.service('monit') }
   let(:remote_file) do
-    chef_run.remote_file('/var/chef/cache/monit-5.6.tar.gz')
+    chef_run.remote_file('/var/chef/cache/monit-5.8.tar.gz')
   end
   let(:extraction) { chef_run.execute('extract-source-archive') }
   let(:compilation) { chef_run.execute('compile-source') }
@@ -24,7 +24,7 @@ describe 'monit::source' do
   end
 
   it 'downloads the source archive' do
-    expect(chef_run).to create_remote_file('/var/chef/cache/monit-5.6.tar.gz')
+    expect(chef_run).to create_remote_file('/var/chef/cache/monit-5.8.tar.gz')
   end
 
   context 'ubuntu' do
