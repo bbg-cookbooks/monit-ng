@@ -12,7 +12,7 @@ DEPENDENCIES
 GRAPH
   apt (2.3.10)
   build-essential (2.0.0)
-  monit (0.5.2)
+  monit (1.0.0)
     apt (>= 0.0.0)
     build-essential (>= 0.0.0)
     ubuntu (>= 0.0.0)
