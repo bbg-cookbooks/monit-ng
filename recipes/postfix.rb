@@ -10,7 +10,7 @@ monit_check 'postfix' do
   check_id postfix_pid
   group 'system'
   start "#{postfix_init} start"
-  stop  "#{postfix_init} stop"
+  stop "#{postfix_init} stop"
   tests [
     {
       'condition' => 'failed port 25 proto smtp 2 times within 3 cycles',

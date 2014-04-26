@@ -63,9 +63,9 @@ end
 
 template '/etc/init.d/monit' do
   source 'monit.init.erb'
-  owner  'root'
-  group  'root'
-  mode   '0755'
+  owner 'root'
+  group 'root'
+  mode '0755'
   variables(
     :platform_family => node['platform_family'],
     :binary          => monit_bin,

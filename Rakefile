@@ -20,4 +20,4 @@ rescue LoadError
   puts 'test-kitchen gem not found. skipping.'
 end
 
-task :default => ['rubocop', 'foodcritic', 'chefspec']
+task :default => %w( rubocop foodcritic chefspec )

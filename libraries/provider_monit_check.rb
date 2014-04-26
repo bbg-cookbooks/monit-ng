@@ -9,11 +9,10 @@ require 'chef/resource/template'
 class Chef
   class Provider
     class MonitCheck < Chef::Provider
-
       def initialize(*args)
         super
         @tpl = Chef::Resource::Template.new(new_resource.name, run_context)
-        @srv = service 'monit'
+        @srv = service('monit')
       end
 
       def load_current_resource
@@ -24,19 +23,24 @@ class Chef
       def action_create
         @tpl.run_action(:create)
         new_resource.notifies(:restart, @srv, :delayed)
-        new_resource.updated_by_last_action(true) if @tpl.updated_by_last_action?
+        new_resource.updated_by_last_action(true) if tpl_updated
       end
 
       def action_remove
         @tpl.run_action(:delete)
-        new_resources.notifies(:restart, @srv, :delayed)
-        new_resource.updated_by_last_action(true) if @tpl.updated_by_last_action?
+        new_resource.notifies(:restart, @srv, :delayed)
+        new_resource.updated_by_last_action(true) if tpl_updated
       end
 
       private
+
+      def tpl_updated
+        @tpl.updated_by_last_action?
+      end
+
       def build_template
         @tpl.cookbook(new_resource.cookbook)
-        @tpl.path( ::File.join(node.monit.conf_dir, "#{new_resource.name}.conf") )
+        @tpl.path(tpl_path)
         @tpl.source('monit.check.erb')
         @tpl.owner('root')
         @tpl.group('root')
@@ -44,6 +48,10 @@ class Chef
         @tpl.variables(monit_check_config)
         @tpl.notifies(:restart, 'service[monit]', :immediately)
         @tpl.action(:nothing)
+      end
+
+      def tpl_path
+        ::File.join(node.monit.conf_dir, "#{new_resource.name}.conf")
       end
 
       def monit_check_config

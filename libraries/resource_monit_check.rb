@@ -8,7 +8,6 @@ require 'chef/resource'
 class Chef
   class Resource
     class MonitCheck < Chef::Resource
-
       identity_attr :name
 
       CHECK_PAIRS =
@@ -24,7 +23,7 @@ class Chef
           'program'    => 'path',
         }
 
-      def initialize(name, run_context=nil)
+      def initialize(name, run_context = nil)
         super
         @resource_name = :monit_check
         @provider = Chef::Provider::MonitCheck
@@ -64,9 +63,9 @@ class Chef
           :equal_to => CHECK_PAIRS.values,
           :callbacks => {
             'is a valid id type for the check type' => lambda do |spec|
-              !!(arg == CHECK_PAIRS[check_type])
-            end
-          }
+              spec == CHECK_PAIRS[check_type]
+            end,
+          },
         )
       end
 
@@ -84,7 +83,7 @@ class Chef
           :callbacks => {
             'should not exceed max arg length' => lambda do |spec|
               spec.length < 127
-            end
+            end,
           },
         )
       end
@@ -96,7 +95,7 @@ class Chef
           :callbacks => {
             'should not exceed max arg length' => lambda do |spec|
               spec.length < 127
-            end
+            end,
           },
         )
       end
