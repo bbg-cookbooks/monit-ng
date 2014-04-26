@@ -7,11 +7,11 @@ describe 'monit::snmpd' do
   end
 
   it 'installs the snmpd check' do
-    expect(chef_run).to install_monit_check('snmpd')
+    expect(chef_run).to create_monit_check('snmpd')
   end
 
   it 'installs the snmpd check in the correct path' do
-    expect(chef_run).to create_template('monit-check')
+    expect(chef_run).to create_template('snmpd')
     .with(
       path: '/etc/monit.d/snmpd.conf'
     )

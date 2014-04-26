@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe 'monit::config' do
   let(:chef_run) { ChefSpec::Runner.new.converge(described_recipe) }
-  let(:global_conf) { chef_run.template('/etc/monitrc') }
 
   context 'rhel' do
     let(:chef_run) do
@@ -42,14 +41,6 @@ describe 'monit::config' do
     expect(chef_run).to start_service('monit')
   end
 
-  it 'creates the global config' do
-    expect(chef_run).to create_template('/etc/monitrc').with(
-      :owner => 'root',
-      :group => 'root',
-      :mode  => '0600',
-    )
-  end
-
   # TODO: sort out stubbing the file existence to test that
   # monit::config creates /etc/default/monit when it should
   it 'does not un-disable the serviceby default' do
@@ -58,9 +49,5 @@ describe 'monit::config' do
 
   it 'creates the includes path' do
     expect(chef_run).to create_directory('/etc/monit.d')
-  end
-
-  it 'reloads the service' do
-    expect(global_conf).to notify('service[monit]').to(:restart).immediately
   end
 end
