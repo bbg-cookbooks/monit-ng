@@ -6,7 +6,7 @@ DEPENDENCIES
     metadata: true
   setup
     path: test/fixtures/cookbooks/setup
-  ubuntu
+  ubuntu (<= 1.1.4)
   yum-epel
 
 GRAPH
@@ -15,10 +15,10 @@ GRAPH
   monit (1.0.1)
     apt (>= 0.0.0)
     build-essential (>= 0.0.0)
-    ubuntu (>= 0.0.0)
+    ubuntu (<= 1.1.4)
     yum-epel (>= 0.0.0)
   setup (0.0.0)
-  ubuntu (1.1.6)
+  ubuntu (1.1.4)
     apt (>= 0.0.0)
   yum (3.2.0)
   yum-epel (0.3.6)

@@ -3,7 +3,7 @@ source "http://api.berkshelf.com"
 metadata
 
 cookbook 'yum-epel'
-cookbook 'ubuntu'
+cookbook 'ubuntu', '<= 1.1.4'
 cookbook 'apt'
 cookbook 'build-essential'
 
