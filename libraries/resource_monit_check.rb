@@ -62,6 +62,11 @@ class Chef
           :id_type, arg,
           :kind_of => String,
           :equal_to => CHECK_PAIRS.values,
+          :callbacks => {
+            'is a valid id type for the check type' => lambda do |spec|
+              !!(arg == CHECK_PAIRS[check_type])
+            end
+          }
         )
       end
 
