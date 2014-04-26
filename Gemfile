@@ -5,7 +5,7 @@ gem 'berkshelf'
 group :test do
   gem 'rake'
   gem 'chefspec'
-  gem 'foodcritic'
+  gem 'foodcritic', '~> 3.0.3'
   gem 'rubocop'
 end
 
