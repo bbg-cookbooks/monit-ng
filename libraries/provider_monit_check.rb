@@ -46,7 +46,6 @@ class Chef
         @tpl.group('root')
         @tpl.mode('0600')
         @tpl.variables(monit_check_config)
-        @tpl.notifies(:restart, 'service[monit]', :immediately)
         @tpl.action(:nothing)
       end
 
