@@ -76,6 +76,11 @@ class Chef
         set_or_return(
           :start, arg,
           :kind_of => String,
+          :callbacks => {
+            'should not exceed max arg length' => lambda do |spec|
+              spec.length < 127
+            end
+          },
         )
       end
 
@@ -83,6 +88,11 @@ class Chef
         set_or_return(
           :stop, arg,
           :kind_of => String,
+          :callbacks => {
+            'should not exceed max arg length' => lambda do |spec|
+              spec.length < 127
+            end
+          },
         )
       end
 
