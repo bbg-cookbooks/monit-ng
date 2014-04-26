@@ -10,19 +10,6 @@ class Chef
     class MonitCheck < Chef::Resource
       identity_attr :name
 
-      CHECK_PAIRS =
-        {
-          'process'    => 'pidfile',
-          'procmatch'  => 'matching',
-          'file'       => 'path',
-          'fifo'       => 'path',
-          'filesystem' => 'path',
-          'directory'  => 'path',
-          'host'       => 'address',
-          'system'     => nil,
-          'program'    => 'path',
-        }
-
       def initialize(name, run_context = nil)
         super
         @resource_name = :monit_check
@@ -43,7 +30,7 @@ class Chef
         set_or_return(
           :check_type, arg,
           :kind_of => String,
-          :equal_to => CHECK_PAIRS.keys,
+          :equal_to => check_pairs.keys,
           :required => true,
         )
       end
@@ -56,14 +43,14 @@ class Chef
         )
       end
 
-      def id_type(arg = CHECK_PAIRS[check_type])
+      def id_type(arg = check_pairs[check_type])
         set_or_return(
           :id_type, arg,
           :kind_of => String,
-          :equal_to => CHECK_PAIRS.values,
+          :equal_to => check_pairs.values,
           :callbacks => {
             'is a valid id type for the check type' => lambda do |spec|
-              spec == CHECK_PAIRS[check_type]
+              spec == check_pairs[check_type]
             end,
           },
         )
@@ -119,6 +106,18 @@ class Chef
           :every, arg,
           :kind_of => String,
         )
+      end
+
+      private
+
+      def check_pairs
+        {
+          'process' => 'pidfile', 'procmatch' => 'matching',
+          'file' => 'path', 'fifo' => 'path',
+          'filesystem' => 'path', 'directory' => 'path',
+          'host' => 'address', 'system' => nil,
+          'program' => 'path',
+        }
       end
     end
   end
