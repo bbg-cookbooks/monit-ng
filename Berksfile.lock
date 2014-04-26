@@ -1,25 +1,25 @@
-{
-  "sources": {
-    "monit": {
-      "path": "."
-    },
-    "yum-epel": {
-      "locked_version": "0.2.0"
-    },
-    "ubuntu": {
-      "locked_version": "1.1.4"
-    },
-    "apt": {
-      "locked_version": "2.3.4"
-    },
-    "build-essential": {
-      "locked_version": "1.4.2"
-    },
-    "setup": {
-      "path": "./test/fixtures/cookbooks/setup"
-    },
-    "yum": {
-      "locked_version": "3.1.6"
-    }
-  }
-}
+DEPENDENCIES
+  apt
+  build-essential
+  monit
+    path: .
+    metadata: true
+  setup
+    path: test/fixtures/cookbooks/setup
+  ubuntu
+  yum-epel
+
+GRAPH
+  apt (2.3.10)
+  build-essential (2.0.0)
+  monit (0.5.2)
+    apt (>= 0.0.0)
+    build-essential (>= 0.0.0)
+    ubuntu (>= 0.0.0)
+    yum-epel (>= 0.0.0)
+  setup (0.0.0)
+  ubuntu (1.1.6)
+    apt (>= 0.0.0)
+  yum (3.2.0)
+  yum-epel (0.3.6)
+    yum (~> 3.0)
