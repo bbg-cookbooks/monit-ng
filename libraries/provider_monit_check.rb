@@ -12,7 +12,7 @@ class Chef
       end
 
       def action_create
-        r = template 'monit-check' do
+        r = template "monit-check-#{new_resource.name}" do
               cookbook new_resource.cookbook
               path "#{node['monit']['conf_dir']}/#{new_resource.name}.conf"
               source 'monit.check.erb'
