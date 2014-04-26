@@ -19,19 +19,20 @@ class Chef
         @name = name
       end
 
-      def cookbook(arg = 'monit')
+      def cookbook(arg = nil)
         set_or_return(
           :cookbook, arg,
           :kind_of => String,
+          :default => 'monit',
         )
       end
 
-      def check_type(arg = 'process')
+      def check_type(arg = nil)
         set_or_return(
           :check_type, arg,
           :kind_of => String,
           :equal_to => check_pairs.keys,
-          :required => true,
+          :default => 'process',
         )
       end
 
@@ -43,11 +44,12 @@ class Chef
         )
       end
 
-      def id_type(arg = check_pairs[check_type])
+      def id_type(arg = nil)
         set_or_return(
           :id_type, arg,
           :kind_of => String,
           :equal_to => check_pairs.values,
+          :default => check_pairs[check_type],
           :callbacks => {
             'is a valid id type for the check type' => lambda do |spec|
               spec == check_pairs[check_type]
@@ -87,17 +89,18 @@ class Chef
         )
       end
 
-      def group(arg = 'system')
+      def group(arg = nil)
         set_or_return(
           :group, arg,
           :kind_of => String,
         )
       end
 
-      def tests(arg = [])
+      def tests(arg = nil)
         set_or_return(
           :tests, arg,
           :kind_of => Array,
+          :default => [],
         )
       end
 
