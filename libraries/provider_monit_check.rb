@@ -51,7 +51,7 @@ class Chef
       end
 
       def tpl_path
-        ::File.join(node.monit.conf_dir, "#{new_resource.name}.conf")
+        ::File.join(node['monit']['conf_dir'], "#{new_resource.name}.conf")
       end
 
       def monit_check_config
