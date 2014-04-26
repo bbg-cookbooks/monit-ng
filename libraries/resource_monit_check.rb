@@ -9,107 +9,103 @@ class Chef
   class Resource
     class MonitCheck < Chef::Resource
 
-    CHECK_PAIRS =
-      {
-        'process'    => 'pidfile',
-        'procmatch'  => 'matching',
-        'file'       => 'path',
-        'fifo'       => 'path',
-        'filesystem' => 'path',
-        'directory'  => 'path',
-        'host'       => 'address',
-        'system'     => nil,
-        'program'    => 'path',
-      }
+      identity_attr :name
 
-    def initialize(name, run_context=nil)
-      super
-      @resource_name = :monit_check
-      @provider = Chef::Provider::MonitCheck
-      @action = :create
-      @allowed_actions = [:create, :remove]
-      @name = name
-    end
+      CHECK_PAIRS =
+        {
+          'process'    => 'pidfile',
+          'procmatch'  => 'matching',
+          'file'       => 'path',
+          'fifo'       => 'path',
+          'filesystem' => 'path',
+          'directory'  => 'path',
+          'host'       => 'address',
+          'system'     => nil,
+          'program'    => 'path',
+        }
 
-    def cookbook(arg = 'monit')
-      set_or_return(
-        :cookbook, arg,
-        :kind_of => String
-      )
-    end
+      def initialize(name, run_context=nil)
+        super
+        @resource_name = :monit_check
+        @provider = Chef::Provider::MonitCheck
+        @action = :create
+        @allowed_actions = [:create, :remove]
+        @name = name
+      end
 
-    def check_type(arg = 'process')
-      set_or_return(
-        :check_type, arg,
-        :kind_of => String,
-        :equal_to => CHECK_PAIRS.keys,
-        :required => true,
-      )
-    end
+      def cookbook(arg = 'monit')
+        set_or_return(
+          :cookbook, arg,
+          :kind_of => String,
+        )
+      end
 
-    def check_id(arg = nil)
-      set_or_return(
-        :check_id, arg,
-        :kind_of => String,
-      )
-    end
+      def check_type(arg = 'process')
+        set_or_return(
+          :check_type, arg,
+          :kind_of => String,
+          :equal_to => CHECK_PAIRS.keys,
+          :required => true,
+        )
+      end
 
-    def id_type(arg = check_id_type)
-      set_or_return(
-        :id_type, arg,
-        :kind_of => String,
-        :equal_to => CHECK_PAIRS.values,
-      )
-    end
+      def check_id(arg = nil)
+        set_or_return(
+          :check_id, arg,
+          :kind_of => String,
+          :required => true,
+        )
+      end
 
-    def start_as(arg = nil)
-      set_or_return(
-        :start_as, arg,
-        :kind_of => String,
-      )
-    end
+      def id_type(arg = CHECK_PAIRS[check_type])
+        set_or_return(
+          :id_type, arg,
+          :kind_of => String,
+          :equal_to => CHECK_PAIRS.values,
+        )
+      end
 
-    def start(arg = nil)
-      set_or_return(
-        :start, arg,
-        :kind_of => String,
-#        :callback => lamda { |spec| spec.length < 127 }
-      )
-    end
+      def start_as(arg = nil)
+        set_or_return(
+          :start_as, arg,
+          :kind_of => String,
+        )
+      end
 
-    def stop(arg = nil)
-      set_or_return(
-        :stop, arg,
-        :kind_of => String,
-#        :callback => lamda { |spec| spec.length < 127 }
-      )
-    end
+      def start(arg = nil)
+        set_or_return(
+          :start, arg,
+          :kind_of => String,
+        )
+      end
 
-    def group(arg = 'system')
-      set_or_return(
-        :group, arg,
-        :kind_of => String,
-      )
-    end
+      def stop(arg = nil)
+        set_or_return(
+          :stop, arg,
+          :kind_of => String,
+        )
+      end
 
-    def tests(arg = [])
-      set_or_return(
-        :tests, arg,
-        :kind_of => Array,
-      )
-    end
+      def group(arg = 'system')
+        set_or_return(
+          :group, arg,
+          :kind_of => String,
+        )
+      end
 
-    def every(arg = nil)
-      set_or_return(
-        :every, arg,
-        :kind_of => String,
-      )
-    end
+      def tests(arg = [])
+        set_or_return(
+          :tests, arg,
+          :kind_of => Array,
+        )
+      end
 
-    def check_id_type
-      CHECK_PAIRS[@check_type]
-    end
-
+      def every(arg = nil)
+        set_or_return(
+          :every, arg,
+          :kind_of => String,
+        )
+      end
     end
   end
 end
