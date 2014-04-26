@@ -3,17 +3,17 @@
 # Attributes: default
 #
 
-default['monit']['install_method'] = 'repo'
-default['monit']['configure'] = true
-
-case node['platform_family']
-when 'debian'
-  default['monit']['conf_file'] = '/etc/monit/monitrc'
-  default['monit']['conf_dir'] = '/etc/monit/conf.d'
-when 'rhel'
-  default['monit']['conf_file'] = '/etc/monit.conf'
-  default['monit']['conf_dir'] = '/etc/monit.d'
-else
-  default['monit']['conf_file'] = '/etc/monitrc'
-  default['monit']['conf_dir'] = '/etc/monit.d'
+default['monit'].tap do |monit|
+  monit['install_method'] = 'repo'
+  monit['configure'] = true
+  monit['conf_file'] = value_for_platform_family(
+    'rhel'    => '/etc/monit.conf',
+    'debian'  => '/etc/monit/monitrc',
+    'default' => '/etc/monitrc',
+  )
+  monit['conf_dir'] = value_for_platform_family(
+    'rhel'    => '/etc/monit.d',
+    'debian'  => '/etc/monit/conf.d',
+    'default' => '/etc/monit.d',
+  )
 end

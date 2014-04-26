@@ -1,6 +1,13 @@
-default['monit']['checks']['crond_pid'] = '/var/run/crond.pid'
-default['monit']['checks']['crond_init'] = value_for_platform_family(
-                                             'rhel'    => '/etc/init.d/crond',
-                                             'debian'  => '/etc/init.d/cron',
-                                             'default' => '/etc/init.d/crond',
-                                           )
+#
+# Cookbook Name: monit
+# Attributes: crond
+#
+
+default['monit']['checks'].tap do |check|
+  check['crond_pid'] = '/var/run/crond.pid'
+  check['crond_init'] = value_for_platform_family(
+    'rhel'    => '/etc/init.d/crond',
+    'debian'  => '/etc/init.d/cron',
+    'default' => '/etc/init.d/crond',
+  )
+end
