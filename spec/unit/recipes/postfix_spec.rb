@@ -9,11 +9,4 @@ describe 'monit::postfix' do
   it 'installs the postfix check' do
     expect(chef_run).to create_monit_check('postfix')
   end
-
-  it 'installs the postfix check in the correct path' do
-    expect(chef_run).to create_template('postfix')
-    .with(
-      path: '/etc/monit.d/postfix.conf'
-    )
-  end
 end

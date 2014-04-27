@@ -9,11 +9,4 @@ describe 'monit::ntpd' do
   it 'installs the ntp check' do
     expect(chef_run).to create_monit_check('ntpd')
   end
-
-  it 'installs the ntp check in the correct path' do
-    expect(chef_run).to create_template('ntpd')
-    .with(
-      path: '/etc/monit.d/ntpd.conf'
-    )
-  end
 end

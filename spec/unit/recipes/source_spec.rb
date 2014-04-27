@@ -23,10 +23,6 @@ describe 'monit::source' do
     end
   end
 
-  it 'downloads the source archive' do
-    expect(chef_run).to create_remote_file('/var/chef/cache/monit-5.8.tar.gz')
-  end
-
   context 'ubuntu' do
     let(:chef_run) do
       ChefSpec::Runner.new(:platform => 'ubuntu', :version => '12.04')
@@ -55,10 +51,6 @@ describe 'monit::source' do
 
   it 'skips extraction by default' do
     expect(chef_run).to_not run_execute('extract-source-archive')
-  end
-
-  it 'extracts the source archive' do
-    expect(remote_file).to notify('execute[extract-source-archive]').to(:run)
   end
 
   it 'skips compilation by default' do

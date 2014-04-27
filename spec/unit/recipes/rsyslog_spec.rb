@@ -9,11 +9,4 @@ describe 'monit::rsyslog' do
   it 'installs the rsyslog check' do
     expect(chef_run).to create_monit_check('rsyslog')
   end
-
-  it 'installs the rsyslog check in the correct path' do
-    expect(chef_run).to create_template('rsyslog')
-    .with(
-      path: '/etc/monit.d/rsyslog.conf'
-    )
-  end
 end

@@ -9,11 +9,4 @@ describe 'monit::crond' do
   it 'installs the cron check' do
     expect(chef_run).to create_monit_check('crond')
   end
-
-  it 'installs the cron check in the correct path' do
-    expect(chef_run).to create_template('crond')
-    .with(
-      path: '/etc/monit.d/crond.conf'
-    )
-  end
 end
