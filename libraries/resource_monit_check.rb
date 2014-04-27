@@ -7,6 +7,7 @@ require 'chef/resource'
 
 class Chef
   class Resource
+    # rubocop: disable ClassLength
     class MonitCheck < Chef::Resource
       identity_attr :name
 
@@ -44,6 +45,7 @@ class Chef
         )
       end
 
+      # rubocop: disable MethodLength
       def id_type(arg = nil)
         set_or_return(
           :id_type, arg,
@@ -57,6 +59,7 @@ class Chef
           },
         )
       end
+      # rubocop: enable MethodLength
 
       def start_as(arg = nil)
         set_or_return(
@@ -123,5 +126,6 @@ class Chef
         }
       end
     end
+    # rubocop: enable ClassLength
   end
 end
