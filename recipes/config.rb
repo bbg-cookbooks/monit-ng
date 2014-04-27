@@ -68,6 +68,5 @@ service 'monit' do
       supports :reload => true, :status => true, :restart => true
     end
   end
-  subscribes :restart, 'template[monit-check]', :immediately
   action [:enable, :start]
 end
