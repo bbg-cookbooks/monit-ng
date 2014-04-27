@@ -13,4 +13,4 @@ require 'kitchen/rake_tasks'
 Kitchen::RakeTasks.new
 
 task :default => %w( rubocop foodcritic chefspec )
-task :all => %w( default kitchen:all )
+task :alltests => %w( default kitchen:all )
