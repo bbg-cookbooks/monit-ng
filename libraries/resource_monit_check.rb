@@ -53,7 +53,7 @@ class Chef
           :equal_to => check_pairs.values,
           :default => check_pairs[check_type],
           :callbacks => {
-            'is a valid id type for the check type' => lambda do |spec|
+            'is a valid id_type for check_type' => lambda do |spec|
               spec == check_pairs[check_type]
             end,
           },
@@ -73,7 +73,7 @@ class Chef
           :start, arg,
           :kind_of => String,
           :callbacks => {
-            'should not exceed max arg length' => lambda do |spec|
+            'does not exceed max arg length' => lambda do |spec|
               spec.length < 127
             end,
           },
@@ -85,7 +85,7 @@ class Chef
           :stop, arg,
           :kind_of => String,
           :callbacks => {
-            'should not exceed max arg length' => lambda do |spec|
+            'does not exceed max arg length' => lambda do |spec|
               spec.length < 127
             end,
           },
