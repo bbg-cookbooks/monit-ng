@@ -3,22 +3,14 @@
 require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:chefspec)
 
-desc 'run ruby linting'
-task :rubocop do
-  sh 'rubocop'
-end
+require 'rubocop/rake_task'
+Rubocop::RakeTask.new
 
-desc 'foodcritic cookbook linting'
-task :foodcritic do
-  # Temporarily disabling dep checks due to bug
-  sh 'foodcritic --tags ~FC007 .'
-end
+require 'foodcritic'
+FoodCritic::Rake::LintTask.new
 
-begin
-  require 'kitchen/rake_tasks'
-  Kitchen::RakeTasks.new
-rescue LoadError
-  puts 'test-kitchen gem not found. skipping.'
-end
+require 'kitchen/rake_tasks'
+Kitchen::RakeTasks.new
 
 task :default => %w( rubocop foodcritic chefspec )
+task :all => %w( default kitchen:all )
