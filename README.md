@@ -1,47 +1,22 @@
 Chef monit cookbook
 ===================
-Installs and configures monit.
+Installs and configures monit, with a resource
+provider for managing additional monit checks.
 
-Also exposes an LWRP for adding and managing additional monit control files.
-
-Attributes
-----------
-- `node['monit']['config']['poll_freq']` - controls polling frequency
-- `node['monit']['config']['mail_servers']` - specify mail servers to use
-- `node['monit']['config']['subscribers']` - controls alert recipients
-- `node['monit']['config']['mail_from']` - controls alert email from address
-- `node['monit']['config']['mail_subject']` - controls alert email subject
-- `node['monit']['config']['mail_message']` - controls alert email message
-- `node['monit']['config']['mmonit_url']` - controls the M/Monit server
-- and more!
-
-Check attributes for the full list.
-
-Usage
------
-#### Attributes
-```ruby
-default_attributes(
-  'monit' => {
-    'config' => {
-      'poll_freq' => 30,
-      'subscribers' => %w{root@localhost hostmaster@foo.net},
-      'mmonit_url' => 'http://user:pass@mmonit.foo.net:8080/collector',
-      'allow' => %w{localhost mmonit.foo.net}
-      }
-    }
-  }
-)
-```
-
-#### LWRP
+Recipes
+-------
+- `monit::default`: installs and optionally configures monit
+- `monit::repo`: installs monit from a package repository
+- `monit::source`: installs monit from source
+- `monit::config`: configures monit
+- `monit::{crond,ntpd,postfix,rsyslog,snmpd,sshd}`: install common service checks
 
 Attributes
 ----------
-  TODO
 
-Examples
---------
+
+monit_check resource examples
+-----------------------------
 
 ##### External Service Check
 
