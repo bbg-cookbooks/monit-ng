@@ -20,6 +20,7 @@ suites:
   - recipe[monit::default]
   - recipe[monit::sshd]
   - recipe[monit::crond]
+  - recipe[monit::rootfs]
   attributes: {}
 - name: monit-source
   run_list:
@@ -27,4 +28,5 @@ suites:
   - recipe[monit::default]
   - recipe[monit::sshd]
   - recipe[monit::crond]
+  - recipe[monit::rootfs]
   attributes: { monit: { install_method: 'source' } }
