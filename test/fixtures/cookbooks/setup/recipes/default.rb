@@ -1,7 +1,5 @@
 
-case node['platform_family']
-when 'rhel'
-  package 'cronie'
-when 'debian'
-  package 'cron'
-end
+package value_for_platform_family(
+  'rhel'   => 'cronie',
+  'debian' => 'cron',
+)
