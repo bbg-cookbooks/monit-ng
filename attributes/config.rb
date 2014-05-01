@@ -49,7 +49,6 @@ default['monit']['config'].tap do |conf|
   conf['listen'] = '127.0.0.1'
 
   # list of permitted control port accessors (host, basic-auth, pam, htpasswd)
-  # https://mmonit.com/monit/documentation/monit.html#host_and_network_allow_list
   conf['allow'] = ['localhost']
 
   # mail system configuration
