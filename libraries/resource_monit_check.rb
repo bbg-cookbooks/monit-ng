@@ -24,7 +24,7 @@ class Chef
         set_or_return(
           :cookbook, arg,
           :kind_of => String,
-          :default => 'monit',
+          :default => 'monit'
         )
       end
 
@@ -33,7 +33,7 @@ class Chef
           :check_type, arg,
           :kind_of => String,
           :equal_to => check_pairs.keys,
-          :default => 'process',
+          :default => 'process'
         )
       end
 
@@ -41,7 +41,7 @@ class Chef
         set_or_return(
           :check_id, arg,
           :kind_of => String,
-          :required => true,
+          :required => true
         )
       end
 
@@ -56,7 +56,7 @@ class Chef
             'is a valid id_type for check_type' => lambda do |spec|
               spec == check_pairs[check_type]
             end,
-          },
+          }
         )
       end
       # rubocop: enable MethodLength
@@ -64,7 +64,7 @@ class Chef
       def start_as(arg = nil)
         set_or_return(
           :start_as, arg,
-          :kind_of => String,
+          :kind_of => String
         )
       end
 
@@ -76,7 +76,7 @@ class Chef
             'does not exceed max arg length' => lambda do |spec|
               spec.length < 127
             end,
-          },
+          }
         )
       end
 
@@ -88,14 +88,14 @@ class Chef
             'does not exceed max arg length' => lambda do |spec|
               spec.length < 127
             end,
-          },
+          }
         )
       end
 
       def group(arg = nil)
         set_or_return(
           :group, arg,
-          :kind_of => String,
+          :kind_of => String
         )
       end
 
@@ -103,14 +103,14 @@ class Chef
         set_or_return(
           :tests, arg,
           :kind_of => Array,
-          :default => [],
+          :default => []
         )
       end
 
       def every(arg = nil)
         set_or_return(
           :every, arg,
-          :kind_of => String,
+          :kind_of => String
         )
       end
 
@@ -122,7 +122,7 @@ class Chef
           'file' => 'path', 'fifo' => 'path',
           'filesystem' => 'path', 'directory' => 'path',
           'host' => 'address', 'system' => nil,
-          'program' => 'path',
+          'program' => 'path'
         }
       end
     end
