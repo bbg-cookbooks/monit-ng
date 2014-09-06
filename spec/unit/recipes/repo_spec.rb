@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'monit::repo' do
+describe 'monit-ng::repo' do
   let(:chef_run) { ChefSpec::Runner.new.converge(described_recipe) }
 
   context 'rhel' do

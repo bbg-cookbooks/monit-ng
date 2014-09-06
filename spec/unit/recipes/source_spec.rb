@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'monit::source' do
+describe 'monit-ng::source' do
   let(:chef_run) do
     ChefSpec::Runner.new(:platform => 'centos', :version => '6.4')
     .converge(described_recipe)
