@@ -16,19 +16,19 @@ settings:
   destroy: always
 
 suites:
-- name: monit-default
-  run_list:
-  - recipe[setup]
-  - recipe[monit::default]
-  - recipe[monit::sshd]
-  - recipe[monit::crond]
-  - recipe[monit::rootfs]
-  attributes: {}
-- name: monit-source
-  run_list:
-  - recipe[setup]
-  - recipe[monit::default]
-  - recipe[monit::sshd]
-  - recipe[monit::crond]
-  - recipe[monit::rootfs]
-  attributes: { monit: { install_method: 'source' } }
+  - name: monit-ng-default
+    run_list:
+      - recipe[setup]
+      - recipe[monit-ng::default]
+      - recipe[monit-ng::sshd]
+      - recipe[monit-ng::crond]
+      - recipe[monit-ng::rootfs]
+    attributes: {}
+  - name: monit-ng-source
+    run_list:
+      - recipe[setup]
+      - recipe[monit-ng::default]
+      - recipe[monit-ng::sshd]
+      - recipe[monit-ng::crond]
+      - recipe[monit-ng::rootfs]
+    attributes: { monit: { install_method: 'source' } }
