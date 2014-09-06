@@ -24,7 +24,7 @@ class Chef
         set_or_return(
           :cookbook, arg,
           :kind_of => String,
-          :default => 'monit'
+          :default => 'monit-ng'
         )
       end
 
