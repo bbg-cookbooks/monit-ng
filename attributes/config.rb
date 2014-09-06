@@ -3,7 +3,7 @@
 # Attributes: config
 #
 
-include_attribute 'monit::default'
+include_attribute 'monit-ng::default'
 
 default['monit']['config'].tap do |conf|
 
