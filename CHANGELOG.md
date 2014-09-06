@@ -1,3 +1,7 @@
+1.1.4 / 2014-09-05
+
+* update source install to 5.8.1
+
 1.1.2 / 2014-09-05
 
 * rename to monit-ng
