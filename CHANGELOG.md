@@ -1,3 +1,7 @@
+1.1.4 / 2014-09-10
+
+* add start config for /etc/default/monit in Ubuntu 14.04 (thanks @kevit!)
+
 1.1.3 / 2014-09-05
 
 * update source install to 5.8.1
