@@ -1,5 +1,5 @@
 #
-# Cookbook Name: monit
+# Cookbook Name: monit-ng
 # Attributes: sshd
 #
 

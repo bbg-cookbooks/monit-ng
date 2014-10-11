@@ -1,3 +1,8 @@
+1.1.5 / 2014-10-11
+
+* update check_pairs to support multiple id_types for a check (thanks @vkhatri!)
+* add `matching` id_type for process checks (thanks @vkhatri!)
+
 1.1.4 / 2014-09-10
 
 * add start config for /etc/default/monit in Ubuntu 14.04 (thanks @kevit!)

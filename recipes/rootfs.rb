@@ -1,5 +1,5 @@
 #
-# Cookbook name:: monit
+# Cookbook name:: monit-ng
 # Recipe:: rootfs
 #
 
