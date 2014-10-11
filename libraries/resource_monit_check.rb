@@ -50,11 +50,11 @@ class Chef
         set_or_return(
           :id_type, arg,
           :kind_of => String,
-          :equal_to => check_pairs.values,
-          :default => check_pairs[check_type],
+          :equal_to => check_pairs.values.flatten.uniq,
+          :default => check_pairs[check_type].first,
           :callbacks => {
             'is a valid id_type for check_type' => lambda do |spec|
-              spec == check_pairs[check_type]
+              check_pairs[check_type].include?(spec)
             end,
           }
         )
@@ -118,11 +118,11 @@ class Chef
 
       def check_pairs
         {
-          'process' => 'pidfile', 'procmatch' => 'matching',
-          'file' => 'path', 'fifo' => 'path',
-          'filesystem' => 'path', 'directory' => 'path',
-          'host' => 'address', 'system' => nil,
-          'program' => 'path'
+          'process' => ['pidfile', 'matching'], 'procmatch' => ['matching'],
+          'file' => ['path'], 'fifo' => ['path'],
+          'filesystem' => ['path'], 'directory' => ['path'],
+          'host' => ['address'], 'system' => [],
+          'program' => ['path']
         }
       end
     end
