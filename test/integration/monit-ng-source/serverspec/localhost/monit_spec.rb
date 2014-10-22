@@ -1,23 +1,33 @@
 require 'spec_helper'
 
 describe 'Monit Daemon' do
-  it 'is enabled' do
-    expect(service('monit')).to be_enabled
+  describe 'is enabled' do
+    describe service('monit') do
+      it { should be_enabled }
+    end
   end
 
-  it 'is running' do
-    expect(process('monit')).to be_running
+  describe 'is running' do
+    describe process('monit') do
+      it { should be_running }
+    end
   end
 
-  it 'is listening on port 2812' do
-    expect(port(2812)).to be_listening
+  describe 'is listening on port 2812' do
+    describe port(2812) do
+      it { should be_listening }
+    end
   end
 
-  it 'is monitoring sshd' do
-    expect(service('sshd')).to be_monitored_by('monit')
+  describe 'is monitoring sshd' do
+    describe service('sshd') do
+      it { should be_monitored_by('monit') }
+    end
   end
 
-  it 'is monitoring crond' do
-    expect(service('crond')).to be_monitored_by('monit')
+  describe 'is monitoring crond' do
+    describe service('crond') do
+      it { should be_monitored_by('monit') }
+    end
   end
 end
