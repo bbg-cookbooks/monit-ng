@@ -6,14 +6,6 @@
 monit = node['monit']
 config = monit['config']
 
-directory monit['conf_dir'] do
-  owner 'root'
-  group 'root'
-  mode '0600'
-  recursive true
-  action :create
-end
-
 # Exists in older Debian/Ubuntu platforms
 # and disables monit starting by default
 # despite being enabled in appropriate run-levels
@@ -27,6 +19,14 @@ template '/etc/default/monit' do
     :platform_version => node['platform_version'],
   )
   only_if { platform_family?('debian') && ::File.exist?('/etc/default/monit') }
+end
+
+directory monit['conf_dir'] do
+  owner 'root'
+  group 'root'
+  mode '0600'
+  recursive true
+  action :create
 end
 
 template monit['conf_file'] do
