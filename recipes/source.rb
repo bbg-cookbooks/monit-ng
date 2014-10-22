@@ -61,8 +61,14 @@ link '/etc/monitrc' do
   not_if { node['monit']['conf_file'] == '/etc/monitrc' }
 end
 
-template '/etc/init.d/monit' do
-  source 'monit.init.erb'
+template 'monit-init' do
+  if node.platform_family?('rhel') && node.platform_version.to_f >= 7.0
+    path '/lib/systemd/system/monit.service'
+    source 'monit.service.erb'
+  else
+    path '/etc/init.d/monit'
+    source 'monit.init.erb'
+  end
   owner 'root'
   group 'root'
   mode '0755'
