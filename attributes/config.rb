@@ -52,7 +52,7 @@ default['monit']['config'].tap do |conf|
   conf['allow'] = ['localhost']
 
   # mail system configuration
-  conf['mail_from'] = "monit@#{node['fqdn']}"
+  conf['mail_from'] = "monit@#{node['fqdn'] || 'localhost'}"
   conf['mail_subject'] = '$SERVICE $EVENT at $DATE'
   conf['mail_message'] = <<-EOT
     Monit $ACTION $SERVICE at $DATE on $HOST: $DESCRIPTION.
