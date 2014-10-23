@@ -110,15 +110,15 @@ end
 # Doctor? Where am I?
 ruby_block 'configure-system-init' do
   block do
-    case node.platform_family?
+    case node['platform_family']
     when 'debian'
-      if node.platform?('ubuntu') && node.platform_version.to_f >= 12.04
+      if platform?('ubuntu') && node['platform_version'].to_f >= 12.04
         resources(:template => 'monit-upstart-init').run_action(:create)
       else
         resources(:template => 'monit-sysv-init').run_action(:create)
       end
     when 'rhel'
-      if node.platform_version.to_f >= 7.0
+      if node['platform_version'].to_f >= 7.0
         resources(:template => 'monit-systemd-init').run_action(:create)
       else
         resources(:template => 'monit-sysv-init').run_action(:create)

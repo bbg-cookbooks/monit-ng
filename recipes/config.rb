@@ -54,9 +54,12 @@ template monit['conf_file'] do
     :mmonit_url => config['mmonit_url'],
     :conf_dir => monit['conf_dir'],
   )
-  notifies :restart, 'service[monit]', :immediately
+  notifies :restart, 'service[monit]', :delayed
 end
 
 service 'monit' do
+  if platform?('ubuntu') && node['platform_version'].to_f >= 12.04
+    provider Chef::Provider::Service::Upstart
+  end
   action [:enable, :start]
 end
