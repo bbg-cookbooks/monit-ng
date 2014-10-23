@@ -3,7 +3,7 @@
 # Attributes: source
 #
 
-include_attribute 'monit-ng::default'
+include_attribute "#{cookbook_name}::default"
 
 default['monit']['source'].tap do |source|
   source['url'] = 'https://mmonit.com/monit/dist'

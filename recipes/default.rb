@@ -3,5 +3,5 @@
 # Recipe:: default
 #
 
-include_recipe "monit-ng::#{node['monit']['install_method']}"
-include_recipe 'monit-ng::config' if node['monit']['configure']
+include_recipe "#{cookbook_name}::#{node['monit']['install_method']}"
+include_recipe "#{cookbook_name}::config" if node['monit']['configure']
