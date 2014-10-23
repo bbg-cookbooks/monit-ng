@@ -83,6 +83,14 @@ template 'monit-upstart-init' do
   action :nothing
 end
 
+ruby_block 'enable-monit-upstart' do
+  block do
+    resources(:template => 'monit-upstart-init').run_action(:create)
+    resources(:service => 'monit').provider(Chef::Provider::Service::Upstart)
+  end
+  action :nothing
+end
+
 # SystemD Config
 execute 'reload-systemd-configuration' do
   command 'systemctl daemon-reload'
@@ -98,7 +106,36 @@ template 'monit-systemd-init' do
   action :nothing
 end
 
+ruby_block 'enable-monit-systemd' do
+  block do
+    resources(:template => 'monit-systemd-init').run_action(:create)
+  end
+  action :nothing
+end
+
 # SysV Config
+execute 'update-rc.d-monit-removal' do
+  command 'update-rc.d -f monit remove'
+  ignore_failure true
+  only_if { platform_family?('debian') }
+  notifies :delete, 'template[monit-sysv-init]', :immediately
+  action :nothing
+end
+
+execute 'sysv-stop-monit' do
+  command '/etc/init.d/monit stop'
+  only_if { ::File.exist?('/etc/init.d/monit') }
+  action :nothing
+end
+
+ruby_block 'disable-monit-sysv' do
+  block do
+    resources(:execute => 'sysv-stop-monit').run_action(:run)
+    resources(:execute => 'update-rc.d-monit-removal').run_action(:run)
+  end
+  action :nothing
+end
+
 template 'monit-sysv-init' do
   path '/etc/init.d/monit'
   source 'monit.init.erb'
@@ -113,17 +150,15 @@ ruby_block 'configure-system-init' do
     case node['platform_family']
     when 'debian'
       if platform?('ubuntu') && node['platform_version'].to_f >= 12.04
-        resources(:template => 'monit-upstart-init').run_action(:create)
-        resources(:template => 'monit-sysv-init').run_action(:delete)
-
-        resources(:service => 'monit').provider(Chef::Provider::Service::Upstart)
+        resources(:ruby_block => 'disable-monit-sysv').run_action(:run)
+        resources(:ruby_block => 'enable-monit-upstart').run_action(:run)
       else
         resources(:template => 'monit-sysv-init').run_action(:create)
       end
     when 'rhel'
       if node['platform_version'].to_f >= 7.0
-        resources(:template => 'monit-systemd-init').run_action(:create)
-        resources(:template => 'monit-sysv-init').run_action(:delete)
+        resources(:ruby_block => 'disable-monit-sysv').run_action(:run)
+        resources(:ruby_block => 'enable-monit-systemd').run_action(:rub)
       else
         resources(:template => 'monit-sysv-init').run_action(:create)
       end
