@@ -1,6 +1,0 @@
-image: nathwill/ruby:2.1.1
-env:
- - PATH=/usr/local/rbenv/shims:/usr/local/rbenv/bin:$PATH
-script:
-  - bundle install --deployment
-  - bundle exec rake
