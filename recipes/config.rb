@@ -6,14 +6,6 @@
 monit = node['monit']
 config = monit['config']
 
-directory monit['conf_dir'] do
-  owner 'root'
-  group 'root'
-  mode '0600'
-  recursive true
-  action :create
-end
-
 # Exists in older Debian/Ubuntu platforms
 # and disables monit starting by default
 # despite being enabled in appropriate run-levels
@@ -26,7 +18,16 @@ template '/etc/default/monit' do
     :platform         => node['platform'],
     :platform_version => node['platform_version'],
   )
+  notifies :restart, 'service[monit]', :delayed
   only_if { platform_family?('debian') && ::File.exist?('/etc/default/monit') }
+end
+
+directory monit['conf_dir'] do
+  owner 'root'
+  group 'root'
+  mode '0600'
+  recursive true
+  action :create
 end
 
 template monit['conf_file'] do
@@ -57,16 +58,5 @@ template monit['conf_file'] do
 end
 
 service 'monit' do
-  case monit['install_method']
-  when 'source'
-    status_command '/etc/init.d/monit status | grep -q uptime'
-    supports :reload => true, :status => true, :restart => true
-  when 'repo'
-    if platform_family?('debian') && ::File.exist?('/etc/default/monit')
-      subscribes :restart, 'template[/etc/default/monit]', :immediately
-    else
-      supports :reload => true, :status => true, :restart => true
-    end
-  end
   action [:enable, :start]
 end
