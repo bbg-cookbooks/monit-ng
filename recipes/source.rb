@@ -61,20 +61,70 @@ link '/etc/monitrc' do
   not_if { node['monit']['conf_file'] == '/etc/monitrc' }
 end
 
-template 'monit-init' do
-  if node.platform_family?('rhel') && node.platform_version.to_f >= 7.0
-    path '/lib/systemd/system/monit.service'
-    source 'monit.service.erb'
-  else
-    path '/etc/init.d/monit'
-    source 'monit.init.erb'
-  end
-  owner 'root'
-  group 'root'
+# OK then, hang onto your butts
+init_config = {
+  :platform_family => node['platform_family'],
+  :binary          => monit_bin,
+  :conf_file       => node['monit']['conf_file'],
+}
+
+# Upstart Config
+execute 'reload-upstart-configuration' do
+  command 'initctl reload-configuration'
+  action :nothing
+end
+
+template 'monit-upstart-init' do
+  path '/etc/init/monit.conf'
+  source 'monit.upstart.erb'
+  mode '0644'
+  variables init_config
+  notifies :run, 'execute[reload-upstart-configuration]', :immediately
+  action :nothing
+end
+
+# SystemD Config
+execute 'reload-systemd-configuration' do
+  command 'systemctl daemon-reload'
+  action :nothing
+end
+
+template 'monit-systemd-init' do
+  path '/lib/systemd/system/monit.service'
+  source 'monit.service.erb'
+  mode '0644'
+  variables init_config
+  notifies :run, 'execute[reload-systemd-configuration]', :immediately
+  action :nothing
+end
+
+# SysV Config
+template 'monit-sysv-init' do
+  path '/etc/init.d/monit'
+  source 'monit.init.erb'
   mode '0755'
-  variables(
-    :platform_family => node['platform_family'],
-    :binary          => monit_bin,
-    :conf_file       => node['monit']['conf_file'],
-  )
+  variables init_config
+  action :nothing
+end
+
+# Doctor? Where am I?
+ruby_block 'configure-system-init' do
+  block do
+    case node.platform_family?
+    when 'debian'
+      if node.platform?('ubuntu') && node.platform_version.to_f >= 12.04
+        resources(:template => 'monit-upstart-init').run_action(:create)
+      else
+        resources(:template => 'monit-sysv-init').run_action(:create)
+      end
+    when 'rhel'
+      if node.platform_version.to_f >= 7.0
+        resources(:template => 'monit-systemd-init').run_action(:create)
+      else
+        resources(:template => 'monit-sysv-init').run_action(:create)
+      end
+    else
+      resources(:template => 'monit-sysv-init').run_action(:create)
+    end
+  end
 end

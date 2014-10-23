@@ -18,6 +18,7 @@ template '/etc/default/monit' do
     :platform         => node['platform'],
     :platform_version => node['platform_version'],
   )
+  notifies :restart, 'service[monit]', :delayed
   only_if { platform_family?('debian') && ::File.exist?('/etc/default/monit') }
 end
 
@@ -57,19 +58,5 @@ template monit['conf_file'] do
 end
 
 service 'monit' do
-  case monit['install_method']
-  when 'source'
-    unless node.platform_family?('rhel') && node.platform_version.to_f >= 7.0
-      status_command '/etc/init.d/monit status | grep -q uptime'
-      supports :reload => true, :status => true, :restart => true
-    end
-  when 'repo'
-    if platform_family?('debian') && ::File.exist?('/etc/default/monit')
-      subscribes :restart, 'template[/etc/default/monit]', :immediately
-    else
-      supports :reload => true, :status => true, :restart => true
-    end
-  end
   action [:enable, :start]
-  subscribes :restart, 'template[monit-init]', :delayed
 end
