@@ -1,3 +1,13 @@
+1.2.0 / 2014-10-23
+
+* prefer upstart init on ubuntu >= 12.04
+* prefer systemd init on centos >= 7.0
+* unwind sysv init on upstart/systemd platforms to help migrate from pre-1.2.0 cookbook (to be removed in 1.3)
+* spec updates for serverspec 2.0
+* bug-fix: correct LSB headers in sysv script to fix debian support
+* add debian to test platforms
+* use cookbook_name when loading our own recipes
+
 1.1.5 / 2014-10-11
 
 * update check_pairs to support multiple id_types for a check (thanks @vkhatri!)
