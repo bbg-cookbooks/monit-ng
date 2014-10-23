@@ -23,7 +23,7 @@ MONIT=<%= @binary %>
 CONFIG=<%= @conf_file %>
 PID=/var/run/monit.pid
 
-[ -f $MONIT ] || exit 0
+[ -x $MONIT ] || exit 0
 
 RETVAL=0
 
