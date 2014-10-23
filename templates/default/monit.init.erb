@@ -12,11 +12,20 @@
 # config:       <% @conf_file %>
 <% when 'debian' %>
 ### BEGIN INIT INFO
-## Provides:		monit
-## Default-Start:	2 3 4 5
-## Default-Stop:		
-## Short-Description:	Monitor Unix systems
-#### END INIT INFO
+# Provides:          monit
+# Required-Start:    $remote_fs
+# Required-Stop:     $remote_fs
+# Should-Start:      $all
+# Should-Stop:       $all
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: service and resource monitoring daemon
+# Description:       monit is a utility for managing and monitoring
+#                    processes, programs, files, directories and filesystems
+#                    on a Unix system. Monit conducts automatic maintenance
+#                    and repair and can execute meaningful causal actions
+#                    in error situations.
+### END INIT INFO
 <% end %>
 
 MONIT=<%= @binary %>
