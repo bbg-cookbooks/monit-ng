@@ -3,7 +3,7 @@
 # Attributes: config
 #
 
-include_attribute "#{cookbook_name}::default"
+include_attribute 'monit-ng::default'
 
 default['monit']['config'].tap do |conf|
 
