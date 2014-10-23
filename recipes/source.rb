@@ -114,12 +114,16 @@ ruby_block 'configure-system-init' do
     when 'debian'
       if platform?('ubuntu') && node['platform_version'].to_f >= 12.04
         resources(:template => 'monit-upstart-init').run_action(:create)
+        resources(:template => 'monit-sysv-init').run_action(:delete)
+
+        resources(:service => 'monit').provider(Chef::Provider::Service::Upstart)
       else
         resources(:template => 'monit-sysv-init').run_action(:create)
       end
     when 'rhel'
       if node['platform_version'].to_f >= 7.0
         resources(:template => 'monit-systemd-init').run_action(:create)
+        resources(:template => 'monit-sysv-init').run_action(:delete)
       else
         resources(:template => 'monit-sysv-init').run_action(:create)
       end

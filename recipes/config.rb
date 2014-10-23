@@ -58,8 +58,5 @@ template monit['conf_file'] do
 end
 
 service 'monit' do
-  if platform?('ubuntu') && node['platform_version'].to_f >= 12.04
-    provider Chef::Provider::Service::Upstart
-  end
   action [:enable, :start]
 end
