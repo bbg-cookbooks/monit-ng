@@ -158,7 +158,7 @@ ruby_block 'configure-system-init' do
     when 'rhel'
       if node['platform_version'].to_f >= 7.0
         resources(:ruby_block => 'disable-monit-sysv').run_action(:run)
-        resources(:ruby_block => 'enable-monit-systemd').run_action(:rub)
+        resources(:ruby_block => 'enable-monit-systemd').run_action(:run)
       else
         resources(:template => 'monit-sysv-init').run_action(:create)
       end
