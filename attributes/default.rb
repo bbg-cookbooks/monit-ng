@@ -11,10 +11,14 @@ default['monit'].tap do |monit|
   # should we setup the global config
   monit['configure'] = true
 
-  if platform_family?('rhel') && node['platform_version'].to_f >= 7.0
-    monit['service_provider'] = Chef::Provider::Service::Systemd
-  elsif platform?('ubuntu') && node['platform_version'].to_f >= 12.04
-    monit['service_provider'] = Chef::Provider::Service::Upstart
+  if monit['install_method'] == 'source'
+    if platform_family?('rhel') && node['platform_version'].to_f >= 7.0
+      monit['service_provider'] = Chef::Provider::Service::Systemd
+    elsif platform?('ubuntu') && node['platform_version'].to_f >= 12.04
+      monit['service_provider'] = Chef::Provider::Service::Upstart
+    else
+      monit['service_provider'] = Chef::Platform.find_provider_for_node node, :service
+    end
   else
     monit['service_provider'] = Chef::Platform.find_provider_for_node node, :service
   end
