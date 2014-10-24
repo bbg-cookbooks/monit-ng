@@ -61,6 +61,16 @@ link '/etc/monitrc' do
   not_if { node['monit']['conf_file'] == '/etc/monitrc' }
 end
 
+# Configure service
+if platform_family?('rhel') && node['platform_version'].to_f >= 7.0
+  node.default['monit']['service_provider'] = Chef::Provider::Service::Systemd
+elsif platform?('ubuntu') && node['platform_version'].to_f >= 12.04
+  node.default['monit']['service_provider'] = Chef::Provider::Service::Upstart
+end
+
+selected_provider = node['monit']['service_provider'].inspect
+Chef::Log.info("Selected service provider: #{selected_provider}")
+
 file '/etc/init.d/monit' do
   action :nothing
 end
@@ -68,23 +78,19 @@ end
 execute 'reload-systemd-configuration' do
   command 'systemctl daemon-reload'
   subscribes :run, 'template[monit-init]', :immediately
-  only_if do
-    node['monit']['service_provider'] == Chef::Provider::Service::Systemd
-  end
+  only_if { selected_provider == 'Chef::Provider::Service::Systemd' }
   action :nothing
 end
 
 execute 'reload-upstart-configuration' do
   command 'initctl reload-configuration'
   subscribes :run, 'template[monit-init]', :immediately
-  only_if do
-    node['monit']['service_provider'] == Chef::Provider::Service::Upstart
-  end
+  only_if { selected_provider == 'Chef::Provider::Service::Upstart' }
   action :nothing
 end
 
 template 'monit-init' do
-  case node['monit']['service_provider'].inspect
+  case selected_provider
   when 'Chef::Provider::Service::Systemd'
     source 'monit.systemd.erb'
     path '/lib/systemd/system/monit.service'
