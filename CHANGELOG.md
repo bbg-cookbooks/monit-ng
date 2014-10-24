@@ -4,6 +4,7 @@
 
 1.2.0 / 2014-10-23
 
+* update source package to 5.9
 * prefer upstart init on ubuntu >= 12.04
 * prefer systemd init on centos >= 7.0
 * unwind sysv init on upstart/systemd platforms to help migrate from pre-1.2.0 cookbook (to be removed in 1.3)
