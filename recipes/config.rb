@@ -58,5 +58,6 @@ template monit['conf_file'] do
 end
 
 service 'monit' do
+  provider node['monit']['service_provider']
   action [:enable, :start]
 end
