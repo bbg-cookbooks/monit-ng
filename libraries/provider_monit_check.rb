@@ -12,7 +12,6 @@ class Chef
       def initialize(*args)
         super
         @tpl = Chef::Resource::Template.new(new_resource.name, run_context)
-        @srv = service('monit')
       end
 
       def load_current_resource
@@ -22,13 +21,11 @@ class Chef
 
       def action_create
         @tpl.run_action(:create)
-        new_resource.notifies(:restart, @srv, :delayed)
         new_resource.updated_by_last_action(true) if tpl_updated
       end
 
       def action_remove
         @tpl.run_action(:delete)
-        new_resource.notifies(:restart, @srv, :delayed)
         new_resource.updated_by_last_action(true) if tpl_updated
       end
 
@@ -46,6 +43,7 @@ class Chef
         @tpl.group('root')
         @tpl.mode('0600')
         @tpl.variables(monit_check_config)
+        @tpl.notifies(:restart, 'service[monit]', :delayed)
         @tpl.action(:nothing)
       end
 
