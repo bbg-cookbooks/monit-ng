@@ -3,14 +3,13 @@
 # Recipe:: crond
 #
 
-crond_pid = node['monit']['checks']['crond_pid']
-crond_init = node['monit']['checks']['crond_init']
+crond = node['monit']['checks']['crond']
 
 monit_check 'crond' do
-  check_id crond_pid
+  check_id crond['pid']
   group 'system'
-  start "#{crond_init} start"
-  stop "#{crond_init} stop"
+  start crond['start']
+  stop crond['stop']
   tests [
     {
       'condition' => '3 restarts within 5 cycles',
