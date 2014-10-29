@@ -4,7 +4,7 @@ require 'rspec/core/rake_task'
 RSpec::Core::RakeTask.new(:chefspec)
 
 require 'rubocop/rake_task'
-Rubocop::RakeTask.new
+RuboCop::RakeTask.new
 
 require 'foodcritic'
 FoodCritic::Rake::LintTask.new
@@ -13,4 +13,4 @@ require 'kitchen/rake_tasks'
 Kitchen::RakeTasks.new
 
 task :default => %w( rubocop foodcritic chefspec )
-task :alltests => %w( default kitchen:all )
+task :all => %w( default kitchen:all )
