@@ -3,11 +3,21 @@
 # Attributes: ntpd
 #
 
-default['monit']['checks'].tap do |check|
-  check['ntpd_pid'] = '/var/run/ntpd.pid'
-  check['ntpd_init'] = value_for_platform_family(
-    'rhel'    => '/etc/init.d/ntpd',
-    'debian'  => '/etc/init.d/ntp',
-    'default' => '/etc/init.d/ntpd',
-  )
+default['monit']['checks'].tap do |checks|
+  checks['ntpd'].tap do |ntpd|
+    ntpd['pid'] = '/var/run/ntpd.pid'
+    case platform_family
+    when 'rhel'
+      if node['platform_version'].to_f >= 7.0
+        ntpd['start'] = '/bin/systemctl start ntpd.service'
+        ntpd['stop'] = '/bin/systemctl stop ntpd.service'
+      else
+        ntpd['start'] = '/etc/init.d/ntpd start'
+        ntpd['stop'] = '/etc/init.d/ntpd stop'
+      end
+    else
+      ntpd['start'] = '/etc/init.d/ntp start'
+      ntpd['stop'] = '/etc/init.d/ntp stop'
+    end
+  end
 end

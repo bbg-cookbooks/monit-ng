@@ -11,24 +11,14 @@ platforms:
   - name: centos-6.5
   - name: centos-7.0
 
-settings:
-  parallel: true
-  destroy: always
-
 suites:
   - name: monit-ng-default
     run_list:
+      - recipe[monit-ng]
       - recipe[setup]
-      - recipe[monit-ng::default]
-      - recipe[monit-ng::sshd]
-      - recipe[monit-ng::crond]
-      - recipe[monit-ng::rootfs]
     attributes: {}
   - name: monit-ng-source
     run_list:
+      - recipe[monit-ng]
       - recipe[setup]
-      - recipe[monit-ng::default]
-      - recipe[monit-ng::sshd]
-      - recipe[monit-ng::crond]
-      - recipe[monit-ng::rootfs]
     attributes: { monit: { install_method: 'source' } }

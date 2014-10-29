@@ -3,13 +3,12 @@
 # Recipe:: ntpd
 #
 
-ntpd_pid = node['monit']['checks']['ntpd_pid']
-ntpd_init = node['monit']['checks']['ntpd_init']
+ntpd = node['monit']['checks']['ntpd']
 
 monit_check 'ntpd' do
-  check_id ntpd_pid
-  start "#{ntpd_init} start"
-  stop "#{ntpd_init} stop"
+  check_id ntpd['pid']
+  start ntpd['start']
+  stop ntpd['stop']
   tests [
     {
       'condition' => '3 restarts within 5 cycles',
