@@ -12,7 +12,24 @@ default['monit'].tap do |monit|
   monit['configure'] = true
 
   # configure default service_provider
-  monit['service_provider'] = Chef::Platform.find_provider_for_node node, :service
+  monit['svc_provider'] = case monit['install_method']
+                          when 'repo'
+                            Chef::Platform.find_provider_for_node(
+                              node, :service
+                            )
+                          when 'source'
+                            if platform_family?('rhel') &&
+                               node['platform_version'].to_f >= 7.0
+                              Chef::Provider::Service::Systemd
+                            elsif platform?('ubuntu') &&
+                                  node['platform_version'].to_f >= 12.04
+                              Chef::Provider::Service::Upstart
+                            else
+                              Chef::Platform.find_provider_for_node(
+                                node, :service
+                              )
+                            end
+                          end
 
   # configuration file location
   monit['conf_file'] = value_for_platform_family(

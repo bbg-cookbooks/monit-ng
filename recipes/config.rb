@@ -58,6 +58,6 @@ template monit['conf_file'] do
 end
 
 service 'monit' do
-  provider lazy { node['monit']['service_provider'] }
+  provider node['monit']['svc_provider']
   action [:enable, :start]
 end
