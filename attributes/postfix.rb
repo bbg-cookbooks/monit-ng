@@ -6,9 +6,9 @@
 default['monit']['checks'].tap do |checks|
   checks['postfix'].tap do |postfix|
     postfix['pid'] = '/var/spool/postfix/pid/master.pid'
-    case platform_family
+    case node['platform_family']
     when 'rhel'
-      if node['platform_family'].to_f >= 7.0
+      if node['platform_version'].to_f >= 7.0
         postfix['start'] = '/bin/systemctl start postfix.service'
         postfix['stop'] = '/bin/systemctl stop postfix.service'
       else

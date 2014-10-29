@@ -6,7 +6,7 @@
 default['monit']['checks'].tap do |checks|
   checks['crond'].tap do |crond|
     crond['pid'] = '/var/run/crond.pid'
-    case platform_family
+    case node['platform_family']
     when 'rhel'
       if node['platform_version'].to_f >= 7.0
         crond['start'] = '/bin/systemctl start crond.service'
