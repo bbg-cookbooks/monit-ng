@@ -1,3 +1,12 @@
+1.3.0 / 2014-10-29
+
+* consolidate suite runlist into setup
+* bugfix: correct service check start/stop commands under systemd
+* bugfix: fix duplicate service notifications from monit_check resources
+* remove snmpd recipe
+* update the setup recipe to: install all needed services, set up non-pid-having services under systemd to have a pid, include all core-service recipes
+* expand integration testing to cover all core-service checks, rootfs check
+
 1.2.1 / 2014-10-23
 
 * tidies up 1.2.0, simplifies service provider selection, fixes foodcritic warnings
