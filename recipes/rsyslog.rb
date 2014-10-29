@@ -3,14 +3,13 @@
 # Recipe:: rsyslog
 #
 
-rsyslog_pid = node['monit']['checks']['rsyslog_pid']
-rsyslog_init = node['monit']['checks']['rsyslog_init']
+rsyslog = node['monit']['checks']['rsyslog']
 
 monit_check 'rsyslog' do
-  check_id rsyslog_pid
+  check_id rsyslog['pid']
   group 'system'
-  start "#{rsyslog_init} start"
-  stop "#{rsyslog_init} stop"
+  start rsyslog['start']
+  stop rsyslog['stop']
   tests [
     {
       'condition' => '3 restarts within 5 cycles',

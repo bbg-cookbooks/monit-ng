@@ -11,12 +11,13 @@ end
 end
 
 {
-  '/etc/sysconfig/ntpd' => 'OPTIONS="-g -p /var/run/ntpd.pid"',
-  '/etc/sysconfig/rsyslog' => 'SYSLOGD_OPTIONS="-i /var/run/rsyslog.pid"',
-}.each_pair do |cnf, val|
-  file cnf do
-    content val
+  'ntpd' => 'OPTIONS="-g -p /var/run/ntpd.pid"',
+  'rsyslog' => 'SYSLOGD_OPTIONS="-i /var/run/syslogd.pid"',
+}.each_pair do |svc, cfg|
+  file "/etc/sysconfig/#{svc}" do
+    content cfg
     only_if { platform_family?('rhel') && node['platform_version'].to_f >= 7.0 }
+    notifies :restart, "service[#{svc}]", :delayed
   end
 end
 
