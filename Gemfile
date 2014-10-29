@@ -13,5 +13,4 @@ group :integration do
   gem 'test-kitchen'
   gem 'kitchen-vagrant'
   gem 'chef-zero'
-  gem 'serverspec'
 end
