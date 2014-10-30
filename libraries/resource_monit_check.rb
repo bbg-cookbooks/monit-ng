@@ -118,11 +118,11 @@ class Chef
 
       def check_pairs
         {
-          'process' => ['pidfile', 'matching'], 'procmatch' => ['matching'],
-          'file' => ['path'], 'fifo' => ['path'],
-          'filesystem' => ['path'], 'directory' => ['path'],
-          'host' => ['address'], 'system' => [],
-          'program' => ['path']
+          'process' => %w( pidfile matching ), 'procmatch' => %w( matching ),
+          'file' => %w( path ), 'fifo' => %w( path ),
+          'filesystem' => %w( path ), 'directory' => %w( path ),
+          'host' => %w( address ), 'system' => %w(),
+          'program' => %w( path )
         }
       end
     end

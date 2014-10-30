@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe 'monit-ng::config' do
-  let(:chef_run) { ChefSpec::Runner.new.converge(described_recipe) }
+  let(:chef_run) { ChefSpec::SoloRunner.converge(described_recipe) }
 
   context 'rhel' do
     let(:chef_run) do
-      ChefSpec::Runner.new(:platform => 'centos', :version => '6.4')
+      ChefSpec::SoloRunner.new(platform: 'centos', version: '6.5')
       .converge(described_recipe)
     end
 
@@ -20,7 +20,7 @@ describe 'monit-ng::config' do
 
   context 'ubuntu' do
     let(:chef_run) do
-      ChefSpec::Runner.new(:platform => 'ubuntu', :version => '12.04')
+      ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '12.04')
       .converge(described_recipe)
     end
 
@@ -43,7 +43,7 @@ describe 'monit-ng::config' do
 
   # TODO: sort out stubbing the file existence to test that
   # monit::config creates /etc/default/monit when it should
-  it 'does not un-disable the serviceby default' do
+  it 'does not un-disable the servicei by default' do
     expect(chef_run).to_not create_template('/etc/default/monit')
   end
 

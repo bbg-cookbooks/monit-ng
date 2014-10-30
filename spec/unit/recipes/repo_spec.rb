@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe 'monit-ng::repo' do
-  let(:chef_run) { ChefSpec::Runner.new.converge(described_recipe) }
+  let(:chef_run) { ChefSpec::SoloRunner.new.converge(described_recipe) }
 
   context 'rhel' do
     let(:chef_run) do
-      ChefSpec::Runner.new(:platform => 'centos', :version => '6.4')
+      ChefSpec::SoloRunner.new(platform: 'centos', version: '6.5')
       .converge(described_recipe)
     end
 
@@ -16,7 +16,7 @@ describe 'monit-ng::repo' do
 
   context 'ubuntu' do
     let(:chef_run) do
-      ChefSpec::Runner.new(:platform => 'ubuntu', :version => '12.04')
+      ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '12.04')
       .converge(described_recipe)
     end
 

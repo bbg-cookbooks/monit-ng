@@ -1,3 +1,4 @@
 require 'chefspec'
-require 'chefspec/server'
 require 'chefspec/berkshelf'
+
+ChefSpec::Coverage.start!

@@ -1,16 +1,17 @@
 require 'spec_helper'
 
 describe 'monit-ng::default' do
-  let(:chef_run) { ChefSpec::Runner.new.converge(described_recipe) }
+  let(:chef_run) { ChefSpec::SoloRunner.converge(described_recipe) }
 
   it 'includes the repo recipe' do
     expect(chef_run).to include_recipe 'monit-ng::repo'
   end
 
   # Switching context indirectly tests the build-essential cookbook
+  # (i.e. if we don't set the platform, build-essential explodes)
   context 'rhel' do
     let(:chef_run) do
-      ChefSpec::Runner.new(:platform => 'centos', :version => '6.4')
+      ChefSpec::SoloRunner.new(platform: 'centos', version: '6.4')
     end
 
     it 'includes the source recipe' do
@@ -22,7 +23,7 @@ describe 'monit-ng::default' do
 
   context 'ubuntu' do
     let(:chef_run) do
-      ChefSpec::Runner.new(:platform => 'ubuntu', :version => '12.04')
+      ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '12.04')
     end
 
     it 'includes the source recipe' do
