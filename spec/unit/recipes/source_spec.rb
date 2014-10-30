@@ -71,7 +71,7 @@ describe 'monit-ng::source' do
 
   context 'mystery-os' do
     let(:chef_run) do
-      ChefSpec::Runner.new(platform: 'omnios', version: '151002')
+      ChefSpec::SoloRunner.new(platform: 'omnios', version: '151002')
       .converge(described_recipe)
     end
 
