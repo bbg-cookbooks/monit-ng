@@ -1,3 +1,9 @@
+1.3.1
+
+* update bundle and fix up foodcritic, rubocop, chefspec
+* add chefspec coverage reporting to list uncovered resources
+* move service provider selection into attributes to facilitate wrapper cookbooks choosing preference
+
 1.3.0 / 2014-10-29
 
 * consolidate suite runlist into setup
