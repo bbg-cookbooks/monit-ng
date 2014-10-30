@@ -1,4 +1,4 @@
-1.3.1
+1.3.1 / 2014-10-29
 
 * update bundle and fix up foodcritic, rubocop, chefspec
 * add chefspec coverage reporting to list uncovered resources
