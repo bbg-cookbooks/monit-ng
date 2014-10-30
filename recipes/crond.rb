@@ -3,7 +3,7 @@
 # Recipe:: crond
 #
 
-include_recipe "#{cookbook_name}"
+include_recipe cookbook_name
 
 crond = node['monit']['checks']['crond']
 

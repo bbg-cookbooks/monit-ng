@@ -3,7 +3,7 @@
 # Recipe:: rsyslog
 #
 
-include_recipe "#{cookbook_name}"
+include_recipe cookbook_name
 
 rsyslog = node['monit']['checks']['rsyslog']
 

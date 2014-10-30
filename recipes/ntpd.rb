@@ -3,7 +3,7 @@
 # Recipe:: ntpd
 #
 
-include_recipe "#{cookbook_name}"
+include_recipe cookbook_name
 
 ntpd = node['monit']['checks']['ntpd']
 

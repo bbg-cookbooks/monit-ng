@@ -3,7 +3,7 @@
 # Recipe:: postfix
 #
 
-include_recipe "#{cookbook_name}"
+include_recipe cookbook_name
 
 postfix = node['monit']['checks']['postfix']
 

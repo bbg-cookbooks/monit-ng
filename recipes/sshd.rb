@@ -3,7 +3,7 @@
 # Recipe:: sshd
 #
 
-include_recipe "#{cookbook_name}"
+include_recipe cookbook_name
 
 sshd = node['monit']['checks']['sshd']
 
