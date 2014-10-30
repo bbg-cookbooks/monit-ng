@@ -1,4 +1,4 @@
-Chef monit cookbook
+Chef monit cookbook  [![Build Status](https://travis-ci.org/bbg-cookbooks/monit-ng.svg?branch=master)](https://travis-ci.org/bbg-cookbooks/monit-ng)
 ===================
 Installs and configures monit, with a resource
 provider for managing additional monit checks.
