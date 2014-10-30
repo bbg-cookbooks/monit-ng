@@ -9,7 +9,7 @@ Recipes
 - `monit::repo`: installs monit from a package repository
 - `monit::source`: installs monit from source
 - `monit::config`: configures monit
-- `monit::{crond,ntpd,postfix,rsyslog,snmpd,sshd}`: install common service checks
+- `monit::{crond,ntpd,postfix,rsyslog,sshd}`: install common service checks
 
 Attributes
 ----------
