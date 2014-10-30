@@ -3,6 +3,8 @@
 # Recipe:: sshd
 #
 
+include_recipe "#{cookbook_name}"
+
 sshd = node['monit']['checks']['sshd']
 
 monit_check 'sshd' do

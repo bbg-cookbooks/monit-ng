@@ -2,15 +2,18 @@ require 'spec_helper'
 
 describe 'monit-ng::source' do
   let(:chef_run) do
-    ChefSpec::Runner.new(:platform => 'centos', :version => '6.4')
+    ChefSpec::SoloRunner.new(platform: 'centos', version: '6.5')
     .converge(described_recipe)
   end
 
   let(:service) { chef_run.service('monit') }
+
   let(:remote_file) do
-    chef_run.remote_file('/var/chef/cache/monit-5.8.tar.gz')
+    chef_run.remote_file('/var/chef/cache/monit-5.9.tar.gz')
   end
+
   let(:extraction) { chef_run.execute('extract-source-archive') }
+
   let(:compilation) { chef_run.execute('compile-source') }
 
   it 'includes the build-essential recipe' do
@@ -25,7 +28,7 @@ describe 'monit-ng::source' do
 
   context 'ubuntu' do
     let(:chef_run) do
-      ChefSpec::Runner.new(:platform => 'ubuntu', :version => '12.04')
+      ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '12.04')
       .converge(described_recipe)
     end
 
@@ -68,7 +71,7 @@ describe 'monit-ng::source' do
 
   context 'mystery-os' do
     let(:chef_run) do
-      ChefSpec::Runner.new(:platform => 'omnios', :version => '151002')
+      ChefSpec::Runner.new(platform: 'omnios', version: '151002')
       .converge(described_recipe)
     end
 
@@ -80,8 +83,6 @@ describe 'monit-ng::source' do
   it 'creates the init script' do
     chef_run.node.set['monit']['install_method'] = 'source'
     expect(chef_run).to create_template('/etc/init.d/monit').with(
-      :owner => 'root',
-      :group => 'root',
       :mode  => '0755',
     )
   end

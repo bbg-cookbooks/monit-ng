@@ -3,6 +3,8 @@
 # Recipe:: rootfs
 #
 
+include_recipe "#{cookbook_name}"
+
 monit_check 'rootfs' do
   check_type 'filesystem'
   check_id '/'

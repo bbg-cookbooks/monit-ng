@@ -3,6 +3,8 @@
 # Recipe:: rsyslog
 #
 
+include_recipe "#{cookbook_name}"
+
 rsyslog = node['monit']['checks']['rsyslog']
 
 monit_check 'rsyslog' do

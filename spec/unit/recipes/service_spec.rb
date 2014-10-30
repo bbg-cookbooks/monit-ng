@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-%w( crond ntpd postfix rsyslog snmpd sshd ).each do |svc|
+%w( crond ntpd postfix rsyslog sshd ).each do |svc|
   describe "monit-ng::#{svc}" do
     let(:chef_run) do
-      ChefSpec::Runner.new(step_into: ['monit_check'])
+      ChefSpec::SoloRunner.new(step_into: ['monit_check'])
       .converge(described_recipe)
     end
 
