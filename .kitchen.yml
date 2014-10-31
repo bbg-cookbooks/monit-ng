@@ -17,9 +17,8 @@ suites:
     run_list:
       - recipe[monit-ng]
       - recipe[setup]
-    attributes: {}
   - name: monit-ng-source
     run_list:
       - recipe[monit-ng]
       - recipe[setup]
-    attributes: { monit: { install_method: 'source' } }
+    attributes: { monit: { install_method: source } }
