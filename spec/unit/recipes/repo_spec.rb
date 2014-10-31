@@ -36,4 +36,8 @@ describe 'monit-ng::repo' do
   it 'installs monit' do
     expect(chef_run).to install_package('monit')
   end
+
+  it 'does not raise an exception' do
+    expect { chef_run }.to_not raise_error
+  end
 end

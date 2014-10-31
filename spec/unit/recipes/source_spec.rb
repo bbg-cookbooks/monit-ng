@@ -12,15 +12,19 @@ describe 'monit-ng::source' do
     chef_run.remote_file('/var/chef/cache/monit-5.9.tar.gz')
   end
 
+  let(:download) { chef_run.remote_file('source-archive') }
+
   let(:extraction) { chef_run.execute('extract-source-archive') }
 
   let(:compilation) { chef_run.execute('compile-source') }
+
+  let(:init) { chef_run.template('monit-init') }
 
   it 'includes the build-essential recipe' do
     expect(chef_run).to include_recipe('build-essential::default')
   end
 
-  %w{pam-devel openssl-devel flex bison gcc gcc-c++ make}.each do |dep|
+  %w( pam-devel openssl-devel flex bison gcc gcc-c++ make ).each do |dep|
     it "installs build dependency: #{dep}" do
       expect(chef_run).to install_package(dep)
     end
@@ -28,7 +32,7 @@ describe 'monit-ng::source' do
 
   context 'ubuntu' do
     let(:chef_run) do
-      ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '12.04')
+      ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '14.04')
       .converge(described_recipe)
     end
 
@@ -40,7 +44,7 @@ describe 'monit-ng::source' do
       expect(chef_run).to include_recipe('build-essential::default')
     end
 
-    %w{libpam0g-dev libssl-dev autoconf flex bison}.each do |dep|
+    %w( libpam0g-dev libssl-dev autoconf flex bison ).each do |dep|
       it "installs build dependency: #{dep}" do
         expect(chef_run).to install_package(dep)
       end
@@ -58,6 +62,14 @@ describe 'monit-ng::source' do
 
   it 'skips compilation by default' do
     expect(chef_run).to_not run_execute('compile-source')
+  end
+
+  it 'downloads the source archive' do
+    expect(chef_run).to create_remote_file('source-archive')
+  end
+
+  it 'extracts the source archive' do
+    expect(download).to notify('execute[extract-source-archive]')
   end
 
   it 'compiles the sources' do
@@ -81,8 +93,8 @@ describe 'monit-ng::source' do
   end
 
   it 'creates the init script' do
-    chef_run.node.set['monit']['install_method'] = 'source'
-    expect(chef_run).to create_template('/etc/init.d/monit').with(
+    expect(chef_run).to create_template('monit-init').with(
+      :path => '/etc/init.d/monit',
       :mode  => '0755',
     )
   end

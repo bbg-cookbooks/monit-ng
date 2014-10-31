@@ -33,6 +33,10 @@ describe 'monit-ng::config' do
     end
   end
 
+  it 'creates the global config' do
+    expect(chef_run).to create_template('/etc/monitrc')
+  end
+
   it 'enables the service' do
     expect(chef_run).to enable_service('monit')
   end
@@ -43,7 +47,7 @@ describe 'monit-ng::config' do
 
   # TODO: sort out stubbing the file existence to test that
   # monit::config creates /etc/default/monit when it should
-  it 'does not un-disable the servicei by default' do
+  it 'does not un-disable the service by default' do
     expect(chef_run).to_not create_template('/etc/default/monit')
   end
 

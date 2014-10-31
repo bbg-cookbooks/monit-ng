@@ -61,45 +61,10 @@ link '/etc/monitrc' do
   not_if { node['monit']['conf_file'] == '/etc/monitrc' }
 end
 
-# Configure service
-selected_provider = node['monit']['svc_provider'].inspect
-
-file '/etc/init.d/monit' do
-  action :nothing
-end
-
-execute 'reload-init' do
-  case selected_provider
-  when 'Chef::Provider::Service::Systemd'
-    command 'systemctl daemon-reload'
-  when 'Chef::Provider::Service::Upstart'
-    command 'initctl reload-configuration'
-  end
-  subscribes :run, 'template[monit-init]', :immediately
-  only_if do
-    selected_provider == 'Chef::Provider::Service::Systemd' ||
-      selected_provider == 'Chef::Provider::Service::Upstart'
-  end
-  action :nothing
-end
-
 template 'monit-init' do
-  case selected_provider
-  when 'Chef::Provider::Service::Systemd'
-    source 'monit.systemd.erb'
-    path '/lib/systemd/system/monit.service'
-    mode '0644'
-    notifies :delete, 'file[/etc/init.d/monit]', :immediately
-  when 'Chef::Provider::Service::Upstart'
-    source 'monit.upstart.erb'
-    path '/etc/init/monit.conf'
-    mode '0644'
-    notifies :delete, 'file[/etc/init.d/monit]', :immediately
-  else
-    source 'monit.sysv.erb'
-    path '/etc/init.d/monit'
-    mode '0755'
-  end
+  source 'monit.sysv.erb'
+  path '/etc/init.d/monit'
+  mode '0755'
   variables(
     :platform_family => node['platform_family'],
     :binary          => monit_bin,
