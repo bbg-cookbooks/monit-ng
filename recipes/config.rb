@@ -58,6 +58,13 @@ template monit['conf_file'] do
 end
 
 service 'monit' do
-  provider node['monit']['svc_provider']
+  if node['monit']['install_method'] == 'source'
+    case node['monit']['init_style']
+    when 'systemd'
+      provider Chef::Provider::Service::Systemd
+    when 'upstart'
+      provider Chef::Provider::Service::Upstart
+    end
+  end
   action [:enable, :start]
 end

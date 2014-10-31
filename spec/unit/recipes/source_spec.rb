@@ -54,6 +54,13 @@ describe 'monit-ng::source' do
       expect(chef_run).to create_link('/etc/monitrc')
       .with(to: '/etc/monit/monitrc')
     end
+
+    it 'configures an upstart template' do
+      expect(chef_run).to create_template('monit-init').with(
+        path: '/etc/init/monit.conf',
+        mode: '0644',
+      )
+    end
   end
 
   it 'skips extraction by default' do
@@ -94,8 +101,22 @@ describe 'monit-ng::source' do
 
   it 'creates the init script' do
     expect(chef_run).to create_template('monit-init').with(
-      :path => '/etc/init.d/monit',
-      :mode  => '0755',
+      path: '/etc/init.d/monit',
+      mode: '0755',
     )
+  end
+
+  context 'modern-rhel' do
+    let(:chef_run) do
+      ChefSpec::SoloRunner.new(platform: 'centos', version: '7.0')
+      .converge(described_recipe)
+    end
+
+    it 'renders a systemd template' do
+      expect(chef_run).to create_template('monit-init').with(
+        path: '/lib/systemd/system/monit.service',
+        mode: '0644',
+      )
+    end
   end
 end

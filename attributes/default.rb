@@ -24,4 +24,21 @@ default['monit'].tap do |monit|
     'debian'  => '/etc/monit/conf.d',
     'default' => '/etc/monit.d',
   )
+
+  case node['platform_family']
+  when 'rhel'
+    if node['platform_version'].to_i >= 7 && !platform?('amazon')
+      monit['init_style'] = 'systemd'
+    else
+      monit['init_style'] = 'sysv'
+    end
+  when 'debian'
+    if platform?('ubuntu') && node['platform_version'].to_f >= 12.04
+      monit['init_style'] = 'upstart'
+    else
+      monit['init_style'] = 'sysv'
+    end
+  else
+    monit['init_style'] = 'sysv'
+  end
 end
