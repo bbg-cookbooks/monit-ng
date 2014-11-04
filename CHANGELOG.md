@@ -1,3 +1,9 @@
+1.4.0 / 2014-11-04
+
+* updated to monit 5.10 for source-install
+* better support for multiple init systems
+* improved support for reloading service if monit_check resources updated during the run
+
 1.3.1 / 2014-10-29
 
 * update bundle and fix up foodcritic, rubocop, chefspec
