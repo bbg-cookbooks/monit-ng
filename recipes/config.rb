@@ -68,3 +68,22 @@ service 'monit' do
   end
   action [:enable, :start]
 end
+
+ruby_block 'reload-monit' do
+  block do
+    checks = run_context.resource_collection.select do |r|
+      r.class == Chef::Resource::MonitCheck
+    end
+
+    if checks.any?(&:updated_by_last_action?)
+      resources(:service => 'monit').run_action(:reload)
+    end
+  end
+  action :nothing
+end
+
+ruby_block 'notify-reload-monit' do
+  block do
+  end
+  notifies :run, 'ruby_block[reload-monit]', :delayed
+end
