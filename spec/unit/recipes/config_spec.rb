@@ -54,4 +54,12 @@ describe 'monit-ng::config' do
   it 'creates the includes path' do
     expect(chef_run).to create_directory('/etc/monit.d')
   end
+
+  it 'does not reload by default' do
+    expect(chef_run).to_not run_ruby_block('reload-monit')
+  end
+
+  it 'runs delayed notification of ruby_block[reload-monit]' do
+    expect(chef_run).to run_ruby_block('notify-reload-monit')
+  end
 end
