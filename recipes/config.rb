@@ -72,7 +72,7 @@ end
 ruby_block 'reload-monit' do
   block do
     checks = run_context.resource_collection.select do |r|
-      r.class == Chef::Resource::MonitCheck
+      r.is_a?(Chef::Resource::MonitCheck)
     end
 
     if checks.any?(&:updated_by_last_action?)
