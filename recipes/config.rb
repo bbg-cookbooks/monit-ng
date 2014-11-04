@@ -58,6 +58,32 @@ template monit['conf_file'] do
 end
 
 service 'monit' do
-  provider node['monit']['svc_provider']
+  if node['monit']['install_method'] == 'source'
+    case node['monit']['init_style']
+    when 'systemd'
+      provider Chef::Provider::Service::Systemd
+    when 'upstart'
+      provider Chef::Provider::Service::Upstart
+    end
+  end
   action [:enable, :start]
+end
+
+ruby_block 'reload-monit' do
+  block do
+    checks = run_context.resource_collection.select do |r|
+      r.is_a?(Chef::Resource::MonitCheck)
+    end
+
+    if checks.any?(&:updated_by_last_action?)
+      resources(:service => 'monit').run_action(:reload)
+    end
+  end
+  action :nothing
+end
+
+ruby_block 'notify-reload-monit' do
+  block do
+  end
+  notifies :run, 'ruby_block[reload-monit]', :delayed
 end

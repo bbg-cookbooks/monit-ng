@@ -9,42 +9,35 @@ require 'chef/resource/template'
 class Chef
   class Provider
     class MonitCheck < Chef::Provider
+      use_inline_resources if defined?(use_inline_resources)
+
       def initialize(*args)
         super
-        @tpl = Chef::Resource::Template.new(new_resource.name, run_context)
       end
 
       def load_current_resource
-        @current_resource || Chef::Resource::MonitCheck.new(new_resource.name)
-        build_template
+        @current_resource ||= Chef::Resource::MonitCheck.new(new_resource.name)
       end
 
       def action_create
-        @tpl.run_action(:create)
-        new_resource.updated_by_last_action(true) if tpl_updated
+        new_resource.updated_by_last_action(edit_check(:create))
       end
 
       def action_remove
-        @tpl.run_action(:delete)
-        new_resource.updated_by_last_action(true) if tpl_updated
+        new_resource.updated_by_last_action(edit_check(:delete))
       end
 
       private
 
-      def tpl_updated
-        @tpl.updated_by_last_action?
-      end
-
-      def build_template
-        @tpl.cookbook(new_resource.cookbook)
-        @tpl.path(tpl_path)
-        @tpl.source('monit.check.erb')
-        @tpl.owner('root')
-        @tpl.group('root')
-        @tpl.mode('0600')
-        @tpl.variables(monit_check_config)
-        @tpl.notifies(:restart, 'service[monit]', :delayed)
-        @tpl.action(:nothing)
+      def edit_check(exec_action)
+        t = Chef::Resource::Template.new(new_resource.name, run_context)
+        t.cookbook new_resource.cookbook
+        t.path tpl_path
+        t.source 'monit.check.erb'
+        t.variables monit_check_config
+        t.notifies :reload, 'service[monit]', :delayed
+        t.run_action exec_action
+        t.updated_by_last_action?
       end
 
       def tpl_path

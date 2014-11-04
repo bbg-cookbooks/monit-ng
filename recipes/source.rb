@@ -61,10 +61,21 @@ link '/etc/monitrc' do
   not_if { node['monit']['conf_file'] == '/etc/monitrc' }
 end
 
+init_style = node['monit']['init_style']
+
 template 'monit-init' do
-  source 'monit.sysv.erb'
-  path '/etc/init.d/monit'
-  mode '0755'
+  source "monit.#{init_style}.erb"
+  case init_style
+  when 'systemd'
+    path '/lib/systemd/system/monit.service'
+    mode '0644'
+  when 'upstart'
+    path '/etc/init/monit.conf'
+    mode '0644'
+  when 'sysv'
+    path '/etc/init.d/monit'
+    mode '0755'
+  end
   variables(
     :platform_family => node['platform_family'],
     :binary          => monit_bin,
