@@ -9,8 +9,6 @@ require 'chef/resource/template'
 class Chef
   class Provider
     class MonitCheck < Chef::Provider
-      use_inline_resources if defined?(use_inline_resources)
-
       def initialize(*args)
         super
       end
