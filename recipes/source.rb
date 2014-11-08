@@ -44,7 +44,6 @@ remote_file 'source-archive' do
   source source_url
   path source_file_path
   checksum source['checksum']
-  path source_file_path
   backup false
   notifies :run, 'execute[extract-source-archive]', :immediately
 end
