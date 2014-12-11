@@ -179,7 +179,7 @@ monit_check 'mongo' do
       'action'    => 'restart with timeout 60 seconds'
     },
     {
-      'condition' => 'if 3 restarts within 10 cycles',
+      'condition' => '3 restarts within 10 cycles',
       'action'    => 'timeout'
     },
   ]
