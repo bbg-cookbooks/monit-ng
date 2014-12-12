@@ -46,6 +46,7 @@ class Chef
         ::File.join(node['monit']['conf_dir'], "#{new_resource.name}.conf")
       end
 
+      # rubocop: disable AbcSize
       def monit_check_config
         {
           :name => new_resource.name, :check_type => new_resource.check_type,
@@ -55,6 +56,7 @@ class Chef
           :every => new_resource.every, :tests => new_resource.tests
         }
       end
+      # rubocop: enable AbcSize
     end
   end
 end

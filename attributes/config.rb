@@ -6,7 +6,6 @@
 include_attribute 'monit-ng::default'
 
 default['monit']['config'].tap do |conf|
-
   # have monit report to M/Monit
   conf['mmonit_url'] = nil
 

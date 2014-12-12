@@ -4,7 +4,6 @@
 #
 
 default['monit'].tap do |monit|
-
   # one of: repo, source
   monit['install_method'] = 'repo'
 
