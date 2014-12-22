@@ -8,10 +8,10 @@ set mailserver
 <% @mail_servers.each do |mailserver| %>
   <%= mailserver.hostname %> port <%= mailserver.port %>
   <% if mailserver.username %>
-  username <%= mailserver.username %>
+  username '<%= mailserver.username %>'
   <% end %>
   <% if mailserver.password %>
-  password <%= mailserver.password %>
+  password '<%= mailserver.password %>'
   <% end %>
   <% if mailserver.security %>
   using <%= mailserver.security %>
