@@ -1,3 +1,9 @@
+1.4.1 / TBD
+
+* testing updates
+* documentation updates/corrections (thanks NinjaTux!)
+* add quote-wrapping of smtp username/password (thanks alappe!)
+
 1.4.0 / 2014-11-04
 
 * updated to monit 5.10 for source-install
