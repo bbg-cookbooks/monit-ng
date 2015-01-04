@@ -1,4 +1,4 @@
-1.4.1 / TBD
+1.4.1 / 2015-01-04
 
 * testing updates
 * documentation updates/corrections (thanks NinjaTux!)
