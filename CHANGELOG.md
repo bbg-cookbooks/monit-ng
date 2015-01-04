@@ -3,6 +3,7 @@
 * testing updates
 * documentation updates/corrections (thanks NinjaTux!)
 * add quote-wrapping of smtp username/password (thanks alappe!)
+* update to monit release 5.11
 
 1.4.0 / 2014-11-04
 
