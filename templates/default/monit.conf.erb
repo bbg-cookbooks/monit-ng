@@ -14,7 +14,7 @@ set mailserver
   password '<%= mailserver.password %>'
   <% end %>
   <% if mailserver.security %>
-  using <%= mailserver.security %>
+  using <%= mailserver.security.upcase %>
   <% end %>
   with timeout <%= mailserver.timeout %>
 <% end %>
@@ -24,7 +24,7 @@ set mail-format {
    message: <%= @mail_msg %>
 }
 <% @subscribers.each do |subscriber| %>
-set alert <%= subscriber.name %> 
+set alert <%= subscriber.name %>
   only on { <%= subscriber.subscriptions.join(', ') %>}
 <% end %>
 set eventqueue
