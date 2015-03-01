@@ -1,6 +1,28 @@
+*~
+.rbx
+*.class
+.kitchen/
+.kitchen.local.yml
+tmp/
+*#
+.#*
+\#*#
+.*.sw[a-z]
+*.un~
+pkg/
+
+# Berkshelf
+.vagrant
+/cookbooks
 Berksfile.lock
-vendor
-.bundle
-.coverage
-.kitchen
+
+# Bundler
+.vendor
+Gemfile.lock
+bin/*
+.bundle/*
+.DS_Store
+coverage/
+
+.kitchen/
 .kitchen.local.yml

@@ -25,9 +25,7 @@ end
 
 execute 'compile-source' do
   cwd build_root
-  command <<-EOC
-    ./configure #{opts} && make && make install
-  EOC
+  command "./configure #{opts} && make && make install"
   action :nothing
 end
 
