@@ -1,4 +1,6 @@
 
+include_recipe 'monit-ng'
+
 value_for_platform_family(
   'rhel'   => %w( cronie openssh-server ),
   'debian' => %w( cron ssh ),

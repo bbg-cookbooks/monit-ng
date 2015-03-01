@@ -15,10 +15,10 @@ platforms:
 suites:
   - name: monit-ng-default
     run_list:
-      - recipe[monit-ng]
       - recipe[setup]
   - name: monit-ng-source
     run_list:
-      - recipe[monit-ng]
       - recipe[setup]
-    attributes: { monit: { install_method: source } }
+    attributes:
+      monit:
+        install_method: source
