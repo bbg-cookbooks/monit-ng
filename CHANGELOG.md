@@ -1,3 +1,16 @@
+1.5.0 / 2015-03-02
+
+Features/Fixes:
+* use latest monit (5.12) for source install
+* skip yum-epel setup on amazon linux (thanks @vkhatri!)
+* enforce upcased mailserver security values (thanks @vkhatri!)
+* better reflect upstream configuration defaults by not specifying default mailservers/subscribers list (thanks @vkhatri!)
+* improved documentation (thanks @vkhatri!)
+* update global config template to support multiple or empty mail_servers config
+
+Known Issues:
+* Monit 5.12 may segfault on some platforms when system hostname resolving fails
+
 1.4.1 / 2015-01-04
 
 * testing updates
