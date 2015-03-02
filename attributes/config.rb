@@ -32,12 +32,7 @@ default['monit']['config'].tap do |conf|
   conf['state_file'] = '/var/run/monit.state'
 
   # list of subscribers to all alerts
-  conf['subscribers'] = [
-    {
-      'name'          => 'root@localhost',
-      'subscriptions' => %w( nonexist timeout resource icmp connection ),
-    },
-  ]
+  conf['subscribers'] = []
 
   # what port to bind to
   conf['port'] = 2812
@@ -58,14 +53,5 @@ default['monit']['config'].tap do |conf|
     Yours sincerely,
     monit
   EOT
-  conf['mail_servers'] = [
-    {
-      :hostname => 'localhost',
-      :port => 25,
-      :username => nil,
-      :password => nil,
-      :security => nil,
-      :timeout => '30 seconds',
-    },
-  ]
+  conf['mail_servers'] = []
 end

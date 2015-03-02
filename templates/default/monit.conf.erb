@@ -6,17 +6,22 @@ set idfile <%= @id_file %>
 set statefile <%= @state_file %>
 set mailserver
 <% @mail_servers.each do |mailserver| %>
-  <%= mailserver.hostname %> port <%= mailserver.port %>
-  <% if mailserver.username %>
+  <%= mailserver.hostname %>
+  <% if mailserver.key?('port') && mailserver.port %>
+  port <%= mailserver.port %>
+  <% end %>
+  <% if mailserver.key?('username') && mailserver.username %>
   username '<%= mailserver.username %>'
   <% end %>
-  <% if mailserver.password %>
+  <% if mailserver.key?('password') && mailserver.password %>
   password '<%= mailserver.password %>'
   <% end %>
-  <% if mailserver.security %>
+  <% if mailserver.key?('security') && mailserver.security %>
   using <%= mailserver.security.upcase %>
   <% end %>
+  <% if mailserver.key?('timeout') && mailserver.timeout %>
   with timeout <%= mailserver.timeout %>
+  <% end %>
 <% end %>
 set mail-format {
       from: <%= @mail_from %>
