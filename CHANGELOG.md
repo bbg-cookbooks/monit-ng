@@ -1,3 +1,7 @@
+1.5.1 / 2015-03-09
+
+* update to latest monit version
+
 1.5.0 / 2015-03-02
 
 Features/Fixes:
