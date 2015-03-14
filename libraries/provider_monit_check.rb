@@ -53,7 +53,8 @@ class Chef
           :check_id => new_resource.check_id, :id_type => new_resource.id_type,
           :group => new_resource.group, :start_as => new_resource.start_as,
           :start => new_resource.start, :stop => new_resource.stop,
-          :every => new_resource.every, :tests => new_resource.tests
+          :stop_as => new_resource.stop_as, :every => new_resource.every,
+          :tests => new_resource.tests
         }
       end
       # rubocop: enable AbcSize

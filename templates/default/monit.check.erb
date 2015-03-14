@@ -11,12 +11,15 @@ check <%= @check_type %> <%= @name %>
 <% end %>
 <% if @start %>
   start "<%= @start %>"
-<% end %>
-<% if @start_as %>
+  <% if @start_as %>
     as uid <%= @start_as %>
+  <% end %>
 <% end %>
 <% if @stop %>
   stop "<%= @stop %>"
+  <% if @stop_as %>
+    as uid <%= @stop_as %>
+  <% end %>
 <% end %>
 <% @tests.each do |test| %>
   if <%= test['condition'] %>
