@@ -80,6 +80,13 @@ class Chef
         )
       end
 
+      def stop_as(arg = nil)
+        set_or_return(
+          :stop_as, arg,
+          :kind_of => String
+        )
+      end
+
       def stop(arg = nil)
         set_or_return(
           :stop, arg,
