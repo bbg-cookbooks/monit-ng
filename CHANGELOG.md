@@ -1,3 +1,7 @@
+1.5.2 / 2015-03-15
+
+* add stop_as support
+
 1.5.1 / 2015-03-09
 
 * update to latest monit version
