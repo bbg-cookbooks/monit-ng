@@ -1,3 +1,7 @@
+1.5.3 / 2015-03-16
+
+* adding gid support for start_as and stop_as
+
 1.5.2 / 2015-03-15
 
 * add stop_as support
