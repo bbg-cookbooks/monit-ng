@@ -68,6 +68,13 @@ class Chef
         )
       end
 
+      def start_as_group(arg = nil)
+        set_or_return(
+          :start_as_group, arg,
+          :kind_of => String
+        )
+      end
+
       def start(arg = nil)
         set_or_return(
           :start, arg,
@@ -83,6 +90,13 @@ class Chef
       def stop_as(arg = nil)
         set_or_return(
           :stop_as, arg,
+          :kind_of => String
+        )
+      end
+
+      def stop_as_group(arg = nil)
+        set_or_return(
+          :stop_as_group, arg,
           :kind_of => String
         )
       end
