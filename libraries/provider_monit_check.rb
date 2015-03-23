@@ -52,9 +52,9 @@ class Chef
           :name => new_resource.name, :check_type => new_resource.check_type,
           :check_id => new_resource.check_id, :id_type => new_resource.id_type,
           :group => new_resource.group, :start_as => new_resource.start_as,
-          :start_as_group => new_resource.start_as_group, 
+          :start_as_group => new_resource.start_as_group,
           :start => new_resource.start, :stop => new_resource.stop,
-          :stop_as => new_resource.stop_as, 
+          :stop_as => new_resource.stop_as,
           :stop_as => new_resource.stop_as_group,
           :every => new_resource.every, :tests => new_resource.tests
         }
