@@ -71,7 +71,8 @@ class Chef
       def start_as_group(arg = nil)
         set_or_return(
           :start_as_group, arg,
-          :kind_of => String
+          :kind_of => String,
+          :required => start_as
         )
       end
 
@@ -97,7 +98,8 @@ class Chef
       def stop_as_group(arg = nil)
         set_or_return(
           :stop_as_group, arg,
-          :kind_of => String
+          :kind_of => String,
+          :required => stop_as
         )
       end
 
