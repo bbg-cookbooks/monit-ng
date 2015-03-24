@@ -1,6 +1,7 @@
-1.5.3 / 2015-03-23
+1.6.0 / 2015-03-23
 
-* adding gid support for start_as and stop_as
+* adding gid support for start_as and stop_as (start_as_group, stop_as_group attributes)
+* update to version 5.12.2
 
 1.5.2 / 2015-03-15
 
