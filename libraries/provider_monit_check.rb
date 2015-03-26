@@ -55,7 +55,7 @@ class Chef
           :start_as_group => new_resource.start_as_group,
           :start => new_resource.start, :stop => new_resource.stop,
           :stop_as => new_resource.stop_as,
-          :stop_as => new_resource.stop_as_group,
+          :stop_as_group => new_resource.stop_as_group,
           :every => new_resource.every, :tests => new_resource.tests
         }
       end
