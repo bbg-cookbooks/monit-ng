@@ -1,3 +1,7 @@
+# 1.6.1 / 2015-03-26
+
+* bugfix: correct stop_as/stop_as_group var map for check template
+
 1.6.0 / 2015-03-23
 
 * adding gid support for start_as and stop_as (start_as_group, stop_as_group attributes)
