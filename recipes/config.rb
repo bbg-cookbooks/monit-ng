@@ -66,7 +66,7 @@ service 'monit' do
       provider Chef::Provider::Service::Upstart
     end
   end
-  action [:enable, :start]
+  action [:enable]
 end
 
 ruby_block 'reload-monit' do
@@ -87,4 +87,10 @@ ruby_block 'notify-reload-monit' do
     Chef::Log.info('Running delayed notification of ruby_block[reload-monit]')
   end
   notifies :run, 'ruby_block[reload-monit]', :delayed
+end
+
+ruby_block 'notify-start-monit' do
+  block do
+  end
+  notifies :start, 'service[monit]', :delayed
 end
