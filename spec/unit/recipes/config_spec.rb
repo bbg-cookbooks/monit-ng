@@ -41,10 +41,6 @@ describe 'monit-ng::config' do
     expect(chef_run).to enable_service('monit')
   end
 
-  it 'starts the service' do
-    expect(chef_run).to start_service('monit')
-  end
-
   # TODO: sort out stubbing the file existence to test that
   # monit::config creates /etc/default/monit when it should
   it 'does not un-disable the service by default' do
@@ -63,5 +59,11 @@ describe 'monit-ng::config' do
   it 'runs delayed notification of ruby_block[reload-monit]' do
     expect(chef_run).to run_ruby_block('notify-reload-monit')
     expect(notify_block).to notify('ruby_block[reload-monit]').delayed
+  end
+
+  let(:notify_service) { chef_run.ruby_block('notify-start-monit') }
+  it 'start delayed notification of service[monit]' do
+    expect(chef_run).to run_ruby_block('notify-start-monit')
+    expect(notify_service).to notify('service[monit]').to(:start).delayed
   end
 end
