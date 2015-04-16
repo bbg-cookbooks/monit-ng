@@ -1,3 +1,7 @@
+# 1.6.2 / 2015-04-16
+
+* start monit service later to enable chef run to cleanup busted LWRP includes that cause service start failures (thanks @vkhatri!)
+
 # 1.6.1 / 2015-03-26
 
 * bugfix: correct stop_as/stop_as_group var map for check template (thanks @mattadair!)
