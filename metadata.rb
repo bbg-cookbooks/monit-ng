@@ -4,7 +4,7 @@ maintainer_email 'nath.e.will@gmail.com'
 license          'Apache 2.0'
 description      'Installs and configures monit'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '1.6.2'
+version          '1.6.3'
 
 depends 'yum-epel'
 depends 'ubuntu'

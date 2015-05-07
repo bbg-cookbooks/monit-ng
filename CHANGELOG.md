@@ -1,3 +1,7 @@
+# 1.6.3 / 2015-05-06
+
+* update to latest monit release
+
 # 1.6.2 / 2015-04-16
 
 * start monit service later to enable chef run to cleanup busted LWRP includes that cause service start failures (thanks @vkhatri!)
