@@ -8,10 +8,10 @@ include_attribute 'monit-ng::default'
 default['monit']['source'].tap do |source|
   source['url'] = 'https://mmonit.com/monit/dist'
 
-  source['version'] = '5.12.2'
+  source['version'] = '5.13'
 
   source['checksum'] =
-    '8ab0296d1aa2351b1573481592d7b5e06de1edd49dff1b5552839605a450914c'
+    '9abae036f3be93a19c6b476ecd106b29d4da755bbc05f0a323e882eab6b2c5a9'
 
   source['prefix'] = '/usr/local'
 
