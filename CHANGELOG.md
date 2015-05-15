@@ -1,3 +1,8 @@
+# 1.6.4 / 2015-05-15
+
+* fix upstart service name for postfix (thanks @szymonpk!)
+* use verify attribute on control file templates when using Chef >= 12
+
 # 1.6.3 / 2015-05-06
 
 * update to latest monit release
