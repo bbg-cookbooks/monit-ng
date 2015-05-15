@@ -30,7 +30,7 @@ directory monit['conf_dir'] do
   action :create
 end
 
-template monit['conf_file'] do
+template monit['conf_file'] do # ~FC009
   source 'monit.conf.erb'
   owner 'root'
   group 'root'

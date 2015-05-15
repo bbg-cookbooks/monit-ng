@@ -27,6 +27,8 @@ class Chef
 
       private
 
+      # rubocop: disable MethodLength
+      # rubocop: disable AbcSize
       def edit_check(exec_action)
         t = Chef::Resource::Template.new(tpl_name, run_context)
         t.cookbook new_resource.cookbook
@@ -42,6 +44,8 @@ class Chef
         t.run_action exec_action
         t.updated_by_last_action?
       end
+      # rubocop: enable MethodLength
+      # rubocop: enable AbcSize
 
       def tpl_name
         "monit_check_#{new_resource.name}"
