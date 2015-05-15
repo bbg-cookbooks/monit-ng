@@ -54,6 +54,11 @@ template monit['conf_file'] do
     :mmonit_url => config['mmonit_url'],
     :conf_dir => monit['conf_dir'],
   )
+  if Chef::VERSION.to_f >= 12
+    verify do |path|
+      "monit -tc #{path}"
+    end
+  end
   notifies :restart, 'service[monit]', :delayed
 end
 
