@@ -137,6 +137,31 @@ class Chef
         )
       end
 
+      def alert(arg = nil)
+        set_or_return(
+          :alert, arg,
+          :kind_of => String
+        )
+      end
+
+      def but_not_on(arg = nil)
+        set_or_return(
+          :but_not_on, arg,
+          :kind_of => [TrueClass, FalseClass],
+          :default => false,
+          :required => alert
+        )
+      end
+
+      def alert_events(arg = nil)
+        set_or_return(
+          :alert_events, arg,
+          :kind_of => Array,
+          :default => [],
+          :required => alert
+        )
+      end
+
       private
 
       def check_pairs
