@@ -1,3 +1,7 @@
+# 1.7.0 / 2015-06-05
+
+* add alert, but_not_on, alert_events attributes for per-check alert event control (thanks @cpakman!)
+
 # 1.6.4 / 2015-05-15
 
 * fix upstart service name for postfix (thanks @szymonpk!)
