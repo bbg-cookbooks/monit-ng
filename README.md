@@ -14,10 +14,10 @@ provider for managing additional monit checks.
 
 ## Dependencies
 
-- yum-epel
-- ubuntu
-- apt
-- build-essential
+- yum-epel (on rhel hosts)
+- ubuntu (on ubuntu hosts)
+- apt (on debian hosts)
+- build-essential (if installing from source)
 
 
 ## Attributes
@@ -44,7 +44,7 @@ provider for managing additional monit checks.
 
 * `default['monit']['config']['log_file']` (default: `/var/log/monit.log`): monit log file location
 
-* `default['monit']['config']['id_file']` (default: `/var/lib/monit.id`): mmonit system id file location
+* `default['monit']['config']['id_file']` (default: `/var/lib/monit.id`): monit system id file location
 
 * `default['monit']['config']['state_file']` (default: `/var/run/monit.state`): where to save state between startups
 
@@ -86,7 +86,7 @@ Documentation for event filters can be found at https://mmonit.com/monit/documen
 	  }
 ```
 
-* `default['monit']['config']['mail_servers']` (default: `[]`): this attributes configures `set mailserver` config option for each `Hash` element (mail server) with below attributes, e.g. chef role
+* `default['monit']['config']['mail_servers']` (default: `[]`): this attributes configures `set mailserver` config option for each `Hash` element (mail server) with below attributes:
 
 ```
 	  "default_attributes": {
