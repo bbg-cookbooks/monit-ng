@@ -42,7 +42,7 @@ template monit['conf_file'] do # ~FC009
     :id_file => config['id_file'],
     :state_file => config['state_file'],
     :mail_servers => config['mail_servers'],
-    :subscribers => config['subscribers'],
+    :alert => config['alert'] || config['subscribers'],
     :eventqueue_dir => config['eventqueue_dir'],
     :eventqueue_slots => config['eventqueue_slots'],
     :listen => config['listen'],

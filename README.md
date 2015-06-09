@@ -60,24 +60,34 @@ provider for managing additional monit checks.
 
 * `default['monit']['config']['mail_message']` (default: `text`): email notification body
 
-* `default['monit']['config']['subscribers']` (default: `[]`): this attributes configures `set alert` config option for each `Hash` element (subscriber) with attribute `name` and `subscriptions`, e.g. chef role
+* `default['monit']['config']['alert']` (default: `[]`): this attributes configures `set alert` config option for each `Hash` element with attribute `email` and optional event filters
+Documentation for event filters can be found at https://mmonit.com/monit/documentation/monit.html#Setting-an-event-filter
 
+```
 	  "default_attributes": {
 	    "monit": {
 		  "config": {
-			"subscribers": [
+			"alert": [
 			  {
 			    "name": "root@localhost",
-			    "subscriptions": [ "nonexist", "timeout", "resource", "icmp", "connection"]
+			    "but_not_on": [ "nonexist" ]
+			  },
+			  {
+			    "name": "netadmin@localhost",
+			    "only_on": [ "nonexist", "timeout", "icmp", "connection"]
+			  },
+			  {
+			    "name": "iwantall@localhost",
 			  }
 			]
 		  }
 		}
 	  }
-
+```
 
 * `default['monit']['config']['mail_servers']` (default: `[]`): this attributes configures `set mailserver` config option for each `Hash` element (mail server) with below attributes, e.g. chef role
 
+```
 	  "default_attributes": {
 	    "monit": {
 		  "config": {
@@ -94,7 +104,7 @@ provider for managing additional monit checks.
 		  }
 		}
 	  }
-
+```
 
 
 ## monit_check resource examples
