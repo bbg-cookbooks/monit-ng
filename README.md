@@ -60,7 +60,8 @@ provider for managing additional monit checks.
 
 * `default['monit']['config']['mail_message']` (default: `text`): email notification body
 
-* `default['monit']['config']['alert']` (default: `[]`): this attributes configures `set alert` config option for each `Hash` element with attribute `email` and optional event filters
+* `default['monit']['config']['alert']` (default: `[]`): this attributes configures `set alert` config option for each `Hash` element with attribute `name` and optional event filters  
+
 Documentation for event filters can be found at https://mmonit.com/monit/documentation/monit.html#Setting-an-event-filter
 
 ```
