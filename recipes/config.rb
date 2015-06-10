@@ -87,13 +87,6 @@ ruby_block 'reload-monit' do
   action :nothing
 end
 
-ruby_block 'notify-reload-monit' do
-  block do
-    Chef::Log.info('Running delayed notification of ruby_block[reload-monit]')
-  end
-  notifies :run, 'ruby_block[reload-monit]', :delayed
-end
-
 ruby_block 'notify-start-monit' do
   block do
   end
