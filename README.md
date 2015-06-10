@@ -14,10 +14,10 @@ provider for managing additional monit checks.
 
 ## Dependencies
 
-- yum-epel
-- ubuntu
-- apt
-- build-essential
+- yum-epel (on rhel hosts)
+- ubuntu (on ubuntu hosts)
+- apt (on debian hosts)
+- build-essential (if installing from source)
 
 
 ## Attributes
@@ -44,7 +44,7 @@ provider for managing additional monit checks.
 
 * `default['monit']['config']['log_file']` (default: `/var/log/monit.log`): monit log file location
 
-* `default['monit']['config']['id_file']` (default: `/var/lib/monit.id`): mmonit system id file location
+* `default['monit']['config']['id_file']` (default: `/var/lib/monit.id`): monit system id file location
 
 * `default['monit']['config']['state_file']` (default: `/var/run/monit.state`): where to save state between startups
 
@@ -60,24 +60,35 @@ provider for managing additional monit checks.
 
 * `default['monit']['config']['mail_message']` (default: `text`): email notification body
 
-* `default['monit']['config']['subscribers']` (default: `[]`): this attributes configures `set alert` config option for each `Hash` element (subscriber) with attribute `name` and `subscriptions`, e.g. chef role
+* `default['monit']['config']['alert']` (default: `[]`): this attributes configures `set alert` config option for each `Hash` element with attribute `name` and optional event filters  
 
+Documentation for event filters can be found at https://mmonit.com/monit/documentation/monit.html#Setting-an-event-filter
+
+```
 	  "default_attributes": {
 	    "monit": {
 		  "config": {
-			"subscribers": [
+			"alert": [
 			  {
 			    "name": "root@localhost",
-			    "subscriptions": [ "nonexist", "timeout", "resource", "icmp", "connection"]
+			    "but_not_on": [ "nonexist" ]
+			  },
+			  {
+			    "name": "netadmin@localhost",
+			    "only_on": [ "nonexist", "timeout", "icmp", "connection"]
+			  },
+			  {
+			    "name": "iwantall@localhost",
 			  }
 			]
 		  }
 		}
 	  }
+```
 
+* `default['monit']['config']['mail_servers']` (default: `[]`): this attributes configures `set mailserver` config option for each `Hash` element (mail server) with below attributes:
 
-* `default['monit']['config']['mail_servers']` (default: `[]`): this attributes configures `set mailserver` config option for each `Hash` element (mail server) with below attributes, e.g. chef role
-
+```
 	  "default_attributes": {
 	    "monit": {
 		  "config": {
@@ -94,7 +105,7 @@ provider for managing additional monit checks.
 		  }
 		}
 	  }
-
+```
 
 
 ## monit_check resource examples

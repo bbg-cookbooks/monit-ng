@@ -34,9 +34,15 @@ set mail-format {
    message: <%= @mail_msg %>
 }
 
-<% @subscribers.each do |subscriber| %>
-set alert <%= subscriber.name %>
-  only on { <%= subscriber.subscriptions.join(', ') %>}
+<% @alert.each do |alert| %>
+set alert <%= alert.name %>
+<% if ! alert.only_on.nil? -%>
+  only on { <%= alert.only_on.join(', ') %>}
+<% elsif ! alert.subscriptions.nil? -%>
+  only on { <%= alert.subscriptions.join(', ') %>}
+<% elsif ! alert.but_not_on.nil? -%>
+  but not on { <%= alert.but_not_on.join(', ') %>}
+<% end -%>
 
 <% end %>
 set eventqueue
