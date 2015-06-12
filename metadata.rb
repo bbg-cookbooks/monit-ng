@@ -6,10 +6,9 @@ description      'Installs and configures monit'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '1.7.0'
 
-depends 'yum-epel'
-depends 'ubuntu'
-depends 'apt'
-depends 'build-essential'
+%w( yum-epel ubuntu apt build-essential ).each do |dep|
+  depends dep
+end
 
 %w( amazon redhat scientific centos debian ubuntu ).each do |platform|
   supports platform

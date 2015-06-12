@@ -3,10 +3,10 @@
 # Recipe:: source
 #
 
-source = node['monit']['source']
-
 include_recipe 'apt' if platform_family?('debian')
 include_recipe 'build-essential'
+
+source = node['monit']['source']
 
 source['build_deps'].each do |build_dep|
   package build_dep
@@ -18,14 +18,17 @@ source_file_path = "#{download_path}/monit-#{source['version']}.tar.gz"
 build_root = "#{download_path}/monit-#{source['version']}"
 
 monit_bin = "#{source['prefix']}/bin/monit"
-opts = "--prefix=#{source['prefix']}"
-if platform_family?('debian') && source['version'].to_f < 5.6
-  opts += " --with-ssl-lib-dir=/usr/lib/#{node['kernel']['machine']}-linux-gnu"
+
+opts = ["--prefix=#{source['prefix']}"]
+
+if Gem::Version.new(source['version']) < Gem::Version.new(5.6) &&
+  platform_family?('debian')
+  opts << "--with-ssl-lib-dir=/usr/lib/#{node['kernel']['machine']}-linux-gnu"
 end
 
 execute 'compile-source' do
   cwd build_root
-  command "./configure #{opts} && make && make install"
+  command "./configure #{opts.join(' ')} && make && make install"
   action :nothing
 end
 

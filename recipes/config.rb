@@ -74,12 +74,14 @@ service 'monit' do
   action [:enable]
 end
 
-ruby_block 'reload-monit' do
+ruby_block 'conditional-monit-reload' do
   block do
+    # Cherry-pick monit_check resources from the run_context
     checks = run_context.resource_collection.select do |r|
       r.is_a?(Chef::Resource::MonitCheck)
     end
 
+    # Reload monit if any monit_check resources changed
     if checks.any?(&:updated_by_last_action?)
       resources(:service => 'monit').run_action(:reload)
     end
@@ -87,15 +89,16 @@ ruby_block 'reload-monit' do
   action :nothing
 end
 
-ruby_block 'notify-reload-monit' do
+ruby_block 'notify-conditional-monit-reload' do
   block do
-    Chef::Log.info('Running delayed notification of ruby_block[reload-monit]')
+    Chef::Log.info('Notifying ruby_block[conditional-monit-reload] to run.')
   end
-  notifies :run, 'ruby_block[reload-monit]', :delayed
+  notifies :run, 'ruby_block[conditional-monit-reload]', :delayed
 end
 
 ruby_block 'notify-start-monit' do
   block do
+    Chef::Log.info('Notifying monit service to start.')
   end
   notifies :start, 'service[monit]', :delayed
 end

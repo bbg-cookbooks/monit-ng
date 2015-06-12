@@ -35,7 +35,6 @@ class Chef
         t.path tpl_path
         t.source 'monit.check.erb'
         t.variables monit_check_config
-        t.notifies :reload, 'service[monit]', :delayed
         if Chef::VERSION.to_f >= 12
           t.verify do |path|
             "monit -tc #{path}"
