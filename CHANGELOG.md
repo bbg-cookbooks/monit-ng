@@ -1,3 +1,10 @@
+# 1.8.0 / 2015-06-11
+
+* better version comparison for old SSL bug
+* fix check_id attribute to support check_type "system". thanks @jorhett!
+* update proactive reload ruby_block naming for clarity
+* permit disabling proactive reloads
+
 # 1.7.0 / 2015-06-05
 
 * add alert, but_not_on, alert_events attributes for per-check alert event control (thanks @cpakman!)
