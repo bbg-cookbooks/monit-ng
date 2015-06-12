@@ -12,6 +12,10 @@ describe 'monit-ng::repo' do
     it 'includes yum-epel' do
       expect(chef_run).to include_recipe 'yum-epel'
     end
+
+    it 'installs monit' do
+      expect(chef_run).to install_yum_package 'monit'
+    end
   end
 
   context 'ubuntu' do
@@ -30,6 +34,10 @@ describe 'monit-ng::repo' do
 
     it 'fixes the sources' do
       expect(chef_run).to create_template('/etc/apt/sources.list')
+    end
+
+    it 'installs monit' do
+      expect(chef_run).to install_apt_package 'monit'
     end
   end
 

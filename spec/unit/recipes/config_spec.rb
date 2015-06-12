@@ -55,10 +55,11 @@ describe 'monit-ng::config' do
     expect(chef_run).to_not run_ruby_block('reload-monit')
   end
 
-  let(:notify_block) { chef_run.ruby_block('notify-reload-monit') }
-  it 'runs delayed notification of ruby_block[reload-monit]' do
-    expect(chef_run).to run_ruby_block('notify-reload-monit')
-    expect(notify_block).to notify('ruby_block[reload-monit]').delayed
+  let(:notify_block) { chef_run.ruby_block('notify-conditional-monit-reload') }
+  it 'runs delayed notification of ruby_block[conditional-monit-reload' do
+    expect(chef_run).to run_ruby_block('notify-conditional-monit-reload')
+    expect(chef_run).to_not run_ruby_block('conditional-monit-reload')
+    expect(notify_block).to notify('ruby_block[conditional-monit-reload]').delayed
   end
 
   let(:notify_service) { chef_run.ruby_block('notify-start-monit') }

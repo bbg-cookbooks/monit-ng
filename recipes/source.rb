@@ -22,7 +22,7 @@ monit_bin = "#{source['prefix']}/bin/monit"
 opts = ["--prefix=#{source['prefix']}"]
 
 if Gem::Version.new(source['version']) < Gem::Version.new(5.6) &&
-  platform_family?('debian')
+   platform_family?('debian')
   opts << "--with-ssl-lib-dir=/usr/lib/#{node['kernel']['machine']}-linux-gnu"
 end
 
