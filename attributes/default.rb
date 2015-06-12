@@ -10,6 +10,10 @@ default['monit'].tap do |monit|
   # should we setup the global config
   monit['configure'] = true
 
+  # should we proactively scan the run_context in order to
+  # reload if there are any altered monit_check resources?
+  monit['proactive_reload'] = true
+
   # configuration file location
   monit['conf_file'] = value_for_platform_family(
     'rhel'    => '/etc/monit.conf',
