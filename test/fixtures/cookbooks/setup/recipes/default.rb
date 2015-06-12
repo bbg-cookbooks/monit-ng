@@ -28,6 +28,15 @@ end
   end
 end
 
+include_recipe 'monit-ng'
+
 %w( crond ntpd postfix rootfs rsyslog sshd ).each do |chk|
   include_recipe "monit-ng::#{chk}"
+end
+
+monit_check node.name do
+  check_type 'system'
+  alert 'root@localhost'
+  but_not_on true
+  alert_events %w( instance )
 end
