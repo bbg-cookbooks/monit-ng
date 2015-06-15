@@ -19,7 +19,10 @@ template '/etc/default/monit' do
     :platform_version => node['platform_version'],
   )
   notifies :restart, 'service[monit]', :delayed
-  only_if { platform_family?('debian') && ::File.exist?('/etc/default/monit') }
+  only_if do
+    platform_family?('debian') &&
+      ::File.exist?('/etc/default/monit')
+  end
 end
 
 directory monit['conf_dir'] do
@@ -60,46 +63,4 @@ template monit['conf_file'] do # ~FC009
     end
   end
   notifies :restart, 'service[monit]', :delayed
-end
-
-service 'monit' do
-  if node['monit']['install_method'] == 'source'
-    case node['monit']['init_style']
-    when 'systemd'
-      provider Chef::Provider::Service::Systemd
-    when 'upstart'
-      provider Chef::Provider::Service::Upstart
-    end
-  end
-  action [:enable]
-end
-
-ruby_block 'conditional-monit-reload' do
-  block do
-    # Cherry-pick monit_check resources from the run_context
-    checks = run_context.resource_collection.select do |r|
-      r.is_a?(Chef::Resource::MonitCheck)
-    end
-
-    # Reload monit if any monit_check resources changed
-    if checks.any?(&:updated_by_last_action?)
-      resources(:service => 'monit').run_action(:reload)
-    end
-  end
-  action :nothing
-end
-
-ruby_block 'notify-conditional-monit-reload' do
-  block do
-    Chef::Log.info('Notifying ruby_block[conditional-monit-reload] to run.')
-  end
-  notifies :run, 'ruby_block[conditional-monit-reload]', :delayed
-  only_if { monit['proactive_reload'] }
-end
-
-ruby_block 'notify-start-monit' do
-  block do
-    Chef::Log.info('Notifying monit service to start.')
-  end
-  notifies :start, 'service[monit]', :delayed
 end

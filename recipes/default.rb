@@ -3,5 +3,6 @@
 # Recipe:: default
 #
 
-include_recipe "#{cookbook_name}::#{node['monit']['install_method']}"
-include_recipe "#{cookbook_name}::config" if node['monit']['configure']
+%w( install configure service reload ).each do |r|
+  include_recipe "#{cookbook_name}::#{r}"
+end
