@@ -3,6 +3,25 @@
 # Recipe:: service
 #
 
+# Exists in older Debian/Ubuntu platforms
+# and disables monit starting by default
+# despite being enabled in appropriate run-levels
+template '/etc/default/monit' do
+  source 'monit.default.erb'
+  owner 'root'
+  group 'root'
+  mode '0644'
+  variables(
+    :platform         => node['platform'],
+    :platform_version => node['platform_version'],
+  )
+  notifies :restart, 'service[monit]', :delayed
+  only_if do
+    platform_family?('debian') &&
+      ::File.exist?('/etc/default/monit')
+  end
+end
+
 # Enable the service
 service 'monit' do
   action [:enable]
