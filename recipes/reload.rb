@@ -25,5 +25,5 @@ ruby_block 'notify-conditional-monit-reload' do
     Chef::Log.info('Notifying ruby_block[conditional-monit-reload] to run.')
   end
   notifies :run, 'ruby_block[conditional-monit-reload]', :delayed
-  only_if { monit['proactive_reload'] }
+  only_if { node['monit']['proactive_reload'] }
 end
