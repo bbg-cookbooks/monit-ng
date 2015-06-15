@@ -1,3 +1,7 @@
+# 1.8.1 / 2015-06-14
+
+* fix backwards compatibility with "subscriptions"
+
 # 1.8.0 / 2015-06-11
 
 # update to latest monit release: 5.14
