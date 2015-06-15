@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'monit-ng::config' do
+describe 'monit-ng::configure' do
   let(:chef_run) { ChefSpec::SoloRunner.converge(described_recipe) }
 
   context 'rhel' do
@@ -49,22 +49,5 @@ describe 'monit-ng::config' do
 
   it 'creates the includes path' do
     expect(chef_run).to create_directory('/etc/monit.d')
-  end
-
-  it 'does not reload by default' do
-    expect(chef_run).to_not run_ruby_block('reload-monit')
-  end
-
-  let(:notify_block) { chef_run.ruby_block('notify-conditional-monit-reload') }
-  it 'runs delayed notification of ruby_block[conditional-monit-reload' do
-    expect(chef_run).to run_ruby_block('notify-conditional-monit-reload')
-    expect(chef_run).to_not run_ruby_block('conditional-monit-reload')
-    expect(notify_block).to notify('ruby_block[conditional-monit-reload]').delayed
-  end
-
-  let(:notify_service) { chef_run.ruby_block('notify-start-monit') }
-  it 'start delayed notification of service[monit]' do
-    expect(chef_run).to run_ruby_block('notify-start-monit')
-    expect(notify_service).to notify('service[monit]').to(:start).delayed
   end
 end
