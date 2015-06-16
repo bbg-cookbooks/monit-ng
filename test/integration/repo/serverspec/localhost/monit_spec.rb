@@ -29,7 +29,7 @@ describe 'Monit Daemon' do
   conf_dir, conf_file = case os[:family]
                         when 'redhat'
                           ['/etc/monit.d', '/etc/monit.conf']
-                        when 'debian'
+                        when 'debian', 'ubuntu'
                           ['/etc/monit/conf.d', '/etc/monit/monitrc']
                         else
                           ['/etc/monit.d', '/etc/monitrc']
