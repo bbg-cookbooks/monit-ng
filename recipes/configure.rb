@@ -43,5 +43,4 @@ template monit['conf_file'] do # ~FC009
       "monit -tc #{path}"
     end
   end
-  notifies :restart, 'service[monit]', :delayed
 end

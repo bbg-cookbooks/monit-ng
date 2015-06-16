@@ -25,6 +25,7 @@ end
 # Enable the service
 service 'monit' do
   action [:enable]
+  subscribes :restart, "template[#{node['monit']['conf_file']}]", :delayed
 end
 
 # Start the service at the end so we can clean up/repair

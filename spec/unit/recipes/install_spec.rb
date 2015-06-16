@@ -1,166 +1,142 @@
 require 'spec_helper'
 
 describe 'monit-ng::install' do
-  let(:chef_run) { ChefSpec::SoloRunner.new.converge(described_recipe) }
-
-  it 'installs monit' do
-    expect(chef_run).to install_package('monit')
-  end
-
-  it 'does not raise an exception' do
-    expect { chef_run }.to_not raise_error
-  end
-
-  context 'rhel' do
-    let(:chef_run) do
-      ChefSpec::SoloRunner.new(platform: 'centos', version: '6.5')
-      .converge(described_recipe)
-    end
-
-    it 'includes yum-epel' do
-      expect(chef_run).to include_recipe 'yum-epel'
-    end
+  context 'repo install' do
+    let(:repo_install) { ChefSpec::SoloRunner.new.converge(described_recipe) }
 
     it 'installs monit' do
-      expect(chef_run).to install_yum_package 'monit'
-    end
-  end
-
-  context 'ubuntu' do
-    let(:chef_run) do
-      ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '12.04')
-      .converge(described_recipe)
+      expect(repo_install).to install_package('monit')
     end
 
-    it 'includes the apt recipe' do
-      expect(chef_run).to include_recipe 'apt::default'
+    it 'does not raise an exception' do
+      expect { repo_install }.to_not raise_error
     end
 
-    it 'includes the ubuntu recipe' do
-      expect(chef_run).to include_recipe 'ubuntu::default'
-    end
+    context 'rhel' do
+      let(:repo_install) do
+        ChefSpec::SoloRunner.new(platform: 'centos', version: '6.5')
+        .converge(described_recipe)
+      end
 
-    it 'fixes the sources' do
-      expect(chef_run).to create_template('/etc/apt/sources.list')
-    end
+      it 'includes yum-epel' do
+        expect(repo_install).to include_recipe 'yum-epel'
+      end
 
-    it 'installs monit' do
-      expect(chef_run).to install_apt_package 'monit'
-    end
-  end
-
-
-  let(:service) { chef_run.service('monit') }
-
-  let(:remote_file) do
-    chef_run.remote_file('/var/chef/cache/monit-5.9.tar.gz')
-  end
-
-  let(:download) { chef_run.remote_file('source-archive') }
-
-  let(:extraction) { chef_run.execute('extract-source-archive') }
-
-  let(:compilation) { chef_run.execute('compile-source') }
-
-  let(:init) { chef_run.template('monit-init') }
-
-  it 'includes the build-essential recipe' do
-    expect(chef_run).to include_recipe('build-essential::default')
-  end
-
-  %w( pam-devel openssl-devel flex bison gcc gcc-c++ make ).each do |dep|
-    it "installs build dependency: #{dep}" do
-      expect(chef_run).to install_package(dep)
-    end
-  end
-
-  context 'ubuntu' do
-    let(:chef_run) do
-      ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '14.04')
-      .converge(described_recipe)
-    end
-
-    it 'includes the apt recipe' do
-      expect(chef_run).to include_recipe('apt::default')
-    end
-
-    it 'includes the build-essential recipe' do
-      expect(chef_run).to include_recipe('build-essential::default')
-    end
-
-    %w( libpam0g-dev libssl-dev autoconf flex bison ).each do |dep|
-      it "installs build dependency: #{dep}" do
-        expect(chef_run).to install_package(dep)
+      it 'installs monit' do
+        expect(repo_install).to install_yum_package 'monit'
       end
     end
 
-    it 'links source config to platform config' do
-      expect(chef_run).to create_link('/etc/monitrc')
-      .with(to: '/etc/monit/monitrc')
-    end
+    context 'ubuntu' do
+      let(:repo_install) do
+        ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '12.04')
+        .converge(described_recipe)
+      end
 
-    it 'configures an upstart template' do
-      expect(chef_run).to create_template('monit-init').with(
-        path: '/etc/init/monit.conf',
-        mode: '0644',
-      )
-    end
-  end
+      it 'includes the apt recipe' do
+        expect(repo_install).to include_recipe 'apt::default'
+      end
 
-  it 'skips extraction by default' do
-    expect(chef_run).to_not run_execute('extract-source-archive')
-  end
+      it 'includes the ubuntu recipe' do
+        expect(repo_install).to include_recipe 'ubuntu::default'
+      end
 
-  it 'skips compilation by default' do
-    expect(chef_run).to_not run_execute('compile-source')
-  end
+      it 'fixes the sources' do
+        expect(repo_install).to create_template('/etc/apt/sources.list')
+      end
 
-  it 'downloads the source archive' do
-    expect(chef_run).to create_remote_file('source-archive')
-  end
-
-  it 'extracts the source archive' do
-    expect(download).to notify('execute[extract-source-archive]')
-  end
-
-  it 'compiles the sources' do
-    expect(extraction).to notify('execute[compile-source]').to(:run)
-  end
-
-  it 'creates the config symlink' do
-    expect(chef_run).to create_link('/etc/monitrc')
-    .with(to: '/etc/monit.conf')
-  end
-
-  context 'mystery-os' do
-    let(:chef_run) do
-      ChefSpec::SoloRunner.new(platform: 'omnios', version: '151002')
-      .converge(described_recipe)
-    end
-
-    it 'does not create the config symlink' do
-      expect(chef_run).to_not create_link('/etc/monitrc')
+      it 'installs monit' do
+        expect(repo_install).to install_apt_package 'monit'
+      end
     end
   end
 
-  it 'creates the init script' do
-    expect(chef_run).to create_template('monit-init').with(
-      path: '/etc/init.d/monit',
-      mode: '0755',
-    )
-  end
-
-  context 'modern-rhel' do
-    let(:chef_run) do
-      ChefSpec::SoloRunner.new(platform: 'centos', version: '7.0')
-      .converge(described_recipe)
+  context 'source install' do
+    let(:source_install) do
+      ChefSpec::SoloRunner.new do |node|
+        node.set['monit']['install_method'] = 'source'
+      end.converge(described_recipe)
     end
 
-    it 'renders a systemd template' do
-      expect(chef_run).to create_template('monit-init').with(
-        path: '/lib/systemd/system/monit.service',
-        mode: '0644',
-      )
+    let(:remote_file) do
+      source_install.remote_file('/var/chef/cache/monit-5.14.tar.gz')
+    end
+
+    let(:download) { source_install.remote_file('source-archive') }
+
+    let(:extraction) { source_install.execute('extract-source-archive') }
+
+    let(:compilation) { source_install.execute('compile-source') }
+
+    let(:init) { source_install.template('monit-init') }
+
+    it 'includes the build-essential recipe' do
+      expect(source_install).to include_recipe('build-essential::default')
+    end
+
+    context 'ubuntu' do
+      let(:source_install) do
+        ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '14.04') do |node|
+          node.set['monit']['install_method'] = 'source'
+        end.converge(described_recipe)
+      end
+
+      it 'includes the apt recipe' do
+        expect(source_install).to include_recipe('apt::default')
+      end
+
+      it 'includes the build-essential recipe' do
+        expect(source_install).to include_recipe('build-essential::default')
+      end
+
+      %w( libpam0g-dev libssl-dev autoconf flex bison ).each do |dep|
+        it "installs build dependency: #{dep}" do
+          expect(source_install).to install_package(dep)
+        end
+      end
+
+      it 'links source config to platform config' do
+        expect(source_install).to create_link('/etc/monitrc')
+        .with(to: '/etc/monit/monitrc')
+      end
+
+      it 'configures an upstart template' do
+        expect(source_install).to create_template('monit-init').with(
+          path: '/etc/init/monit.conf',
+          mode: '0644',
+        )
+      end
+    end
+
+    it 'skips extraction by default' do
+      expect(source_install).to_not run_execute('extract-source-archive')
+    end
+
+    it 'skips compilation by default' do
+      expect(source_install).to_not run_execute('compile-source')
+    end
+
+    it 'downloads the source archive' do
+      expect(source_install).to create_remote_file('source-archive')
+    end
+
+    it 'extracts the source archive' do
+      expect(download).to notify('execute[extract-source-archive]')
+    end
+
+    it 'compiles the sources' do
+      expect(extraction).to notify('execute[compile-source]').to(:run)
+    end
+
+    context 'mystery-os' do
+      let(:source_install) do
+        ChefSpec::SoloRunner.new(platform: 'omnios', version: '151002')
+        .converge(described_recipe)
+      end
+
+      it 'does not create the config symlink' do
+        expect(source_install).to_not create_link('/etc/monitrc')
+      end
     end
   end
 end
