@@ -48,10 +48,10 @@ describe 'Monit Daemon' do
       'set statefile /var/run/monit.state',
       'set mail-format {',
       'from: monit',
-      'subject: $SERVICE $EVENT at $DATE',
+      'subject: \$SERVICE \$EVENT at \$DATE',
       'message:     Monit',
       'set alert this@localhost',
-      'only on { connection, content, data}',
+      'only on { connection, content, data }',
       'set alert that@localhost',
       'but not on { nonexist }',
       'set alert theother@localhost',
@@ -62,8 +62,9 @@ describe 'Monit Daemon' do
       'set httpd port 2812 and',
       'use address 127.0.0.1',
       'allow localhost',
-      "include #{conf_dir}/*.conf",
+      "include #{conf_dir}/\\*\.conf",
     ].each do |directive|
-      its(:content) { should match Regex.new(directive) }
+      its(:content) { should match Regexp.new(directive) }
+    end
   end
 end
