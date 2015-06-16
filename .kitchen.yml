@@ -13,11 +13,11 @@ platforms:
   - name: centos-7.0
 
 suites:
-  - name: monit-ng-default
+  - name: repo 
     run_list:
       - recipe[monit-ng]
       - recipe[setup]
-  - name: monit-ng-source
+  - name: source
     run_list:
       - recipe[monit-ng]
       - recipe[setup]
