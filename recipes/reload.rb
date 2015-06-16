@@ -12,6 +12,7 @@ ruby_block 'conditional-monit-reload' do
 
     # Reload monit if any monit_check resources changed
     if checks.any?(&:updated_by_last_action?)
+      Chef::Log.info("Found updated monit checks, issuing service reload.")
       resources(:service => 'monit').run_action(:reload)
     end
   end
