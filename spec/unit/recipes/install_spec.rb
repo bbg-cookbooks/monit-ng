@@ -53,7 +53,7 @@ describe 'monit-ng::install' do
 
   context 'source install' do
     let(:source_install) do
-      ChefSpec::SoloRunner.new do |node|
+      ChefSpec::SoloRunner.new(platform: 'centos', version: '6.5') do |node|
         node.set['monit']['install_method'] = 'source'
       end.converge(described_recipe)
     end
@@ -72,6 +72,12 @@ describe 'monit-ng::install' do
 
     it 'includes the build-essential recipe' do
       expect(source_install).to include_recipe('build-essential::default')
+    end
+
+    %w( pam-devel openssl-devel ).each do |p|
+      it "installs build dep: #{p}" do
+        expect(source_install).to install_yum_package(p)
+      end
     end
 
     context 'ubuntu' do

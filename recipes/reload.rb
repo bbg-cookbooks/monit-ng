@@ -26,4 +26,5 @@ ruby_block 'notify-conditional-monit-reload' do
   end
   notifies :run, 'ruby_block[conditional-monit-reload]', :delayed
   only_if { node['monit']['proactive_reload'] }
+  action :run
 end
