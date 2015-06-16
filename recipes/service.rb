@@ -15,7 +15,7 @@ template '/etc/default/monit' do
     :platform         => node['platform'],
     :platform_version => node['platform_version'],
   )
-  notifies :restart, 'service[monit]', :delayed
+  action :create
   only_if do
     platform_family?('debian') &&
       ::File.exist?('/etc/default/monit')
@@ -36,4 +36,5 @@ ruby_block 'notify-start-monit' do
     Chef::Log.info('Notifying monit service to start.')
   end
   notifies :start, 'service[monit]', :delayed
+  action :run
 end
