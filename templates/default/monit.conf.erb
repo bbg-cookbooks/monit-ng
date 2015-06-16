@@ -37,11 +37,11 @@ set mail-format {
 <% @alert.each do |alert| %>
 set alert <%= alert.name %>
 <% if alert.has_key?('only_on') -%>
-  only on { <%= alert.only_on.join(', ') %>}
+  only on { <%= alert.only_on.join(', ') %> }
 <% elsif alert.has_key?('subscriptions') -%>
-  only on { <%= alert.subscriptions.join(', ') %>}
+  only on { <%= alert.subscriptions.join(', ') %> }
 <% elsif alert.has_key?('but_not_on') -%>
-  but not on { <%= alert.but_not_on.join(', ') %>}
+  but not on { <%= alert.but_not_on.join(', ') %> }
 <% end -%>
 
 <% end %>
