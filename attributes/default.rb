@@ -30,7 +30,7 @@ default['monit'].tap do |monit|
 
   monit['init_style'] = value_for_platform(
     'debian' => {
-      'default' => 'upstart',
+      'default' => 'sysv',
       '>= 8' => 'systemd',
     },
     'ubuntu' => {
@@ -38,7 +38,7 @@ default['monit'].tap do |monit|
       '>= 14.10' => 'systemd',
     },
     %w(centos rhel) => {
-      'default' => 'runit',
+      'default' => 'sysv',
       '>= 7.0' => 'systemd',
     },
   )
