@@ -3,6 +3,11 @@
 Installs and configures [Monit][tildeslash], with a resource provider for managing
 additional monit checks.
 
+Suggested background reading:
+
+* [The Fine Manual][manual]
+* This README, the resource and provider in cookbook libraries directory.
+
 ## Recipes
 
 - `monit-ng::default`: loads the other recipes in the order below
@@ -127,6 +132,7 @@ limitations under the License.
 ```
 
 [tildeslash]: http://mmonit.com/monit/
+[manual]: https://mmonit.com/monit/documentation/
 [filters]: https://mmonit.com/monit/documentation/monit.html#Setting-an-event-filter
 [contrib]: https://github.com/bbg-cookbooks/monit-ng/graphs/contributors
 [travis]: https://travis-ci.org/bbg-cookbooks/monit-ng
