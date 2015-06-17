@@ -1,3 +1,10 @@
+# 2.0.0 / 2015-06-17
+
+* consolidate repo/source recipe into "install" recipe
+* move service management into separate recipe
+* remove the common-service recipes
+* testing and documentation improvements
+
 # 1.8.1 / 2015-06-14
 
 * fix backwards compatibility with "subscriptions"
