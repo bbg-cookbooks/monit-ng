@@ -18,18 +18,4 @@ describe 'Monit Daemon' do
       it { should be_listening }
     end
   end
-
-  describe 'is monitoring the root filesystem' do
-    describe command('monit summary') do
-      its(:stdout) { should match /rootfs/ }
-    end
-  end
-
-  %w( crond ntpd postfix rsyslog sshd ).each do |svc|
-    describe "is monitoring #{svc}" do
-      describe service(svc) do
-        it { should be_monitored_by 'monit' }
-      end
-    end
-  end
 end

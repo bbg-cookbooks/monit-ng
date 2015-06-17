@@ -6,34 +6,21 @@ provisioner:
   name: chef_zero
 
 platforms:
-<%
-%w(
-  debian-7.8
-  ubuntu-12.04
-  ubuntu-14.04
-  centos-6.6
-  centos-7.0
-).each do |p|
-%>
-  - name: <%= p %>-chef-11
-    driver:
-      box: opscode-<%= p %>
-    provisioner:
-      require_chef_omnibus: 11
-
-  - name: <%= p %>-chef-12
-    driver:
-      box: opscode-<%= p %>
-    provisioner:
-      require_chef_omnibus: 12
-<% end %>
+  - name: debian-7.8
+  - name: ubuntu-12.04
+  - name: ubuntu-14.04
+  - name: centos-6.6
+  - name: centos-7.0
 
 suites:
-  - name: monit-ng-default
+  - name: repo 
     run_list:
       - recipe[monit-ng]
       - recipe[setup]
-  - name: monit-ng-source
+  - name: source
+    excludes:
+      - ubuntu-12.04
+      - centos-6.6
     run_list:
       - recipe[monit-ng]
       - recipe[setup]
