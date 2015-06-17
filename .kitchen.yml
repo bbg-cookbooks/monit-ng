@@ -18,6 +18,9 @@ suites:
       - recipe[monit-ng]
       - recipe[setup]
   - name: source
+    excludes:
+      - ubuntu-12.04
+      - centos-6.6
     run_list:
       - recipe[monit-ng]
       - recipe[setup]
