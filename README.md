@@ -79,22 +79,22 @@ Documentation for event filters can be found [here][filters].
 
 |Attribute|Description|Default|
 |---------|-----------|-------|
-|cookbook|||
-|check_type|||
-|check_id|||
-|id_type|||
-|start_as|||
-|start_as_group|||
-|start|||
-|stop_as|||
-|stop_as_group|||
-|stop|||
-|group|||
-|tests|||
-|every|||
-|alert|||
-|but_not_on|||
-|alert_events|||
+|cookbook|cookbook from which to source monit config template|monit-ng|
+|check_type|type of check (e.g. program, process, host)|process|
+|check_id|check identifier (e.g. pid path, hostname, executable path|nil|
+|id_type|type of identifier (e.g. pid, matching, address, path)|determined by check_type|
+|start_as|user to execute start command as|nil|
+|start_as_group|group to start program as|nil|
+|start|start command|nil|
+|stop_as|user to execute stop command as|nil|
+|stop_as_group|group to execute stop command as|nil|
+|stop|stop command|nil|
+|group|check group (e.g. "hosts")|nil|
+|tests|array of hashes with 'condition', 'action' keys, maps to monit if, then|[]|
+|every|string for args to "every" configuration (e.g. every n cycles, every "* 8-19 * * 1-5")|nil|
+|alert|email to alert|nil|
+|but_not_on|alert modifier to filter events for notification|nil|
+|alert_events|alert modifier to filter events for notification|nil|
 
 ## Contributing
 
