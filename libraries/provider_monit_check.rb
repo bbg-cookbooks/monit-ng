@@ -60,7 +60,7 @@ class Chef
         {
           :name => new_resource.name, :check_type => new_resource.check_type,
           :check_id => new_resource.check_id, :id_type => new_resource.id_type,
-          :group => new_resource.group, :depend => new_resource.depends,
+          :group => new_resource.group, :depends => new_resource.depends,
           :start_as => new_resource.start_as,
           :start_as_group => new_resource.start_as_group,
           :start => new_resource.start, :stop => new_resource.stop,
