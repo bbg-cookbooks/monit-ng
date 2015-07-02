@@ -1,3 +1,8 @@
+# 2.0.1 / 2015-07-02
+
+* add "depends" attribute (thanks @kcd83!)
+* allow nil to disable listen address specification (thanks @kcd83!)
+
 # 2.0.0 / 2015-06-17
 
 * consolidate repo/source recipe into "install" recipe
