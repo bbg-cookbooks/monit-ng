@@ -50,7 +50,9 @@ set eventqueue
   slots <%= @eventqueue_slots %>
 
 set httpd port <%= @port %> and
+<% unless @listen.nil? -%>
   use address <%= @listen %>
+<% end -%>
   <% @allow.each do |allowed| %>
   allow <%= allowed %>
   <% end %>

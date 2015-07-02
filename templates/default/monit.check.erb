@@ -12,6 +12,9 @@ check <%= @check_type %> <%= @name %>
 <% if @group %>
   group <%= @group %>
 <% end %>
+<% if @depends %>
+  depends on <%= @depends %>
+<% end %>
 <% if @start %>
   start "<%= @start %>"
   <% if @start_as %>
