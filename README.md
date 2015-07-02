@@ -95,6 +95,7 @@ Documentation for event filters can be found [here][filters].
 |stop_as_group|group to execute stop command as|nil|
 |stop|stop command|nil|
 |group|check group (e.g. "hosts")|nil|
+|depends|depends on named service (e.g. "apache")|nil|
 |tests|array of hashes with 'condition', 'action' keys, maps to monit if, then|[]|
 |every|string for args to "every" configuration (e.g. every n cycles, every "* 8-19 * * 1-5")|nil|
 |alert|email to alert|nil|

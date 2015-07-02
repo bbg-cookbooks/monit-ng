@@ -124,6 +124,13 @@ class Chef
         )
       end
 
+      def depends(arg = nil)
+        set_or_return(
+          :depends, arg,
+          :kind_of => String
+        )
+      end
+
       def tests(arg = nil)
         set_or_return(
           :tests, arg,
