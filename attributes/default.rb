@@ -10,6 +10,9 @@ default['monit'].tap do |monit|
   # should we setup the global config
   monit['configure'] = true
 
+  # skip service management
+  monit['skip_service'] = false
+
   # should we proactively scan the run_context in order to
   # reload if there are any altered monit_check resources?
   monit['proactive_reload'] = true
