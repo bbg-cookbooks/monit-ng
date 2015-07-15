@@ -1,3 +1,7 @@
+# 2.0.2 / 2015-07-14
+
+* add attribute to skip service actions
+
 # 2.0.1 / 2015-07-02
 
 * add "depends" attribute (thanks @kcd83!)
