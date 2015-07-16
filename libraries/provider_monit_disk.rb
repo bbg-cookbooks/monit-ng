@@ -49,7 +49,8 @@ class Chef
       end
 
       def tpl_path
-        ::File.join(node['monit']['conf_dir'], "disk_#{new_resource.name}.monit.conf")
+        ::File.join(node['monit']['conf_dir'],
+                    "disk_#{new_resource.name}.monit.conf")
       end
 
       def monit_disk_config

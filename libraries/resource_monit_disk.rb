@@ -7,7 +7,6 @@ require 'chef/resource'
 
 class Chef
   class Resource
-    # rubocop: disable ClassLength
     class MonitDisk < Chef::Resource
       identity_attr :device
 
