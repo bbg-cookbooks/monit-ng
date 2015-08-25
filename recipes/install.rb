@@ -9,7 +9,13 @@ case node['monit']['install_method']
 when 'repo'
   # Monit is not in the default repositories
   include_recipe 'yum-epel' if platform_family?('rhel') && !platform?('amazon')
-  include_recipe 'ubuntu' if platform?('ubuntu')
+  if platform?('ubuntu')
+    dpkg_autostart 'monit' do
+      allow false
+    end
+
+    include_recipe 'ubuntu'
+  end
 
   package 'monit'
 when 'source'

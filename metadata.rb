@@ -6,7 +6,7 @@ description      'Installs and configures monit'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version          '2.0.2'
 
-%w( yum-epel ubuntu apt build-essential ).each do |dep|
+%w( yum-epel ubuntu apt build-essential dpkg_autostart ).each do |dep|
   depends dep
 end
 
