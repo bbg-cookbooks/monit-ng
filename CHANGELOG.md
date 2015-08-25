@@ -1,3 +1,7 @@
+# 2.0.3 / 2015-08-25
+
+* skip package autostart on install (thanks @helgi!)
+
 # 2.0.2 / 2015-07-14
 
 * add attribute to skip service actions
