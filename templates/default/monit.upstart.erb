@@ -9,6 +9,11 @@ stop on runlevel [!2345]
 expect daemon
 respawn
 
+pre-start script
+    test -x <%= @binary %> || { stop; exit 0; }
+    <%= @binary %> -t || { echo "invalid configuration syntax" ; stop; exit 0; }
+end script
+
 exec <%= @binary %> -c <%= @conf_file %>
 
 pre-stop exec <%= @binary %> -c <%= @conf_file %> quit
