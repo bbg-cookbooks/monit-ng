@@ -10,8 +10,8 @@ expect daemon
 respawn
 
 pre-start script
-    test -x <%= @binary %> || { stop; exit 0; }
-    <%= @binary %> -t || { echo "invalid configuration syntax" ; stop; exit 0; }
+    test -x <%= @binary %> || { stop; exit 1; }
+    <%= @binary %> -t || { echo "invalid configuration syntax" ; stop; exit 1; }
 end script
 
 exec <%= @binary %> -c <%= @conf_file %>
