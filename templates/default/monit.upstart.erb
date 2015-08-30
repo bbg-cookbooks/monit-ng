@@ -17,3 +17,10 @@ end script
 exec <%= @binary %> -c <%= @conf_file %>
 
 pre-stop exec <%= @binary %> -c <%= @conf_file %> quit
+
+post-start script
+    echo "Waiting for Monit to be reachable"
+    while sleep <%= @start_delay %> ; do
+        <%= @binary %> status | grep -qv "error connecting to the monit daemon" && exit 0
+    done
+end script
