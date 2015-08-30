@@ -95,6 +95,7 @@ when 'source'
       :platform_family => node['platform_family'],
       :binary          => monit_bin,
       :conf_file       => node['monit']['conf_file'],
+      :start_delay     => node['monit']['start_delay'],
     )
   end
 else
