@@ -20,7 +20,10 @@ pre-stop exec <%= @binary %> -c <%= @conf_file %> quit
 
 post-start script
     echo "Waiting for Monit to be reachable"
+    try=0
     while sleep <%= @start_delay %> ; do
+        try=`expr $try + 1`
         <%= @binary %> status | grep -qv "error connecting to the monit daemon" && exit 0
+        [[ $try < 5 ]] || { echo "Monit has not started after 5 attempts. Stopping" ; stop; exit 1; }
     done
 end script
