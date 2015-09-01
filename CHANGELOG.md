@@ -1,3 +1,8 @@
+# 2.1.0 / 2015-09-01
+
+* run syntax check before starting monit via upstart (thanks @helgi!)
+* have upstart run post-start script to wait for monit to become available (thanks @helgi!)
+
 # 2.0.3 / 2015-08-25
 
 * skip package autostart on install (thanks @helgi!)
