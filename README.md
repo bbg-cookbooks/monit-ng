@@ -78,6 +78,22 @@ Documentation for event filters can be found [here][filters].
 }
 ```
 
+
+* `default['monit']['config']['built_in_configs']` (default: `[]`): this defines what built-in configuration files will be included
+
+```
+"default_attributes": {
+  "monit": {
+    "config": {
+      "built_in_configs": [
+        "memcached",
+        "nginx"
+      ]
+    }
+  }
+}
+```
+
 ## Resources
 
 ### monit_check

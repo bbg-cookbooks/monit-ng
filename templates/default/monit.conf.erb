@@ -61,4 +61,11 @@ set httpd port <%= @port %> and
 set mmonit <%= @mmonit_url %>
 
 <% end %>
+
+<% @built_in_configs.each do |config| %>
+
+  include <%= @conf_dir %>/<%= @built_in_config_path %>/<%= config %>
+
+<% end %>
+
 include <%= @conf_dir %>/*.conf
