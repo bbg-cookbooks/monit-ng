@@ -55,10 +55,9 @@ default['monit']['config'].tap do |conf|
   EOT
   conf['mail_servers'] = []
 
-  #monit built-in configuration files path
+  # monit built-in configuration files path
   conf['built_in_config_path'] = '/etc/monit/monitrc.d'
 
-  #what built-in configurations to load
+  # what built-in configurations to load
   conf['built_in_configs'] = []
-
 end
