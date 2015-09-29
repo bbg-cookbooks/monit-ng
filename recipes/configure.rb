@@ -38,7 +38,7 @@ template monit['conf_file'] do # ~FC009
     :mmonit_url => config['mmonit_url'],
     :conf_dir => monit['conf_dir'],
     :built_in_config_path => config['built_in_config_path'],
-    :built_in_configs => config['built_in_configs']
+    :built_in_configs => config['built_in_configs'],
   )
   if Chef::VERSION.to_f >= 12
     verify do |path|
