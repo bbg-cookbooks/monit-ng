@@ -5,14 +5,14 @@
 
 ruby_block 'conditional-monit-reload' do
   block do
-    # Cherry-pick monit_check resources from the run_context
+    # Cherry-pick monit resources from the run_context
     checks = run_context.resource_collection.select do |r|
-      r.is_a?(Chef::Resource::MonitCheck)
+      r.is_a?(Chef::Resource::MonitCheck) || r.is_a?(Chef::Resource::MonitDisk)
     end
 
-    # Reload monit if any monit_check resources changed
+    # Reload monit if any monit resources changed
     if checks.any?(&:updated_by_last_action?)
-      Chef::Log.info('Found updated monit checks, issuing service reload.')
+      Chef::Log.info('Found updated monit resource, issuing monit reload.')
       resources(:service => 'monit').run_action(:reload)
     end
   end
