@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'Monit Daemon' do
   describe 'is enabled' do
     describe service('monit') do
-      it { should be_enabled }
+      it { should be_enabled } unless os[:family] == 'debian'
     end
   end
 
