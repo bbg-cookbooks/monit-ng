@@ -23,7 +23,7 @@ describe 'monit-ng::install' do
       end
 
       it 'installs monit' do
-        expect(repo_install).to install_yum_package 'monit'
+        expect(repo_install).to install_package 'monit'
       end
     end
 
@@ -46,7 +46,7 @@ describe 'monit-ng::install' do
       end
 
       it 'installs monit' do
-        expect(repo_install).to install_apt_package 'monit'
+        expect(repo_install).to install_package 'monit'
       end
     end
   end
@@ -76,7 +76,7 @@ describe 'monit-ng::install' do
 
     %w( pam-devel openssl-devel ).each do |p|
       it "installs build dep: #{p}" do
-        expect(source_install).to install_yum_package(p)
+        expect(source_install).to install_package(p)
       end
     end
 

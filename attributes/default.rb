@@ -21,28 +21,28 @@ default['monit'].tap do |monit|
   monit['conf_file'] = value_for_platform_family(
     'rhel'    => '/etc/monit.conf',
     'debian'  => '/etc/monit/monitrc',
-    'default' => '/etc/monitrc',
+    'default' => '/etc/monitrc'
   )
 
   # includes directory (used by monit_check resource)
   monit['conf_dir'] = value_for_platform_family(
     'rhel'    => '/etc/monit.d',
     'debian'  => '/etc/monit/conf.d',
-    'default' => '/etc/monit.d',
+    'default' => '/etc/monit.d'
   )
 
   monit['init_style'] = value_for_platform(
     'debian' => {
       'default' => 'sysv',
-      '>= 8' => 'systemd',
+      '>= 8' => 'systemd'
     },
     'ubuntu' => {
       'default' => 'upstart',
-      '>= 14.10' => 'systemd',
+      '>= 14.10' => 'systemd'
     },
     %w(centos rhel) => {
       'default' => 'sysv',
-      '>= 7.0' => 'systemd',
-    },
+      '>= 7.0' => 'systemd'
+    }
   )
 end

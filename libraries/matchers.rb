@@ -7,6 +7,10 @@ if defined?(ChefSpec)
     ChefSpec::Matchers::ResourceMatcher.new(:monit_check, :create, check)
   end
 
+  def delete_monit_check(check)
+    ChefSpec::Matchers::ResourceMatcher.new(:monit_check, :delete, check)
+  end
+
   def remove_monit_check(check)
     ChefSpec::Matchers::ResourceMatcher.new(:monit_check, :remove, check)
   end
