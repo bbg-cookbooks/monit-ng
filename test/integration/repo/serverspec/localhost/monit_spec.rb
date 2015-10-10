@@ -9,7 +9,7 @@ describe 'Monit Daemon' do
 
   describe 'is enabled, running' do
     describe service('monit') do
-      it { should be_enabled }
+      it { should be_enabled } unless os[:family] == 'debian'
     end
   end
 
