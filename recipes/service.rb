@@ -12,8 +12,8 @@ template '/etc/default/monit' do
   group 'root'
   mode '0644'
   variables(
-    :platform         => node['platform'],
-    :platform_version => node['platform_version'],
+    platform: node['platform'],
+    platform_version: node['platform_version']
   )
   action :create
   only_if do

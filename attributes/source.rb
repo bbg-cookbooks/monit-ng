@@ -18,6 +18,6 @@ default['monit']['source'].tap do |source|
   source['build_deps'] = value_for_platform_family(
     'rhel'    => %w( pam-devel openssl-devel ),
     'debian'  => %w( libpam0g-dev libssl-dev ),
-    'default' => [],
+    'default' => []
   )
 end

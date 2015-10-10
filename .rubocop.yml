@@ -7,7 +7,5 @@ AllCops:
     - test/**/*
 Documentation:
   Enabled: false
-HashSyntax:
-  EnforcedStyle: hash_rockets
-TrailingComma:
-  EnforcedStyleForMultiline: comma
+ClassAndModuleChildren:
+    Enabled: false
