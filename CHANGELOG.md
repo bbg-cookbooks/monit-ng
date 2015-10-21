@@ -1,3 +1,7 @@
+# 2.2.0 / 2015-10-21
+
+* add start/stop timeouts
+
 # 2.1.0 / 2015-09-01
 
 * run syntax check before starting monit via upstart (thanks @helgi!)
