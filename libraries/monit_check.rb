@@ -26,7 +26,9 @@ class Chef::Resource
       'does not exceed max arg length' => ->(spec) { spec.length < 127 }
     }
     attribute :start_as, kind_of: String
+    attribute :start_timeout, kind_of: [String, Integer]
     attribute :stop_as, kind_of: String
+    attribute :stop_timeout, kind_of: [String, Integer]
     attribute :group, kind_of: String
     attribute :depends, kind_of: String
     attribute :tests, kind_of: Array, default: []
@@ -109,6 +111,7 @@ class Chef::Resource
         id_type: id_type, group: group, depends: depends,
         start: start, start_as: start_as, start_as_group: start_as_group,
         stop: stop, stop_as: stop_as, stop_as_group: stop_as_group,
+        start_timeout: start_timeout, stop_timeout: stop_timeout,
         every: every, tests: tests, alert: alert, but_not_on: but_not_on,
         alert_events: alert_events
       }
