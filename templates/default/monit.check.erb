@@ -16,15 +16,21 @@ check <%= @check_type %> <%= @name %>
   depends on <%= @depends %>
 <% end %>
 <% if @start %>
-  start "<%= @start %>" <%= "with timeout #{@start_timeout} seconds" if @start_timeout %>
+  start "<%= @start %>" 
   <% if @start_as %>
     as uid <%= @start_as %> and gid <%= @start_as_group %>
   <% end %>
+  <% if @start_timeout %>
+    with timeout <%=@start_timeout%> seconds
+  <% end %>
 <% end %>
 <% if @stop %>
-  stop "<%= @stop %>" <%= "with timeout #{@stop_timeout} seconds" if @stop_timeout %>
+  stop "<%= @stop %>" 
   <% if @stop_as %>
     as uid <%= @stop_as %> and gid <%= @stop_as_group %>
+  <% end %>
+  <% if @stop_timeout %>
+    with timeout <%= @stop_timeout %> seconds
   <% end %>
 <% end %>
 <% @tests.each do |test| %>
