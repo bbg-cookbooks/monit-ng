@@ -4,7 +4,7 @@
   <% case @platform_version %>
   <% when '10.04' %>
 startup=1
-  <% when '12.04', '14.04' %>
+  <% else %>
 START=yes
   <% end %>
 <% when 'debian' %>
