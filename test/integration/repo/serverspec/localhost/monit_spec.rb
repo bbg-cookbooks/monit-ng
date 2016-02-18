@@ -25,7 +25,6 @@ describe 'Monit Daemon' do
     end
   end
 
-  
   conf_dir, conf_file = case os[:family]
                         when 'redhat'
                           ['/etc/monit.d', '/etc/monit.conf']
