@@ -9,14 +9,18 @@ check <%= @check_type %> <%= @name %>
 <% if @alert %>
   alert <%= @alert %> <% if @but_not_on %>but not on<% else %>on<% end %> { <%= @alert_events.join(', ') %> }
 <% end %>
-<% if @group %>
+<% if @group.is_a?(String)
   group <%= @group %>
+<% elsif @group.is_a?(Array) %>
+  <% @group.each do |group| %>
+  group <%= group %>
+  <% end %>
 <% end %>
 <% if @depends %>
   depends on <%= @depends %>
 <% end %>
 <% if @start %>
-  start "<%= @start %>" 
+  start "<%= @start %>"
   <% if @start_as %>
     as uid <%= @start_as %> and gid <%= @start_as_group %>
   <% end %>
@@ -25,7 +29,7 @@ check <%= @check_type %> <%= @name %>
   <% end %>
 <% end %>
 <% if @stop %>
-  stop "<%= @stop %>" 
+  stop "<%= @stop %>"
   <% if @stop_as %>
     as uid <%= @stop_as %> and gid <%= @stop_as_group %>
   <% end %>

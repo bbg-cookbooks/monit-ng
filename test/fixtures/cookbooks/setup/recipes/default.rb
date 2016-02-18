@@ -1,5 +1,3 @@
-
-
 include_recipe 'monit-ng'
 
 monit_check node.name do

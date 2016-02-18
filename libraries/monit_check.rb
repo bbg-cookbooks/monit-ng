@@ -29,7 +29,7 @@ class Chef::Resource
     attribute :start_timeout, kind_of: [String, Integer]
     attribute :stop_as, kind_of: String
     attribute :stop_timeout, kind_of: [String, Integer]
-    attribute :group, kind_of: String
+    attribute :group, kind_of: [Array, String], default: []
     attribute :depends, kind_of: String
     attribute :tests, kind_of: Array, default: []
     attribute :every, kind_of: String
