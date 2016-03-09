@@ -109,7 +109,7 @@ class Chef::Resource
     def to_hash
       {
         name: name, check_type: check_type, check_id: check_id,
-        id_type: id_type, mode:mode, group: group, depends: depends,
+        id_type: id_type, mode: mode, group: group, depends: depends,
         start: start, start_as: start_as, start_as_group: start_as_group,
         stop: stop, stop_as: stop_as, stop_as_group: stop_as_group,
         start_timeout: start_timeout, stop_timeout: stop_timeout,
