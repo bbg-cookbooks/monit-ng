@@ -3,6 +3,9 @@ check <%= @check_type %> <%= @name %>
 <% if @id_type %>
   with <%= @id_type %> <%= @check_id %>
 <% end %>
+<% if @mode %>
+  mode <%= @mode %>
+<% end %>
 <% if @every %>
   every <%= @every %>
 <% end %>
