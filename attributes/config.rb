@@ -31,6 +31,9 @@ default['monit']['config'].tap do |conf|
   # where to save state between startups
   conf['state_file'] = '/var/run/monit.state'
 
+  # where to save pid of current process
+  conf['pid_file'] = '/var/run/monit.pid'
+
   # list of subscribers to all alerts
   conf['subscribers'] = []
 
