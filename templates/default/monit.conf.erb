@@ -8,6 +8,8 @@ set idfile <%= @id_file %>
 
 set statefile <%= @state_file %>
 
+set pidfile <%= @pid_file %>
+
 <% @mail_servers.each do |mailserver| %>
 set mailserver
   <%= mailserver.hostname %>

@@ -45,6 +45,7 @@ describe 'Monit Daemon' do
       'set logfile /var/log/monit.log',
       'set idfile /var/lib/monit.id',
       'set statefile /var/run/monit.state',
+      'set pidfile /var/run/monit.pid',
       'set mail-format {',
       'from: monit',
       'subject: \$SERVICE \$EVENT at \$DATE',

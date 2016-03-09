@@ -25,6 +25,7 @@ template monit['conf_file'] do # ~FC009
     log_file: config['log_file'],
     id_file: config['id_file'],
     state_file: config['state_file'],
+    pid_file: config['pid_file'],
     mail_servers: config['mail_servers'],
     alert: config['alert'] || config['subscribers'],
     eventqueue_dir: config['eventqueue_dir'],
