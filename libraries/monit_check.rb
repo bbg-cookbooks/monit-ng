@@ -9,6 +9,7 @@ require 'chef/provider/lwrp_base'
 require 'chef/mixin/params_validate'
 
 class Chef::Resource
+  # rubocop: disable ClassLength
   class MonitCheck < Chef::Resource::LWRPBase
     include Chef::Mixin::ParamsValidate
 
@@ -132,6 +133,7 @@ class Chef::Resource
       }
     end
   end
+  # rubocop: enable ClassLength
 end
 
 class Chef::Provider
