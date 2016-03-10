@@ -1,3 +1,14 @@
+# 2.3.0 / 2016-03-09
+
+* add ubuntu 16.04 support (thanks @micred!)
+* allow array as group attribute (thanks @smt116!)
+* allow specifying check mode (active,passive,manual) (thanks @yaniv-cb4!)
+* specify pidfile in monitrc (thanks @tarcinil!)
+
+# 2.2.1 / 2016-01-08
+
+* using timeout and as-user, specify as-user first (thanks @dansteen!)
+
 # 2.2.0 / 2015-10-21
 
 * add start/stop timeouts
