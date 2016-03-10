@@ -12,7 +12,7 @@ check <%= @check_type %> <%= @name %>
 <% if @alert %>
   alert <%= @alert %> <% if @but_not_on %>but not on<% else %>on<% end %> { <%= @alert_events.join(', ') %> }
 <% end %>
-<% if @group.is_a?(String)
+<% if @group.is_a?(String) %>
   group <%= @group %>
 <% elsif @group.is_a?(Array) %>
   <% @group.each do |group| %>
