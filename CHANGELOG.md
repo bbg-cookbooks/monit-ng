@@ -1,3 +1,7 @@
+# 2.3.1 / 2016-10-19
+
+* add status support to service resource (thanks @webframp!)
+
 # 2.3.0 / 2016-03-09
 
 * add ubuntu 16.04 support (thanks @micred!)
