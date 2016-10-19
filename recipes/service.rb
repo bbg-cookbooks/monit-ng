@@ -27,6 +27,7 @@ service 'monit' do
   action [:enable]
   subscribes :restart, "template[#{node['monit']['conf_file']}]", :delayed
   subscribes :restart, 'template[/etc/default/monit]', :delayed
+  supports status: true
   not_if { node['monit']['skip_service'] }
 end
 
