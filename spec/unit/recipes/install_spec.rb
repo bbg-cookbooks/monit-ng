@@ -53,8 +53,8 @@ describe 'monit-ng::install' do
 
   context 'source install' do
     let(:source_install) do
-      ChefSpec::SoloRunner.new(platform: 'centos', version: '6.5') do |node|
-        node.set['monit']['install_method'] = 'source'
+      ChefSpec::SoloRunner.new(platform: 'centos', version: '7.0') do |node|
+        node.normal['monit']['install_method'] = 'source'
       end.converge(described_recipe)
     end
 
@@ -83,7 +83,7 @@ describe 'monit-ng::install' do
     context 'ubuntu' do
       let(:source_install) do
         ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '14.04') do |node|
-          node.set['monit']['install_method'] = 'source'
+          node.normal['monit']['install_method'] = 'source'
         end.converge(described_recipe)
       end
 
@@ -95,7 +95,7 @@ describe 'monit-ng::install' do
         expect(source_install).to include_recipe('build-essential::default')
       end
 
-      %w( libpam0g-dev libssl-dev autoconf flex bison ).each do |dep|
+      %w( libpam0g-dev libssl-dev ).each do |dep|
         it "installs build dependency: #{dep}" do
           expect(source_install).to install_package(dep)
         end
