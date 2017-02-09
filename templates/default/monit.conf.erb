@@ -2,7 +2,9 @@
 set daemon <%= @poll_freq %>
   with start delay <%= @start_delay %>
 
+<% if @log_file %>
 set logfile <%= @log_file %>
+<% end %>
 
 set idfile <%= @id_file %>
 
