@@ -1,3 +1,7 @@
+# 2.3.2 / 2017-02-09
+
+* make it possible to disable logging (thanks @szymonpk!)
+
 # 2.3.1 / 2016-10-19
 
 * add status support to service resource (thanks @webframp!)
