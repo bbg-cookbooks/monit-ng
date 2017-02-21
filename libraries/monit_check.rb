@@ -20,12 +20,8 @@ class Chef::Resource
     default_action :create
 
     attribute :cookbook, kind_of: String, default: 'monit-ng'
-    attribute :start, kind_of: String, callbacks: {
-      'does not exceed max arg length' => ->(spec) { spec.length < 127 }
-    }
-    attribute :stop, kind_of: String, callbacks: {
-      'does not exceed max arg length' => ->(spec) { spec.length < 127 }
-    }
+    attribute :start, kind_of: String
+    attribute :stop, kind_of: String
     attribute :mode, kind_of: String
     attribute :start_as, kind_of: String
     attribute :start_timeout, kind_of: [String, Integer]
