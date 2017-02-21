@@ -20,6 +20,7 @@ class Chef::Resource
     default_action :create
 
     attribute :cookbook, kind_of: String, default: 'monit-ng'
+    attribute :template, kind_of: String, default: 'monit.check.erb'
     attribute :start, kind_of: String, callbacks: {
       'does not exceed max arg length' => ->(spec) { spec.length < 127 }
     }
@@ -152,7 +153,7 @@ class Chef::Provider
 
         t = template tpl_path(r) do
           cookbook r.cookbook
-          source 'monit.check.erb'
+          source r.template
           variables r.to_hash
           if Chef::VERSION.to_f >= 12
             verify do |path|
