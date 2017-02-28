@@ -125,12 +125,12 @@ class Chef::Resource
 
     def check_pairs
       {
-        'process' => %w( pidfile matching ), 'procmatch' => %w( matching ),
-        'file' => %w( path ), 'fifo' => %w( path ),
-        'filesystem' => %w( path ), 'directory' => %w( path ),
-        'host' => %w( address ), 'system' => %w(),
-        'program' => %w( path ),
-        'device' => %w( path )
+        'process' => %w(pidfile matching), 'procmatch' => %w(matching),
+        'file' => %w(path), 'fifo' => %w(path),
+        'filesystem' => %w(path), 'directory' => %w(path),
+        'host' => %w(address), 'system' => %w(),
+        'program' => %w(path),
+        'device' => %w(path)
       }
     end
   end
@@ -147,7 +147,7 @@ class Chef::Provider
 
     provides :monit_check
 
-    %i( create delete remove ).each do |a|
+    %i(create delete remove).each do |a|
       action a do
         r = new_resource
 
