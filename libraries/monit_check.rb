@@ -20,6 +20,7 @@ class Chef::Resource
     default_action :create
 
     attribute :cookbook, kind_of: String, default: 'monit-ng'
+    attribute :template, kind_of: String, default: 'monit.check.erb'
     attribute :start, kind_of: String, callbacks: {
       'does not exceed max arg length' => ->(spec) { spec.length < 127 }
     }
@@ -124,12 +125,12 @@ class Chef::Resource
 
     def check_pairs
       {
-        'process' => %w( pidfile matching ), 'procmatch' => %w( matching ),
-        'file' => %w( path ), 'fifo' => %w( path ),
-        'filesystem' => %w( path ), 'directory' => %w( path ),
-        'host' => %w( address ), 'system' => %w(),
-        'program' => %w( path ),
-        'device' => %w( path )
+        'process' => %w(pidfile matching), 'procmatch' => %w(matching),
+        'file' => %w(path), 'fifo' => %w(path),
+        'filesystem' => %w(path), 'directory' => %w(path),
+        'host' => %w(address), 'system' => %w(),
+        'program' => %w(path),
+        'device' => %w(path)
       }
     end
   end
@@ -146,13 +147,13 @@ class Chef::Provider
 
     provides :monit_check
 
-    %i( create delete remove ).each do |a|
+    %i(create delete remove).each do |a|
       action a do
         r = new_resource
 
         t = template tpl_path(r) do
           cookbook r.cookbook
-          source 'monit.check.erb'
+          source r.template
           variables r.to_hash
           if Chef::VERSION.to_f >= 12
             verify do |path|
