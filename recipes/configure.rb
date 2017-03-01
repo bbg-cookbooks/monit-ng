@@ -14,7 +14,6 @@ directory monit['conf_dir'] do
   action :create
 end
 
-# rubocop: disable BlockLength
 template monit['conf_file'] do # ~FC009
   source 'monit.conf.erb'
   owner 'root'
@@ -48,4 +47,3 @@ template monit['conf_file'] do # ~FC009
     end
   end
 end
-# rubocop: enable BlockLength

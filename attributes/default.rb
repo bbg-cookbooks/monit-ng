@@ -3,7 +3,6 @@
 # Attributes: default
 #
 
-# rubocop: disable BlockLength
 default['monit'].tap do |monit|
   # one of: repo, source
   monit['install_method'] = 'repo'
@@ -47,5 +46,3 @@ default['monit'].tap do |monit|
     }
   )
 end
-
-# rubocop: enable BlockLength

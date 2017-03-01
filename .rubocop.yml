@@ -8,4 +8,6 @@ AllCops:
 Documentation:
   Enabled: false
 ClassAndModuleChildren:
-    Enabled: false
+  Enabled: false
+BlockLength:
+  Enabled: false
