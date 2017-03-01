@@ -1,3 +1,8 @@
+# 2.3.3 / 2017-03-01
+
+* add template variable for monit check resource (thanks @maxnasonov!)
+* fix up CI
+
 # 2.3.2 / 2017-02-09
 
 * make it possible to disable logging (thanks @szymonpk!)
