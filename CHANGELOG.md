@@ -1,3 +1,7 @@
+# 2.4.0 / 2017-04-13
+
+* fix config template to use hash key syntax for chef 13 compat (thanks @StuporHero!)
+
 # 2.3.3 / 2017-03-01
 
 * add template variable for monit check resource (thanks @maxnasonov!)
