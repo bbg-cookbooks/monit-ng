@@ -63,6 +63,12 @@ describe 'Monit Daemon' do
       'use address 127.0.0.1',
       'allow localhost',
       "include #{conf_dir}/\\*\.conf",
+      'set mailserver',
+      'thisisonlyatest.com',
+      'port 25',
+      'username \'test1\'',
+      'password \'test2\'',
+      'with timeout 30 seconds',
     ].each do |directive|
       its(:content) { should match Regexp.new(directive) }
     end

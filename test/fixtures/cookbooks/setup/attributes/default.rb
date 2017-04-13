@@ -12,3 +12,12 @@ node.default['monit']['config']['subscribers'] = [
     'only_on' => %w( size timeout timestamp uid ),
   },
 ]
+node.default['monit']['config']['mail_servers'] = [
+  {
+    'hostname' => 'thisisonlyatest.com',
+    'port'     => '25',
+    'username' => 'test1',
+    'password' => 'test2',
+    'timeout'  => '30 seconds'
+  }
+]
