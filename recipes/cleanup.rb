@@ -5,10 +5,10 @@
 
 ruby_block 'conditional-monit-cleanup' do
   block do
-    checks = run_context.resource_collection.select {|r| r.is_a?(Chef::Resource::MonitCheck) }.collect {|d| d.name}
+    checks = run_context.resource_collection.select { |r| r.is_a?(Chef::Resource::MonitCheck) }.collect(&:name)
 
-    Dir.glob(File.join(node['monit']['conf_dir'], "*.conf")).each do |conf|
-      unless checks.include?(File.basename(conf).gsub(/\.conf/,''))
+    Dir.glob(File.join(node['monit']['conf_dir'], '*.conf')).each do |conf|
+      unless checks.include?(File.basename(conf).gsub(/\.conf/, ''))
         cb_file = Chef::Resource::File.new conf, run_context
         cb_file.run_action(:delete)
       end
