@@ -17,6 +17,10 @@ default['monit'].tap do |monit|
   # reload if there are any altered monit_check resources?
   monit['proactive_reload'] = true
 
+  # will scan the run_context in order to compare any monit
+  # checks on disk and monit_check resources
+  monit['do_cleanup'] = false
+
   # configuration file location
   monit['conf_file'] = value_for_platform_family(
     'rhel'    => '/etc/monit.conf',
