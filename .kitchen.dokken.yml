@@ -1,0 +1,114 @@
+---
+driver:
+  name: dokken
+  privileged: true
+
+transport:
+  name: dokken
+
+provisioner:
+  name: dokken
+  attributes:
+    apt:
+      confd:
+        install_recommends: false
+
+platforms:
+  - name: ubuntu-14
+    driver:
+      image: ubuntu:14.04
+      pid_one_command: /sbin/init
+      intermediate_instructions:
+        - RUN /usr/bin/apt-get update -qq
+        - RUN /usr/bin/apt-get install -y net-tools apt-transport-https initscripts procps lsb-release curl gnupg
+
+  - name: ubuntu-16
+    driver:
+      image: ubuntu:16.04
+      pid_one_command: /bin/systemd
+      intermediate_instructions:
+        - RUN /usr/bin/apt-get update -qq
+        - RUN /usr/bin/apt-get install -y net-tools apt-transport-https initscripts procps lsb-release curl gnupg
+
+  - name: debian-8
+    driver:
+      image: debian:8.9
+      pid_one_command: /sbin/init
+      intermediate_instructions:
+        - RUN /usr/bin/apt-get update -qq
+        - RUN /usr/bin/apt-get install -y net-tools apt-transport-https initscripts procps lsb-release curl gnupg
+
+  - name: debian-9
+    driver:
+      image: dokken/debian-9
+      pid_one_command: /bin/systemd
+      intermediate_instructions:
+        - RUN /usr/bin/apt-get update -qq
+        - RUN /usr/bin/apt-get install -y net-tools apt-transport-https initscripts procps lsb-release curl gnupg
+
+  - name: centos-6
+    driver:
+      image: centos:6.9
+      pid_one_command: /sbin/init
+      platform: rhel
+      intermediate_instructions:
+        - RUN yum install -y net-tools initscripts which curl
+
+  - name: centos-7
+    driver:
+      image: centos:7
+      pid_one_command: /usr/lib/systemd/systemd
+      platform: rhel
+      intermediate_instructions:
+        - RUN yum install -y net-tools initscripts systemd-sysv which lsof curl
+
+  - name: fedora-26
+    driver:
+      image: fedora:26
+      pid_one_command: /usr/lib/systemd/systemd
+      platform: rhel
+      intermediate_instructions:
+        - RUN yum install -y net-tools initscripts systemd-sysv which lsof curl
+
+  - name: amazon
+    driver:
+      image: amazonlinux:2017.03
+      pid_one_command: /sbin/init
+      platform: amazon
+      intermediate_instructions:
+        - RUN yum install -y net-tools initscripts which
+
+suites:
+  - name: chef12
+    driver:
+      chef_version: 12.21.4
+    run_list:
+      - recipe[monit-ng::default]
+      - recipe[setup]
+
+  - name: chef13
+    driver:
+      chef_version: 13.3.42
+    run_list:
+      - recipe[monit-ng::default]
+      - recipe[setup]
+
+  - name: chef12-source
+    driver:
+      chef_version: 12.21.4
+    run_list:
+      - recipe[monit-ng::default]
+      - recipe[setup]
+    attributes:
+      monit:
+        install_method: source
+
+  - name: chef13-source
+    driver:
+      chef_version: 13.3.42
+    run_list:
+      - recipe[monit-ng::default]
+      - recipe[setup]
+    attributes:
+      monit:
+        install_method: source
