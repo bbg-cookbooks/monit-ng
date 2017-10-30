@@ -26,7 +26,7 @@ default['monit'].tap do |monit|
 
   # includes directory (used by monit_check resource)
   monit['conf_dir'] = value_for_platform_family(
-    'rhel'    => '/etc/monit.d',
+    %w[rhel amazon] => '/etc/monit.d',
     'debian'  => '/etc/monit/conf.d',
     'default' => '/etc/monit.d'
   )
@@ -40,9 +40,12 @@ default['monit'].tap do |monit|
       'default' => 'upstart',
       '>= 14.10' => 'systemd'
     },
-    %w(centos rhel) => {
+    %w[centos rhel] => {
       'default' => 'sysv',
       '>= 7.0' => 'systemd'
+    },
+    'amazon' => {
+      'default' => 'sysv'
     }
   )
 end
